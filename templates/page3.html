@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>세번째 페이지</title>
+
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"></script>
+
+  <script type="text/javascript">
+
+   listing_genre1();
+   listing_genre2();
+
+
+   function listing_genre1() {
+    $.ajax({
+      type: "GET",
+      url: "/genre1_movie",
+      data: {},
+      success: function(response){
+        let user_genre_1 = response['user_genre_1']
+        console.log(user_genre_1)
+        $('#result_main_genre').append(user_genre_1+'/')
+        $('#main_genre_title').append(user_genre_1)
+
+        if (response['result'] == 'success') {
+          let movies = response['movies'];
+
+          for (let i = 0; i < movies.length; i++) {
+            movie_card(movies[i]['title'],movies[i]['poster'],movies[i]['director'],movies[i]['summary'])
+          }
+        } else {
+          alert('주문을 받아오지 못했습니다');
+        }
+      }
+    })
+  }
+
+  // like_movie() 대신에, 마이 페이지에 '보고 싶은 영화'로 들어가지는, 기능을 가진 함수를 만들어서 넣어야함.
+  // dislike_movie() 역시, 마이 페이지에 '보고 싶지 않은 영화'로 들어가는 기능을 가진 함수와 연결시켜야함.
+  function movie_card(title,poster,director,summary){
+    if (summary.length > 250)
+      summary = summary.substr(0,250) + "..."
+    let temp_html_1 = '<div class="card">\
+    <img class="card-img-top" id="maingenre_movie_poster1" src="'+poster+'" alt="Card image cap">\
+    <div class="card-body">\
+    <h5 class="card-title movie_title" id="maingenre_movie_title1">'+title+'</h5>\
+    <p class="card-text" id="maingenre_movie_summary1">'+summary+'</p>\
+    <p class="card-text"><small class="text-muted" id="maingenre_movie_director1">'+director+'</small></p>\
+    <div class="prefer-body">\
+    <h5 class="mt-0"id="prefer_movie_title1"></h5>\
+    <p class="summary-text" id="preference_movie"></p>\
+    <button id="like_movie" onclick="like_movie()"> <img src="static/add_button.png" style="width:50px; /height:50px;"></button>\
+    <button id="dislike_movie" onclick="dislike_movie()"> <img src="static/remove_button.png" style="width:50px; height:50px"></button>\
+    </div>\
+    </div>\
+    </div>';
+    $('#movies1').append(temp_html_1);
+
+  }
+
+
+
+  function listing_genre2() {
+    $.ajax({
+      type: "GET",
+      url: "/genre2_movie",
+      data: {},
+      success: function(response){
+        let user_genre_2 = response['user_genre_2']
+        console.log(user_genre_2)
+        $('#result_second_genre').append(user_genre_2)
+        $('#second_genre_title').append(user_genre_2)
+
+        if (response['result'] == 'success') {
+          let movies = response['movies'];
+          for (let i = 0; i < movies.length; i++) {
+            movie_card2(movies[i]['title'],movies[i]['poster'],movies[i]['director'],movies[i]['summary'])
+          }
+        } else {
+          alert('주문을 받아오지 못했습니다');
+        }
+      }
+    })
+  }
+
+  // like_movie() 대신에, 마이 페이지에 '보고 싶은 영화'로 들어가지는, 기능을 가진 함수를 만들어서 넣어야함.
+  // dislike_movie() 역시, 마이 페이지에 '보고 싶지 않은 영화'로 들어가는 기능을 가진 함수와 연결시켜야함.
+  function movie_card2(title,poster,director,summary){
+    if (summary.length > 250)
+      summary = summary.substr(0,250) + "..."
+
+    let temp_html_1 = '<div class="card">\
+    <img class="card-img-top" id="maingenre_movie_poster1" src="'+poster+'" alt="Card image cap">\
+    <div class="card-body">\
+    <h5 class="card-title movie_title" id="maingenre_movie_title1">'+title+'</h5>\
+    <p class="card-text" id="maingenre_movie_summary1">'+summary+'</p>\
+    <p class="card-text"><small class="text-muted" id="maingenre_movie_director1">'+director+'</small></p>\
+    <div class="prefer-body">\
+    <h5 class="mt-0"id="prefer_movie_title2"></h5>\
+    <p class="summary-text" id="preference_movie"></p>\
+    <button id="like_movie" onclick="like_movie()"> <img src="static/add_button.png" style="width:50px; height:50px;"></button>\
+    <button id="dislike_movie" onclick="dislike_movie()"> <img src="static/remove_button.png" style="width:50px; height:50px"></button>\
+    </div>\
+    </div>\
+    </div>';
+    $('#movies2').append(temp_html_1);
+
+  }
+
+  function btn_main_page(){
+   location.href="/"
+ }
+
+ function btn_my_page(){
+   location.href="/mypage"
+ }
+
+</script>
+
+<style type="text/css">
+
+  .result_contents{
+    border: 1px solid;
+    border-radius: 30px;
+    width:800px;
+    height: 300px;
+    background-color: #231f20;
+    text-align: center;
+    margin-top: 50px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .title_logo_img{
+    padding-top: 10px;
+  }
+
+  .result_title{
+    font-size: 26pt;
+    padding-top: 10px;
+    color: white;
+  }
+
+  #result_main_genre{
+    font-size: 36pt;
+    color: white;
+  }
+  #result_second_genre{
+    font-size: 36pt;
+    color: white;
+  }
+
+  .result_word{
+    font-size: 26pt;
+    color: white;
+  }
+
+  .genre_contents{
+    margin-top: 50px;
+    margin-left: 100px;
+    margin-right: 100px;
+  }
+
+  .movie_title{
+    font-weight: bold;
+    text-align: center;
+  }
+
+  #main_genre_title{
+    text-align: center;
+
+  }
+
+  #second_genre_title{
+    text-align: center;
+
+  }
+
+  #movies1{
+    width:1200px;
+    display: auto;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  #movies2{
+    width:1200px;
+    display: auto;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  #like_movie{
+    background-color: #B7CBFF;
+  }
+
+  #dislike_movie{
+    background-color: #FFB7B7;
+  }
+
+  #main_page_btn{
+   text-align: center;
+   margin-top: 40px;
+   display: block;
+   margin-right: auto;
+   margin-left: auto;
+   border:0px solid;
+   border-radius: 10px;
+   width: 120px;
+   height:40px;
+   font-size: 15pt;
+   background-color:black;
+   color:white;
+ }
+
+ #my_page_btn{
+   text-align: center;
+   margin-top: 40px;
+   display: block;
+   margin-right: auto;
+   margin-left: auto;
+   border:0px solid;
+   border-radius: 10px;
+   width: 120px;
+   height:40px;
+   font-size: 15pt;
+   background-color:black;
+   color:white;
+ }
+
+
+</style>
+</head>
+<body>
+
+  <div class="button_contents">
+    <button id="main_page_btn" onclick="btn_main_page()">MAIN</button>  
+    <button id="my_page_btn" onclick="btn_my_page()">My Page</button>
+    
+  </div>
+
+  <div class="result_contents">
+    <div class="title_logo_img"><img src="static/logo.png"></div>
+    <div class="result_title">Your Genre Is</div>
+    <span id="result_main_genre"> </span> <span id="result_second_genre"></span>
+  </div>
+
+
+  <!--메인장르 컨텐츠-->
+  <div class="genre_contents">
+    <h1 id="main_genre_title"></h1>
+
+    <div class="card-deck" id="movies1">
+      <!--첫번째장르 첫번쨰추천영화-->
+
+    </div>
+  </div>
+
+  <!--세컨장르 컨텐츠-->
+  <div class="genre_contents" style="margin-bottom:5%">
+    <h1 id="second_genre_title"></h1>
+    <div class="card-deck" id="movies2">
+
+
+    </div>
+  </div>
+
+</body>
+</html>
