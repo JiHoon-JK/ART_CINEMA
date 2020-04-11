@@ -193,7 +193,7 @@ def page4():
 
 @app.route('/page5')
 def page5():
-    render_template('page5.html')
+    return render_template('page5.html')
 
 @app.route('/user', methods=['GET'])
 def listing():
