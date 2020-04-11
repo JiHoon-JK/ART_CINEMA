@@ -1,131 +1,446 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>my page</title>
+ <title>my page</title>
 
-   <!-- Required meta tags -->
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   <!-- Bootstrap CSS -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-   integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ <!-- Required meta tags -->
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <!-- Bootstrap CSS -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+ integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-   <!-- JS -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-   integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-   crossorigin="anonymous"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-   integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-   crossorigin="anonymous"></script>
+ <!-- JS -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+ integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+ crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+ integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+ crossorigin="anonymous"></script>
 
 
-   <style type="text/css">
-      .mypage_title{
-         width: 1000px;
-         height: 150px;
-         display: block;
-         margin-left: auto;
-         margin-right: auto;
-         margin-top: 40px;
-         text-align: center;
+ <!-- 영화 검색 -->
+<!--  <script type="text/javascript">
+
+// 영화 검색 ajax 
+function recipe_search(){
+  let recipe = $('#recipe_input').val();      
+
+  if(recipe ==''){
+    alert('찾고자 하는 단를 입력해주세요!');
+    $('#posting-email').focus();
+    return false;
+  }
+
+  $('#paik_official').html('');
+  $('#paik_follow').html('');
+  $('#soomi_official').html('');
+  $('#soomi_follow').html('');
+
+      // Developer 문세미 - ajax 코드 - paik-follow-recipe_search
+      $.ajax({
+        type: "GET",
+        url: "/search_paik_follow?title_give=" + recipe,
+        data: {}, 
+        success: function(response){
+          if (response['result'] == 'success') {
+            let follow_recipe_info = response['follow_recipe_info'];
+            console.log(follow_recipe_info);
+            for (let i = 0; i < follow_recipe_info.length; i++) {
+             paik_follow_recipe_list(follow_recipe_info[i]['image'],follow_recipe_info[i]['title'],follow_recipe_info[i]['posting_day'],follow_recipe_info[i]['description'],follow_recipe_info[i]['author'],follow_recipe_info[i]['url'])
+           }
+         } else {
+          alert('레시피를 받아오지 못했습니다');
+        }
       }
+    })
 
-      .title_my{
-         font-size: 50pt;
-         font-weight: bold;
-         height: 50px;
+      // Developer 문세미 - ajax 코드 - paik-official-recipe_search
+      $.ajax({
+        type: "GET",
+        url: "/search_paik_official?title_give=" + recipe,
+        data: {}, 
+        success: function(response){
+          if (response['result'] == 'success') {
+            let official_recipe_info = response['official_recipe_info'];
+            console.log(official_recipe_info);
+            for (let i = 0; i < official_recipe_info.length; i++) {
+             paik_official_recipe_list(official_recipe_info[i]['image'],official_recipe_info[i]['title'],official_recipe_info[i]['posting_day'],official_recipe_info[i]['description'],official_recipe_info[i]['author'],official_recipe_info[i]['url'])
+           }
+         } else {
+          alert('레시피를 받아오지 못했습니다');
+        }
       }
+    })
 
-      .title_artcinema{
-         font-size: 60pt;
-         font-weight: bold;
-         font-family: sans-serif;
-         padding-top: -100px;
-      }
 
-      .myinfo{
-         width: 1000px;
-         height: 150px;
-         background-color: #231f20;
-         display: block;
-         margin-top: 25px;
-         margin-left: auto;
-         margin-right: auto;
-         border: 1px solid;
-         border-radius: 30px;
-         text-align: center;
-      }
+      // Developer 조원행 - ajax 코드 - soomi-follow-recipe_search
+      $.ajax({
+        type: "GET",
+        url: "/search_soomi_follow?title_give=" + recipe,
+        data: {}, 
+        success: function(response){
+          if (response['result'] == 'success') {
+            let soomis_follow_info = response['soomis_follow_info'];
+            console.log(soomis_follow_info);
+            for (let i = 0; i < soomis_follow_info.length; i++) {
+              soomis_follow_recipes_list(soomis_follow_info[i]['image'],soomis_follow_info[i]['title'],soomis_follow_info[i]['posting_day'],soomis_follow_info[i]['description'],soomis_follow_info[i]['author'],soomis_follow_info[i]['url'])
+            }
+          } else {
+            alert('레시피를 받아오지 못했습니다');
+          }
+        }
+      })
 
-      #my_name{
-         margin-top: 20px;
-         font-size: 30pt;
-         color: white;
-      }
-
-      #my_email{
-         font-size: 20pt;
-         color: white;
-      }
-
-      .my_genre{
-         width: 1000px;
-         height: 160px;
-         margin-top: 50px;
-         display: block;
-         margin-left: auto;
-         margin-right: auto;
-         background-color:white;
-         border: 0px solid;
-         border-radius: 20px;
-      }
-
-      .my_genre_title{
-         height:50px;
-         font-size:21pt;
-         margin-left: 25px;
-         padding-top: 10px;
-         font-weight: bold;
-         font-family: sans-serif;
-      }
-
-      .my_genre_contents{
-         width: 1000px;
-         float: left;
-      }
-
-      .genre_style{
-         width:500px;
-         height: 110px;
-         float: left;
-         text-align: center;
-         font-size: 20pt;
-         padding-top: 15px
-      }
-
-   </style>
+      // Developer 조원행 - ajax 코드 - soomi-official-recipe_search
+      $.ajax({
+        type: "GET",
+        url: "/search_soomi_official?title_give=" + recipe,
+        data: {}, 
+        success: function(response){
+          if (response['result'] == 'success') {
+            let soomis_official_info = response['soomis_official_info'];
+            console.log(soomis_official_info);
+            for (let i = 0; i < soomis_official_info.length; i++) {
+              soomis_official_recipes_list(soomis_official_info[i]['image'],soomis_official_info[i]['title'],soomis_official_info[i]['posting_day'],soomis_official_info[i]['description'],soomis_official_info[i]['author'],soomis_official_info[i]['url'])
+            }
+          } else {
+            alert('레시피를 받아오지 못했습니다');
+          }
+        }
+      })
+    }
+  </script> -->
+  <!-- 영화, 감독, 배우 검색 -->
 
 
 
+  <style type="text/css">
+    body {
+      width: 100%;
+      background: rgb(20, 21, 23);
+      color: #ffffff;
+      overflow-x: hidden;
+      word-break: break-all;
+      -ms-word-break: break-all;
+    }
+
+    .clearfix:after{
+      height: 100%;
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    .t_side {
+
+    }
+
+    .top_info {
+      background-color: #030708;
+      z-index:500;
+      font-size:14px;
+      width:100%;
+      height:72px;
+      padding:0 4%;
+    }
+
+
+    .home_left {
+      float: left;
+      padding-left: 33px;
+    }
+
+    .go_home_img{
+      background-size: 173px 26px;
+      position: relative;
+      z-index: 10001;
+      float: left;
+      line-height: 72px;
+      margin-left: 23px;
+    }
+
+    .go_home_text {
+      color: #ffffff;
+      float: left;
+      line-height: 72px;
+      margin-left: 23px;
+    }
+
+    .title {
+      float: left;
+      color: #030708;
+      padding-left: 33px;
+    }
+
+    .title_text {
+      float: left;
+      line-height: 72px;
+      margin-left: 23px;
+      color: #ffffff;
+    }
+
+    .myinfo_right {
+      display: flex;
+      position: relative;
+      right: -11px;
+      float: right;
+    }
+
+    .search {
+      float: left;
+      color: #030708;
+      padding-left: 33px;
+    }
+
+    .search_text {
+      float: left;
+      line-height: 72px;
+      margin-left: 23px;
+      color: #ffffff;
+    }
+
+    .my_name{
+      float: left;
+      line-height: 72px;
+      margin-left: 23px;
+      color: #030708;
+    }
+
+    .my_name_text
+    {
+      float: left;
+      line-height: 72px;
+      margin-left: 23px;
+      color: #ffffff;
+    }
+
+    .home_logo img{
+      margin: 10px 0 0 8px;
+      position: relative;
+      float: left;
+      background-size: 173px 26px;
+      width: 80px;
+      height: 52px;
+    }
+
+    .my_genre_title{
+     height:50px;
+     font-size:21pt;
+     margin-left: 25px;
+     padding-top: 10px;
+     font-weight: bold;
+     font-family: sans-serif;
+   }
+
+   .my_genre_contents{
+     width: 1250px;
+     float: left;
+   }
+
+   .genre_style{
+     width:500px;
+     height: 110px;
+     float: left;
+     text-align: center;
+     font-size: 20pt;
+     padding-top: 15px
+   }
+
+   .c_side{
+    width: 1600px;
+    height: 130px;
+    margin-top: 50px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 0px solid;
+    border-radius: 20px;
+  }
+
+  .card_title {
+    float: center;
+    color: #ffffff;
+    /*padding-left: 33px;*/
+  }
+
+  .card-group {
+    margin-bottom: 30px;
+    height: 240px;
+  }
+
+  .card {
+    width: 300px;
+    height: 240px;
+    border: none;
+  }
+
+  .card-group > .card {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 0 0%;
+    flex: none;
+    margin-bottom: 0;
+  }
+
+  .card img {
+    height: 140px;
+  }
+
+  .card-body {
+    background-color: black; 
+  }
+
+  .card-text {
+    color: white;
+  }
+
+  .r-side {
+
+  }
+
+
+
+  footer{
+    position: fixed; bottom: 0;
+    width: 100%;
+    padding: 8px 0;
+    background: #231f20;
+  }
+
+  footer .copy{
+    text-align: center;;
+    color: #ffffff; font-size: 13px;;
+  }
+
+
+</style>
 </head>
-<body style="background-color:lightgrey">
-   <div class = "mypage_title">
-      <div class = "title_my">MY</div>
-      <div class = "title_artcinema">ART CINEMA</div>
-   </div>
+<body>
+  <div class="wrap clearfix">
 
-   <div class = "myinfo">
-      <div id = "my_name"> 스파르타 </div>
-      <div id = "my_email"> sparta@naver.com </div>
-   </div>
+    <!-- t-side에는 로고, 카테고리, 닉네임  -->
 
-   <div class = "my_genre">
-      <div class = "my_genre_title">My Genre</div>
-      <div class = "my_genre_contents">
-         <div id = "my_genre1" class="genre_style">드라마</div>
-         <div id = "my_genre2" class="genre_style">로맨스</div>
+    <div class="t_side">
+      <nav class = "top_info">
+        <a class = "home_logo">
+         <!-- logo 사진은 각자의 컴퓨터 경롷대로 입력 해야될것 같 -->
+          <img class="go_home_img" src="/Users/cho/Desktop/아트시네마/ART_CINEMA_200411_desktop/static" onclick="btn_home()">
+        </a>
+        <ul class = "home_left">
+          <a active="0" class="go_home_text" href="/home">홈</a>
+          <a active="0" class="go_home_text" href="/home">나의 장르</a>
+        </ul>
+
+        <ul class = "myinfo_right">
+          <a active="1" class="search_text" href="/my_movie">검색</a>
+          <div class="recipes_search_container">
+            <input type="text" id="recipe_input" placeholder="제목, 감독, 배우를 입력해주세요.">
+
+            <!-- My_recipic에서 가져온 문자 검색 기능 -->
+            <button onclick="recipe_search()"><img src="{{ url_for('static', filename='images/magnify-icon.png')}}" alt="돋보기 이미지"></button>
+          </div>
+          <a active="1" class="my_name_text" href="/my_movie">스파르타</a>
+        </ul>
+      </nav>        
+    </div>
+
+    <!-- c-side에는 영화 포스터, 제목, 감독 기 -->
+    <div class = "c_side">
+      <div class= "card_title">
+        <h5>취향저격 영화</h5>
       </div>
-   </div>
+      <div class="card-group">
+        <div class="card">
+          <!-- 이미지 클릭시 해당 영화 시청할 수 있는 사이트로 이동 -->
+          <a class = "watch" onclick="btn_home()"></a>
+          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1584000334/sqxotxchcbzcihfqcjjj.webp" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">미안하다 사랑한다</h5>
+            <p class="card-text"><small class="text-muted">감독 : OOO</small></p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1586507136/flr2ffnqzlv1txliqztz.webp" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">일루셔니스트</h5>
 
-</body>
-</html>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1584000433/b13cxuzhhbxzeaelbl7u.webp" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">착한남자</h5>
+
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1585302564/njhspw3tnmufqamcmmqf.webp" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">올더머니</h5>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1584947673/k0syxfurhwhodeyoltdc.webp" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">블랙 호크 다운</h5>
+          </div>
+        </div>
+        <div class="card">
+          <!-- 이미지 클릭시 해당 영화 시청할 수 있는 사이트로 이동 -->
+          <a class = "watch" onclick="btn_home()"></a>
+          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1581314484/uuwoepbb3ujikhsp3byq.webp" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">괴물</h5>
+            <p class="card-text"><small class="text-muted">감독 : OOO</small></p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1463392382/m85knc-6050.webp" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">맨 인 블랙3</h5>
+          </div>
+        </div>
+      </div>
+      <!-- 두번째  -->
+        <!-- <div class="card-group">
+          <div class="card">
+            <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1584000334/sqxotxchcbzcihfqcjjj.webp" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">미안하다 사랑한다</h5>
+
+            </div>
+          </div>
+          <div class="card">
+            <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1586507136/flr2ffnqzlv1txliqztz.webp" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">일루셔니스트</h5>
+
+            </div>
+          </div>
+          <div class="card">
+            <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1584000433/b13cxuzhhbxzeaelbl7u.webp" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">착한남자</h5>
+
+            </div>
+          </div>
+          <div class="card">
+            <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1585302564/njhspw3tnmufqamcmmqf.webp" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">올더머니</h5>
+
+            </div>
+          </div>
+        </div> -->
+      </div>
+
+      <footer>
+        <p class="copy">Copyright ⓒ Developer 지훈, 희진, 하경. All Rights Reserved.</p>
+        ::after
+      </footer>
+    </div>
+  </body>
+
+  </html>
