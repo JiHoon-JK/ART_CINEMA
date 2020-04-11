@@ -191,6 +191,9 @@ def page4():
     else:
         return render_template('page4.html')
 
+@app.route('/page5')
+def page5():
+    render_template('page5.html')
 
 @app.route('/user', methods=['GET'])
 def listing():
@@ -202,7 +205,6 @@ def listing():
 def listing2():
     result = list(db.ART_movie_list.find({}, {'_id': 0}))
     return jsonify({'result': 'success', 'ART_movie_list': result})
-
 
 # 로그인
 @app.route('/test', methods=['POST'])
