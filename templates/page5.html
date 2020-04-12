@@ -1,69 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-   <title>다섯번째 페이지</title>
+ <title>다섯번째 페이지</title>
 
-   <!-- Required meta tags -->
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   <!-- Bootstrap CSS -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-   integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ <!-- Required meta tags -->
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <!-- Bootstrap CSS -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+ integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-   <!-- JS -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-   integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-   crossorigin="anonymous"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-   integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-   crossorigin="anonymous"></script>
+ <!-- JS -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+ integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+ crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+ integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+ crossorigin="anonymous"></script>
 
-   <script>
-      listing();
+ <script>
+  listing();
 
-      function listing(){
-        $.ajax({
-          type: "GET",
-          url: "/main",
-          data: {},
-          success: function(response){
-            let ART_movie_list = response['ART_movie_list'];
-            console.log(ART_movie_list)
+  function listing(){
+    $.ajax({
+      type: "GET",
+      url: "/main",
+      data: {},
+      success: function(response){
+        let ART_movie_list = response['ART_movie_list'];
+        console.log(ART_movie_list)
 
-            let random = Math.floor(Math.random() * ART_movie_list.length)
-            let title = ART_movie_list[random]['title']
-            let poster = ART_movie_list[random]['poster']
-            let director = ART_movie_list[random]['director']
-            let summary = ART_movie_list[random]['summary']
-            if (summary.length > 100){
-               summary = summary.substr(0,100)+"..."
-            }
+        let random = Math.floor(Math.random() * ART_movie_list.length)
+        let title = ART_movie_list[random]['title']
+        let poster = ART_movie_list[random]['poster']
+        let director = ART_movie_list[random]['director']
+        let summary = ART_movie_list[random]['summary']
+        if (summary.length > 100){
+         summary = summary.substr(0,100)+"..."
+       }
 
-            for (let i = 0; i < 1; i++) {
-               movie_card(ART_movie_list[i]['poster'],ART_movie_list[i]['title'],ART_movie_list[i]['summary'],ART_movie_list[i]['director'])
-            }
-         }
-      })
+       for (let i = 0; i < 1; i++) {
+         movie_card(ART_movie_list[i]['poster'],ART_movie_list[i]['title'],ART_movie_list[i]['summary'],ART_movie_list[i]['director'])
+       }
      }
+   })
+  }
 
-     function movie_card(poster,title,summary,director){
-        let temp_html_1 = '<div class="card mb-3" style="max-width: 540px;">\
-        <div class="row no-gutters" id="card_size">\
-        <div class="col-md-4">\
-        <img src="'+poster+'" class="card-img" alt="...">\
-        </div>\
-        <div class="col-md-8">\
-        <div class="card-body">\
-        <h5 class="card-title">'+title+'</h5>\
-        <p class="card-text">'+summary+'</p>\
-        <p class="card-text"><small class="text-muted">'+director+'</small></p>\
-        </div>\
-        </div>\
-        </div>\
-        </div>'
-        $('#movie_temp_html').append(temp_html_1);
-     }
+  function movie_card(poster,title,summary,director){
+    let temp_html_1 = '<div class="card mb-3">\
+    <div class="row no-gutters" id="card_size">\
+    <div class="col-md-4">\
+    <img src="'+poster+'" class="card-img" alt="...">\
+    </div>\
+    <div class="col-md-8">\
+    <div class="card-body">\
+    <h5 class="card-title">'+title+'</h5>\
+    <p class="card-text">'+summary+'</p>\
+    <p class="card-text"><small class="text-muted">'+director+'</small></p>\
+    <button id="comment_button">커맨트 남기기</button>\
+    </div>\
+    </div>\
+    <div class="prefer_button">\
+    <button id="like_movie" onclick="like_movie()"> <img src="static/add_button.png" style="width:50px; height:50px;"></button>\
+    <button id="dislike_movie" onclick="dislike_movie()"> <img src="static/remove_button.png" style="width:50px; height:50px"></button>\
+    </div>\
+    </div>\
+    </div>'
+    $('#movie_temp_html').append(temp_html_1);
+  }
 
 // '<div class="card">\
 //     <img class="card-img-top" id="maingenre_movie_poster1" src="'+poster+'" alt="Card image cap">\
@@ -90,59 +95,76 @@
 <style type="text/css">
 
 
-   .page_title{
-      margin-top: 40px;
-      text-align: center;
-      font-size: 50pt;
-      font-weight: bold;
+ .page_title{
+  margin-top: 40px;
+  color: lightgray;
+  text-align: center;
+  font-size: 50pt;
+  font-weight: bold;
 
-   }
+}
 
-   .main_contents{
-      display: flex;
-      border: 0px solid;
-      border-radius: 30px;
-      width:1100px;
-      margin-right: auto;
-      margin-left: auto;
-      margin-top : 50px;
-      margin-bottom: 50px;
-      padding: 50px 30px 30px 30px;
-      background-color:white;
-   }
-   .search_movie_title{
-      font-size: 30pt;
-      color:white;
-      margin-top: 5px;
-      text-align: center;
-   }
-   .search_movie_info_text{
-      font-size: 20px;
-      color: white;
-      margin-top: 5px;
-      text-align: center;
-   }
-   #card_size{
-      width: 1000px;
-   }
+.main_contents{
+  display: flex;
+  border: 0px solid;
+  border-radius: 30px;
+  width:1100px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top : 50px;
+  margin-bottom: 50px;
+  padding: 50px 30px 30px 30px;
+  background-color:white;
+}
+.search_movie_title{
+  font-size: 30pt;
+  color:white;
+  margin-top: 5px;
+  text-align: center;
+}
+.search_movie_info_text{
+  font-size: 20px;
+  color: white;
+  margin-top: 5px;
+  text-align: center;
+}
+.prefer_button{
+  float: left;
+}
+#card_size{
+  width: 1000px;
+  border: 4px solid black;
+}
+#like_movie{
+  background-color: #B7CBFF;
+}
 
-   img{
-      -webkit-perspective: 1;
-   }
+#dislike_movie{
+  background-color: #FFB7B7;
+}
+#comment_button{
+  width: 150px;
+  height: 80px;
+  font-weight:bold;
+}
+
+img{
+  -webkit-perspective: 1;
+}
 </style>
 
 
 </head>
-<body style="background-color:lightgrey">
+<body style="background-color:black">
 
-   <div class = "page_title"> Movie Info </div>
-   <div class="search_movie_info">
-      <div class="search_movie_title">'아웃사이더'<span id="result_main_genre"></span></div>
-      <div class="search_movie_info_text">에 대한 정보입니다.</div>
-   </div>
+ <div class = "page_title"> Movie Info </div>
+ <div class="search_movie_info">
+  <div class="search_movie_title">'아웃사이더'<span id="result_main_genre"></span></div>
+  <div class="search_movie_info_text">에 대한 정보입니다.</div>
+</div>
 
 
-   <div class="main_contents" id="movie_temp_html"></div>
+<div class="main_contents" id="movie_temp_html"></div>
 </body>
 </html>
 

@@ -195,6 +195,11 @@ def page4():
 def page5():
     return render_template('page5.html')
 
+@app.route('/mypage')
+def mypage():
+    return render_template('my_page.html')
+
+
 @app.route('/user', methods=['GET'])
 def listing():
     result = list(db.Long_movie_list.find({}, {'_id': 0}))
