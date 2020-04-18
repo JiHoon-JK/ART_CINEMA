@@ -38,16 +38,16 @@
 
 
 
-         director = random_director.split('\n')[1]
+         director = random_director
          $('#result_main_genre').text(director)
 
-         poster = all_byDirector['poster'].split('\n')[1]
+         poster = all_byDirector['poster']
          $('#maingenre_movie_poster1').attr('src',poster)
 
-         title = all_byDirector['title'].split('\n')[1]
+         title = all_byDirector['title']
          $('#maingenre_movie_title1').text(title)
 
-         summary = all_byDirector['summary'].split('\n')[1]
+         summary = all_byDirector['summary']
          if (summary.length > 300){
             summary = summary.substr(0,300)+"..."
          }
@@ -229,4 +229,3 @@
          </div>
       </div>
    </div> -->
-
