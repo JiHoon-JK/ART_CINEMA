@@ -289,6 +289,7 @@ def saved_comment():
     user_comment = request.form['user_comment_give']
     data = {
         'user_email' : user_email,
+        'user_comment' : user_comment 
     }
     print(data)
     db.user_comment.insert_one(data)
