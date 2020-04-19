@@ -147,8 +147,8 @@ function listing(){
       all_director = new Array();
       all_actor = new Array();
       all_summary = new Array();
-      all_main_genre = new Array();
-      all_second_genre = new Array();
+      all_gerne_1 = new Array();
+      all_genre_2 = new Array();
       <!-- 사진 20번 바뀐다 == 20번 대결 -->
       for (let i = 0; i < 40; i++) {
         random = Math.floor(Math.random() * Long_movie_list.length)
@@ -164,8 +164,8 @@ function listing(){
         if (summary.length > 100){
          summary = summary.substr(0,100)+"..."
        }
-       main_genre = Long_movie_list[random]['main_genre']
-       second_genre = Long_movie_list[random]['second_genre']
+       genre_1 = Long_movie_list[random]['genre_1']
+       genre_2 = Long_movie_list[random]['genre_2']
        title_temp = title
 
        all_title.push(title)
@@ -173,8 +173,8 @@ function listing(){
        all_director.push(director)
        all_actor.push(actor)
        all_summary.push(summary)
-       all_main_genre.push(main_genre)
-       all_second_genre.push(second_genre)
+       all_gerne_1.push(genre_1)
+       all_genre_2.push(genre_2)
      }
      $('#movie_title1').text(all_title[0])
      $('#movie_title2').text(all_title[1])
@@ -391,7 +391,6 @@ function skip(){
 <body>
   <div class="wrap bg_img">
     <div class="contents">
-     <div id= "customer_email">asdf@naver.com</div>
      <div class="progress">
       <div class="progress-bar" id="progress-bar" role="progressbar" style="" aria-valuenow="number" aria-valuemin="0" aria-valuemax="100"></div>
     </div>

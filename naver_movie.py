@@ -38,8 +38,8 @@ Long_movie_ex = {
 'director': '',
 'actor': '',
 'summary': '',
-'main_genre': '',
-'second_genre': ''
+'genre_1': '',
+'genre_2': ''
 }
 
 # 0 부터 18까지
@@ -92,15 +92,15 @@ for i in range(20):
                     else:
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
                     #print(summary)
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
-                    #print(main_genre)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    #print(genre_1)
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one(
                         'div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one(
+                        genre_2 = str(Long_movie_info.select_one(
                         'div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
+                        genre_2 = 'NONE'
 
                     Long_movie_ex = {
                     'title': title,
@@ -108,8 +108,8 @@ for i in range(20):
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -156,22 +156,22 @@ for i in range(20):
 
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
                     print(summary)
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
-                    #print(main_genre)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    #print(genre_1)
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
+                        genre_2 = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
-                    #print(second_genre)
+                        genre_2 = 'NONE'
+                    #print(genre_2)
                     Long_movie_ex = {
                     'title': title,
                     'poster': poster,
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -215,22 +215,22 @@ for i in range(20):
 
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
                     #print(summary)
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
-                    #print(main_genre)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    #print(genre_1)
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
+                        genre_2 = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
-                    #print(second_genre)
+                        genre_2 = 'NONE'
+                    #print(genre_2)
                     Long_movie_ex = {
                     'title': title,
                     'poster': poster,
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -287,15 +287,15 @@ for i in range(20):
                     else:
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
                     #print(summary)
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
-                    #print(main_genre)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    #print(genre_1)
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one(
                         'div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one(
+                        genre_2 = str(Long_movie_info.select_one(
                         'div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
+                        genre_2 = 'NONE'
 
                     Long_movie_ex = {
                     'title': title,
@@ -303,8 +303,8 @@ for i in range(20):
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -350,22 +350,22 @@ for i in range(20):
 
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
                     #print(summary)
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
-                    #print(main_genre)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    #print(genre_1)
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
+                        genre_2 = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
-                    #print(second_genre)
+                        genre_2 = 'NONE'
+                    #print(genre_2)
                     Long_movie_ex = {
                     'title': title,
                     'poster': poster,
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -409,22 +409,22 @@ for i in range(20):
 
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
                     #print(summary)
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
-                    #print(main_genre)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    #print(genre_1)
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
+                        genre_2 = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
-                    #print(second_genre)
+                        genre_2 = 'NONE'
+                    #print(genre_2)
                     Long_movie_ex = {
                     'title': title,
                     'poster': poster,
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -466,13 +466,13 @@ for i in range(20):
 
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
 
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
 
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
+                        genre_2 = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
+                        genre_2 = 'NONE'
 
                     Long_movie_ex = {
                     'title': title,
@@ -480,8 +480,8 @@ for i in range(20):
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -537,15 +537,15 @@ for i in range(20):
                     else:
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
                     #print(summary)
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
-                    #print(main_genre)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    #print(genre_1)
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one(
                         'div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one(
+                        genre_2 = str(Long_movie_info.select_one(
                         'div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
+                        genre_2 = 'NONE'
 
                     Long_movie_ex = {
                     'title': title,
@@ -553,8 +553,8 @@ for i in range(20):
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -626,15 +626,15 @@ for i in range(20):
                     else:
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
                     #print(summary)
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
-                    #print(main_genre)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    #print(genre_1)
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one(
                         'div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one(
+                        genre_2 = str(Long_movie_info.select_one(
                         'div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
+                        genre_2 = 'NONE'
 
                     Long_movie_ex = {
                     'title': title,
@@ -642,8 +642,8 @@ for i in range(20):
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -689,22 +689,22 @@ for i in range(20):
 
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
                     #print(summary)
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
-                    #print(main_genre)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    #print(genre_1)
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
+                        genre_2 = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
-                    #print(second_genre)
+                        genre_2 = 'NONE'
+                    #print(genre_2)
                     Long_movie_ex = {
                     'title': title,
                     'poster': poster,
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -748,22 +748,22 @@ for i in range(20):
 
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
                     #print(summary)
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
-                    #print(main_genre)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    #print(genre_1)
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
+                        genre_2 = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
-                    #print(second_genre)
+                        genre_2 = 'NONE'
+                    #print(genre_2)
                     Long_movie_ex = {
                     'title': title,
                     'poster': poster,
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
@@ -807,13 +807,13 @@ for i in range(20):
 
                         summary += str(Long_movie_info.select_one('div.section_group.section_group_frst > div:nth-child(1) > div > div.story_area > p').text)
 
-                    main_genre =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
+                    genre_1 =  str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a').text)
 
                     # 두번째 장르가 존재할경우
                     if Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)') != None:
-                        second_genre = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
+                        genre_2 = str(Long_movie_info.select_one('div.mv_info_area > div.mv_info > dl > dd:nth-child(2) > p > span:nth-child(1) > a:nth-child(2)').text)
                     else:
-                        second_genre = 'NONE'
+                        genre_2 = 'NONE'
 
                     Long_movie_ex = {
                     'title': title,
@@ -821,8 +821,8 @@ for i in range(20):
                     'director': director,
                     'actor': actor,
                     'summary': summary,
-                    'main_genre': main_genre,
-                    'second_genre': second_genre
+                    'genre_1': genre_1,
+                    'genre_2': genre_2
 
                     }
                     print(Long_movie_ex)
