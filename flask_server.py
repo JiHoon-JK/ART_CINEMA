@@ -43,11 +43,16 @@ def genre_cnt():
         '액션': 0
     }
 
+    if 'email' in session:
+        email1 = session['email']
+        a = list(db.userdb.find({'email':email1},{'_id': 0}))
+        b = a[0].get('email')
+
     for i in range(len(all_selected_movie)):
         for j in range(len(all_long_movie)):
-            if all_selected_movie[i].get('selected_movie') == all_long_movie[j].get('title').split('\n')[1]:
-                selected_main_genre = all_long_movie[j].get('main_genre').split('\n')[1]
-                selected_second_genre = all_long_movie[j].get('second_genre').split('\n')[1]
+            if all_selected_movie[i].get('selected_movie') == all_long_movie[j].get('title'):
+                selected_main_genre = all_long_movie[j].get('genre_1')
+                selected_second_genre = all_long_movie[j].get('genre_2')
                 for key in genre_score:
                     if selected_main_genre == key:
                         genre_score[key] = genre_score[key] + 5
@@ -61,11 +66,9 @@ def genre_cnt():
     global customer_second_genre
     customer_main_genre = result[0][0]
     customer_second_genre = result[1][0]
-    print("첫번째 선호하는 장르는", customer_main_genre)
-    print("두번째 선호하는 장르는", customer_second_genre)
 
-    db.userdb.update_one({'genre_1': ''}, {'$set': {'genre_1': customer_main_genre}})
-    db.userdb.update_one({'genre_2': ''}, {'$set': {'genre_2': customer_second_genre}})
+    db.userdb.update_one({'email': b}, {'$set': {'genre_1': customer_main_genre}})
+    db.userdb.update_one({'email': b}, {'$set': {'genre_2': customer_second_genre}})
 
     return jsonify({'result': 'success'})
 
@@ -85,8 +88,8 @@ def recommend_movie_db():
 
     for k in range(len(all_short_movie)):
         # 단편영화 장르 값 입시로 저장해두기
-        temp_genre1 = all_short_movie[k].get('genre_1').split('\n')[1]
-        temp_genre2 = all_short_movie[k].get('genre_2').split('\n')[1]
+        temp_genre1 = all_short_movie[k].get('genre_1')
+        temp_genre2 = all_short_movie[k].get('genre_2')
 
         # 만약에 고객 메인 장르와 단편영화의 임시장르가 같으면,
         if customer_genre1 == temp_genre1 or customer_genre1 == temp_genre2:
@@ -103,10 +106,10 @@ def recommend_movie_db():
 
     print("첫번째 선호하는 장르영화는", customer_genre1)
     for i in range(len(customer_genre1_movie)):
-        movie_title = customer_genre1_movie[i].get('title').split('\n')[1]
-        movie_poster = customer_genre1_movie[i].get('poster').split('\n')[1]
-        movie_director = customer_genre1_movie[i].get('director').split('\n')[1]
-        movie_summary = customer_genre1_movie[i].get('summary').split('\n')[1]
+        movie_title = customer_genre1_movie[i].get('title')
+        movie_poster = customer_genre1_movie[i].get('poster')
+        movie_director = customer_genre1_movie[i].get('director')
+        movie_summary = customer_genre1_movie[i].get('summary')
         print(movie_title, movie_poster, movie_director, movie_summary)
 
         # 영화 데이터
@@ -121,10 +124,10 @@ def recommend_movie_db():
 
     print("두번째 선호하는 장르영화는", customer_genre2)
     for i in range(len(customer_genre2_movie)):
-        movie_title = customer_genre2_movie[i].get('title').split('\n')[1]
-        movie_poster = customer_genre2_movie[i].get('poster').split('\n')[1]
-        movie_director = customer_genre2_movie[i].get('director').split('\n')[1]
-        movie_summary = customer_genre2_movie[i].get('summary').split('\n')[1]
+        movie_title = customer_genre2_movie[i].get('title')
+        movie_poster = customer_genre2_movie[i].get('poster')
+        movie_director = customer_genre2_movie[i].get('director')
+        movie_summary = customer_genre2_movie[i].get('summary')
         print(movie_title, movie_poster, movie_director, movie_summary)
 
         # 영화 데이터
@@ -193,7 +196,13 @@ def page4():
 
 @app.route('/page5')
 def page5():
-    return render_template('page5.html')
+    if 'email' in session:
+        email1 = session['email']
+        print('tempLogged in as ' + email1)
+        print(session)
+        return render_template('page5.html', sessionemail=email1)
+    else:
+        return render_template('page5.html')
 
 @app.route('/mypage')
 def mypage():
@@ -273,6 +282,18 @@ def select_movie():
     }
     db.select_movie.insert_one(data)
     return jsonify({'result': 'success'})
+
+@app.route('/comment_save', methods=['POST'])
+def saved_comment():
+    user_email = request.form['email']
+    user_comment = request.form['user_comment_give']
+    data = {
+        'user_email' : user_email,
+    }
+    print(data)
+    db.user_comment.insert_one(data)
+    return jsonify({'result' : 'success'})
+
 
 
 @app.route('/genre1_movie', methods=['GET'])
