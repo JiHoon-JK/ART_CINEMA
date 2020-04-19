@@ -22,6 +22,16 @@
  <script>
   listing();
 
+  $(document).ready(function(){
+    get_session()
+  });
+
+  $( document ).ready( function() {
+    var movie_title = $('#search_movie_title').text();
+    console.log(movie_title);
+    $('#comment_movie_title').append(movie_title);
+  } );
+
   function listing(){
     $.ajax({
       type: "GET",
@@ -55,10 +65,11 @@
     </div>\
     <div class="col-md-8">\
     <div class="card-body">\
-    <h5 class="card-title">'+title+'</h5>\
+    <h1 class="card_title" id="card_movie_title">'+title+'</h1><br>\
+    <h4 class="card_summary"><기본 정보></h4>\
     <p class="card-text">'+summary+'</p>\
-    <p class="card-text"><small class="text-muted">'+director+'</small></p>\
-    <button id="comment_button">커맨트 남기기</button>\
+    <p class="card-text"><small class="text-muted">'+director+'</small></p><br><br>\
+    <button id="comment_button" onclick="btn_comment()">커맨트 남기기</button>\
     </div>\
     </div>\
     <div class="prefer_button">\
@@ -70,23 +81,62 @@
     $('#movie_temp_html').append(temp_html_1);
   }
 
-// '<div class="card">\
-//     <img class="card-img-top" id="maingenre_movie_poster1" src="'+poster+'" alt="Card image cap">\
-//     <div class="card-body">\
-//     <h5 class="card-title movie_title" id="maingenre_movie_title1">'+title+'</h5>\
-//     <p class="card-text" id="maingenre_movie_summary1">'+summary+'</p>\
-//     <p class="card-text"><small class="text-muted" id="maingenre_movie_director1">'+director+'</small></p>\
-//     <div class="prefer-body">\
-//     <h5 class="mt-0"id="prefer_movie_title1"></h5>\
-//     <p class="summary-text" id="preference_movie"></p>\
-//     </div>\
-//     </div>\
-//     </div>';
+  function btn_comment(){
+    if ( $('#comment_box').css('display') == 'block' ) {
+      $('#comment_box').hide();
+    } else {
+      $('#comment_box').show();
+    }
+  }
 
+  function movie_comment(){
+    let user_comment = $('#user_comment').val()
+    console.log(user_comment)
+    $.ajax({
+      type: "POST",
+      url: "/comment_save",
+      data: { email :$('#customer_email').text(), user_comment_give : user_comment},
+      success: function(response){
 
-// function btn_main_page(){
-//    location.href="/"
-// }
+      }
+    })
+  }
+
+  function btn_home(){
+    location.href="/"
+  }
+
+  function btn_mypage(){
+    location.href="/mypage"
+  }
+
+  function get_session(){
+    html_logout = '<a class="nav-link" href="#" id="btn_logout" onclick="btn_logout()">로그아웃</a>'
+    $('#menubar').append(html_logout)
+    email_head("{{sessionemail}}")
+  }
+
+  function email_head(email){
+   let temp_html = email;
+   $('#customer_email').append(temp_html);
+ }
+
+ function btn_logout(){
+  jbResult = confirm( "정말 로그아웃을 하시겠습니까?" );
+  if(jbResult == true){
+    $.ajax({
+     type: "POST",
+     url: "/test2",
+     data: {},
+     success: function(response){
+
+     }
+   })
+    $('#btn_logout').remove();  
+  }
+    else{
+    }
+  }
 
 </script>
 
@@ -94,6 +144,13 @@
 
 <style type="text/css">
 
+  #comment_box{
+    display: none;
+  }
+
+  .nav-masthead {
+   float: right;
+ }
 
  .page_title{
   margin-top: 40px;
@@ -124,6 +181,7 @@
 }
 .search_movie_info_text{
   font-size: 20px;
+  font-weight: bold;
   color: white;
   margin-top: 5px;
   text-align: center;
@@ -137,6 +195,7 @@
 }
 #like_movie{
   background-color: #B7CBFF;
+  align-content: right;
 }
 
 #dislike_movie{
@@ -146,25 +205,116 @@
   width: 150px;
   height: 80px;
   font-weight:bold;
+
 }
+.card_summary{
+  font-weight:bold;
+}
+.card_title{
+  font-weight: bold;
+}
+
+.prefer_button{
+  float: right;
+}
+
+#movie_input{
+  text-align: center;
+  border: 3px solid black;
+}
+.home_logo img{
+  margin: 10px 0 0 8px;
+  position: relative;
+  float: left;
+  background-size: 173px 26px;
+  width: 80px;
+  height: 52px;
+}
+.masthead-brand {
+ float: left;
+}
+
+#customer_email{
+ color: white;
+ text-align: right;
+ margin-right: 50px;
+ margin-top:10px;
+}
+
+.contents .jumbotron{
+  background-color:#7C7B7B;
+}
+
+.display-4{
+  font-weight: bold;
+}
+
+.movie_comment{
+  color: black;
+  width: 65%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top : 50px;
+  margin-bottom: 50px;
+}
+
+textarea{
+  width: 60%;
+  height: 100px;
+}
+
+input[type=text]{
+  height: 40px;
+}
+
 
 img{
   -webkit-perspective: 1;
 }
+
 </style>
 
 
 </head>
-<body style="background-color:black">
+<body style="background-color:#3D3D3D">
+  <div class="movie_info">
+    <div>
+     <h3 class="masthead-brand">
+      <img src="static/logo.png" style="width:70px; height:50px; cursor: pointer;" onclick="btn_home()">
+    </h3>
+    <nav class="nav nav-masthead justify-content-center" id="menubar">
 
- <div class = "page_title"> Movie Info </div>
- <div class="search_movie_info">
-  <div class="search_movie_title">'아웃사이더'<span id="result_main_genre"></span></div>
+    </nav>
+    <div id= "customer_email" style="cursor: pointer;" onclick="btn_mypage()"></div>
+  </div>
+  <center>
+   <div>
+    <p>
+      <input type="text" id="movie_input" placeholder="제목, 감독, 배우를 입력해주세요." size="100">
+    </p>
+  </div>
+</center>
+
+<div class = "page_title"> Movie Info </div><br>
+<div class="search_movie_info">
+  <div class="search_movie_title" id="search_movie_title">아웃사이더</div>
   <div class="search_movie_info_text">에 대한 정보입니다.</div>
 </div>
-
-
 <div class="main_contents" id="movie_temp_html"></div>
+</div>
+
+<div class="movie_comment" id="comment_box">
+  <div class="jumbotron">
+    <h2 class="display-4" id="comment_movie_title"></h2><br>
+    <p class="lead">이 작품에 대한 생각을 자유롭게 적어주세요. </p>
+    <hr class="my-4">
+    <p>
+      <textarea class="comment_area" id="user_comment" placeholder="영화에 대한 코멘트를 남겨주세요."></textarea>
+    </p>
+    <a class="btn btn-primary btn-lg" href="#" role="button" onclick="movie_comment()">저장하기</a>
+  </div>
+</div>
+
 </body>
 </html>
 
