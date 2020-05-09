@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<<<<<<< Updated upstream
    <title>다섯번째 페이지</title>
 
    <!-- Required meta tags -->
@@ -82,13 +83,300 @@
 // function btn_main_page(){
 //    location.href="/"
 // }
+=======
+ <title>다섯번째 페이지</title>
 
-</script>
+ <!-- Required meta tags -->
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ <!-- Bootstrap CSS -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+ integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+ <!-- JS -->
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+ integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+ crossorigin="anonymous"></script>
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+ integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+ crossorigin="anonymous"></script>
+ <!-- font awesome  -->
+
+
+ <script>
+  $(document).ready(function(){
+    search_movie = $('#movie_input').val();
+
+    get_session();
+
+    $('#movie_temp_html').html('');
+    $('#search_movie_title').text('');
+    $('#comment_movie_title').text('');
+
+  });
+
+
+/*
+    function listing(){
+      $.ajax({
+        type: "GET",
+        url: "/main",
+        data: {},
+        success: function(response){
+          let ART_movie_list = response['ART_movie_list'];
+          let random = Math.floor(Math.random() * ART_movie_list.length)
+          let title = ART_movie_list[random]['title']
+          let poster = ART_movie_list[random]['poster']
+          let director = ART_movie_list[random]['director']
+          let summary = ART_movie_list[random]['summary']
+          if (summary.length > 100){
+           summary = summary.substr(0,100)+"..."
+         }
+
+         for (let i = 0; i < 1; i++) {
+           movie_card(ART_movie_list[i]['poster'],ART_movie_list[i]['title'],ART_movie_list[i]['summary'],ART_movie_list[i]['director'])
+         }
+       }
+     })
+    }
+    */
+    function movie_card(poster,title,summary,director){
+      let temp_html_1 = '<div class="card mb-3">\
+      <div class="row no-gutters" id="card_size">\
+      <div class="col-md-4">\
+      <img src="'+poster+'" class="card-img" alt="...">\
+      </div>\
+      <div class="col-md-8">\
+      <div class="card-body">\
+      <h1 class="card_title" id="card_movie_title">'+title+'</h1><br>\
+      <h4 class="card_summary"><기본 정보></h4>\
+      <p class="card-text">'+summary+'</p>\
+      <p class="card-text"><small class="text-muted">'+director+'</small></p><br><br>\
+      <button id="comment_button" onclick="btn_comment()">커맨트 남기기</button>\
+      </div>\
+      </div>\
+      <div class="prefer_button">\
+      <button id="like_movie" onclick="like_movie()"> <img src="static/add_button.png" style="width:50px; height:50px;"></button>\
+      <button id="dislike_movie" onclick="dislike_movie()"> <img src="static/remove_button.png" style="width:50px; height:50px"></button>\
+      </div>\
+      </div>\
+      </div>'
+      $('#movie_temp_html').append(temp_html_1);
+    }
+
+    function btn_comment(){
+      if ( $('#comment_box').css('display') == 'block' ) {
+        $('#comment_box').hide();
+      } else {
+        $('#comment_box').show();
+      }
+    }
+
+    function movie_comment(){
+      let user_comment = $('#user_comment').val()
+      console.log(user_comment)
+      let user_comment_movie = $('#comment_movie_title').text()
+      $.ajax({
+        type: "POST",
+        url: "/comment_save",
+        data: { email :$('#customer_email').text(),user_comment_movie_title : user_comment_movie ,user_comment_give : user_comment},
+        success: function(response){}
+      })
+    }
+
+    function btn_home(){
+      location.href="/"
+    }
+
+    function btn_mypage(){
+      location.href="/mypage"
+    }
+
+    function get_session(){
+      non_login = '<a class="nav=link" href="#" id="btn_home" onclick="btn_home()">로그인을 해야 사용가능합니다.</a>'
+      html_logout = '<a class="nav-link" href="#" id="btn_logout" onclick="btn_logout()">로그아웃</a>'
+      console.log("{{sessionemail}}")
+      if("{{sessionemail}}" == ""){
+        $('#menubar').append(non_login)
+      }else{
+        $('#menubar').append(html_logout)
+        email_head("{{sessionemail}}")
+      }
+      
+    }
+
+    function email_head(email){
+     let temp_html = email;
+     $('#customer_email').append(temp_html);
+   }
+
+   function btn_logout(){
+    jbResult = confirm( "정말 로그아웃을 하시겠습니까?" );
+    if(jbResult == true){
+      $.ajax({
+       type: "POST",
+       url: "/test2",
+       data: {},
+       success: function(response){
+
+       }
+     })
+      $('#btn_logout').remove();  
+    }
+    else{
+    }
+  }
+  
+  function search_listing(){
+    let search_data = $('#movie_input').val();
+    if( search_data != ""){
+      alert(search_data+'에 대한 정보입니다.');
+      $.ajax({
+        type: "POST",
+        url: "/search_movie",
+        data: { search_title_give : search_data},
+        success: function(response){}
+      })
+      bring_DB();
+    }
+    else{
+      alert('검색어를 입력해주세요.');
+    }
+  }
+  
+
+  function bring_DB(){
+    $.ajax({
+      type: "GET",
+      url: "/search_DB",
+      data: {},
+      success: function(response){
+        if(response['result'] == 'success'){
+          let movie_infos = response['Movie_info'];
+
+          console.log(movie_infos);
+
+          $('#movie_temp_html').html('');
+
+          if(movie_infos.length > 1){
+            for(let i=0; i<movie_infos.length-1; i++){
+              movie_card(movie_infos[i]['poster'],movie_infos[i]['title'],movie_infos[i]['summary'],movie_infos[i]['director']);
+              $('#search_movie_title').text(movie_infos[i]['title']);
+              $('#comment_movie_title').text(movie_infos[i]['title']);
+            }
+          }else{
+            for(let i=0; i<movie_infos.length; i++){
+              movie_card(movie_infos[i]['poster'],movie_infos[i]['title'],movie_infos[i]['summary'],movie_infos[i]['director']);
+              $('#search_movie_title').text(movie_infos[i]['title']);
+              $('#comment_movie_title').text(movie_infos[i]['title']);
+            }
+          }
+          
+        }else{
+          alert('해당 영화는 존재하지 않습니다. 다른 영화를 검색해주세요.')
+        }
+      }
+    })
+  }
+
+
+  //alert('성공!! 1');
+  
+  //console.log(search_info);
+  //let movie_info = response['movie_info'];
+  //console.log(movie_info);
+  //alert('성공!! 2');
+  //if (search_info == movie_info){
+   //alert('성공!! 3');
+   //for (let i=0; i < movie_info.length; i++){
+
+        //   }
+
+        // }else{
+        //   alert('해당 영화는 존재하지 않습니다.');
+        // }
+        // keyword = request.args.get('keyword', '').replace(' ', ')(?=.*')if keyword:
+        //   keywordQuery = {'text': {'$regex': '(?=.*'+keyword+')' }}
+
+      //}
+
+
+    </script>
 
 
 
-<style type="text/css">
+    <style type="text/css">
 
+      #menubar{
+        color: blue;
+        font-weight: bold;
+      }
+
+      #comment_box{
+        display: none;
+      }
+
+      .nav-masthead {
+       float: right;
+     }
+>>>>>>> Stashed changes
+
+     .page_title{
+      margin-top: 40px;
+      color: lightgray;
+      text-align: center;
+      font-size: 50pt;
+      font-weight: bold;
+
+    }
+
+    .main_contents{
+      display: flex;
+      border: 0px solid;
+      border-radius: 30px;
+      width:1100px;
+      margin-right: auto;
+      margin-left: auto;
+      margin-top : 50px;
+      margin-bottom: 50px;
+      padding: 50px 30px 30px 30px;
+      background-color:white;
+    }
+    .search_movie_title{
+      font-size: 30pt;
+      color:white;
+      margin-top: 5px;
+      text-align: center;
+    }
+    .search_movie_info_text{
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      margin-top: 5px;
+      text-align: center;
+    }
+    .prefer_button{
+      float: left;
+    }
+    #card_size{
+      width: 1000px;
+      border: 4px solid black;
+    }
+    #like_movie{
+      background-color: #B7CBFF;
+      align-content: right;
+    }
+
+    #dislike_movie{
+      background-color: #FFB7B7;
+    }
+    #comment_button{
+      width: 150px;
+      height: 80px;
+      font-weight:bold;
+
+<<<<<<< Updated upstream
 
    .page_title{
       margin-top: 40px;
@@ -129,10 +417,79 @@
    img{
       -webkit-perspective: 1;
    }
+=======
+    }
+    .card_summary{
+      font-weight:bold;
+    }
+    .card_title{
+      font-weight: bold;
+    }
+
+    .prefer_button{
+      float: right;
+    }
+
+    #movie_input{
+      text-align: center;
+      border: 3px solid black;
+    }
+    .home_logo img{
+      margin: 10px 0 0 8px;
+      position: relative;
+      float: left;
+      background-size: 173px 26px;
+      width: 80px;
+      height: 52px;
+    }
+    .masthead-brand {
+     float: left;
+   }
+
+   #customer_email{
+     color: white;
+     text-align: right;
+     margin-right: 50px;
+     margin-top:10px;
+   }
+
+   .contents .jumbotron{
+    background-color:#7C7B7B;
+  }
+  
+  .display-4{
+    font-weight: bold;
+  }
+  
+  .movie_comment{
+    color: black;
+    width: 65%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top : 50px;
+    margin-bottom: 50px;
+  }
+  
+  textarea{
+    width: 60%;
+    height: 100px;
+  }
+  
+  input[type=text]{
+    height: 40px;
+  }
+  
+  
+  img{
+    -webkit-perspective: 1;
+  }
+  
+>>>>>>> Stashed changes
 </style>
 
 
 </head>
+<<<<<<< Updated upstream
 <body style="background-color:lightgrey">
 
    <div class = "page_title"> Movie Info </div>
@@ -141,9 +498,49 @@
       <div class="search_movie_info_text">에 대한 정보입니다.</div>
    </div>
 
+=======
+<body style="background-color:#3D3D3D">
+  <div class="movie_info">
+    <div>
+     <h3 class="masthead-brand">
+      <img src="static/logo.png" style="width:70px; height:50px; cursor: pointer;" onclick="btn_home()">
+    </h3>
+    <nav class="nav nav-masthead justify-content-center" id="menubar">
+
+    </nav>
+    <div id= "customer_email" style="cursor: pointer;" onclick="btn_mypage()"></div>
+  </div>
+  <center>
+   <div>
+    <button class="img-button" type="submit" name="click" value="">
+      <i class="fas fa-search"></i>
+    </button>
+    <input class="keyword" id="movie_input" type="text" name="movie_info_give" maxlength=255 value="" autocomplete="off" placeholder="제목, 감독, 배우를 입력해주세요." size="100"  onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
+    <button onclick="search_listing()">확인</button>
+  </div>
+</center>
+
+<div class = "page_title"> Movie Info </div><br>
+<div class="search_movie_info">
+  <div class="search_movie_title" id="search_movie_title"></div>
+  <div class="search_movie_info_text"></div>
+</div>
+<div class="main_contents" id="movie_temp_html"></div>
+</div>
+
+<div class="movie_comment" id="comment_box">
+  <div class="jumbotron">
+    <h2 class="display-4" id="comment_movie_title"></h2><br>
+    <p class="lead">이 작품에 대한 생각을 자유롭게 적어주세요.</p>
+    <hr class="my-4">
+    <p>
+      <textarea class="comment_area" id="user_comment" placeholder="영화에 대한 코멘트를 남겨주세요."></textarea>
+    </p>
+    <a class="btn btn-primary btn-lg" href="#" role="button" onclick="movie_comment()">저장하기</a>
+  </div>
+</div>
+>>>>>>> Stashed changes
 
    <div class="main_contents" id="movie_temp_html"></div>
 </body>
 </html>
-
-
