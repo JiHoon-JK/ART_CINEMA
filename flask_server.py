@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, session, escape
+from flask import Flask, render_template, jsonify, request, session, escape, url_for, redirect
 from pymongo import MongoClient  # pymongo를 임포트 하기(패키지 인스톨 먼저 해야겠죠?)
 
 import random
@@ -286,10 +286,12 @@ def select_movie():
 @app.route('/comment_save', methods=['POST'])
 def saved_comment():
     user_email = request.form['email']
-    user_comment = request.form['user_comment_give']
+    user_comment_movie_title = request.form['user_comment_movie_title']
+    user_comment_movie = request.form['user_comment_give']
     data = {
         'user_email' : user_email,
-        'user_comment' : user_comment 
+        'user_comment_movie_title' : user_comment_movie_title,
+        'user_comment_movie' : user_comment_movie
     }
     print(data)
     db.user_comment.insert_one(data)
@@ -315,6 +317,37 @@ def recommend2():
     result = list(db.genre2_art_movie.find({}, {'_id': 0}))
     return jsonify({'result': 'success', 'movies': result, 'user_genre_2': user_genre_2})
 
+@app.route('/search_movie', methods=['POST'])
+def search_movie():
+    search_movie = request.form['search_title_give']
+    data = {
+        'search_movie': search_movie
+    }
+    db.search_movie.insert_one(data)
+    return jsonify({'result': 'success'})
+
+@app.route('/search_DB', methods=['GET'])
+def search_DB():
+    search_movie = list(db.search_movie.find({}, {'_id': 0}))
+    print(search_movie)
+    search_title_give = search_movie[-1]['search_movie']
+    print(search_title_give)
+    movie_info_ART = list(db.ART_movie_list.find({'title':{'$regex':search_title_give}}, {'_id': 0}))
+    movie_info_Long = list(db.Long_movie_list.find({'title':{'$regex':search_title_give}}, {'_id': 0}))
+    print(movie_info_ART)
+    print(movie_info_Long)
+    movie_info = movie_info_ART + movie_info_Long
+    print(movie_info)
+    if (movie_info == []):
+        print('영화가 없을 때!!!')
+        return jsonify({'result': 'fail'})
+    else:
+        print('영화가 있을 때!!!')
+        return jsonify({'result': 'success', 'Movie_info':movie_info})
+
+#@app.route('/success/<name>')
+#def success(name):
+#    return 'Welcom Complete %s' % name
 
 # @app.route('/userbring', methods=['POST'])
 # def bring():
