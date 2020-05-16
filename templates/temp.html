@@ -24,21 +24,19 @@
     $(document).ready(function(){
         get_session()
     });
-
     function get_session(){
-        html_logout = '<a class="nav-link" href="#" id="btn_logout" onclick="btn_logout()">로그아웃</a>'
+        email = "{{sessionemail2}}"
+        html_logout = '<a class="nav-link" id="btn_logout" onclick="btn_logout()">로그아웃</a>'
+        temp_html = '<div style="padding:4px">안녕하세요 ' + '<a href="http://electronic-moongchi.tistory.com">' + email + '</a>님!</div>'
+
+        $('#menubar').append(temp_html);
         $('#menubar').append(html_logout)
-        email_head("{{sessionemail}}")
+       select_button();
+
     }
 
-   function email_head(email){
-     let temp_html = email;
-     $('#customer_email').append(temp_html);
-     select_button();
-   }
-
    function select_button(){
-     button_movepage = "<button id=button_result onclick='go_page2()'>선호장르 알아보기</button> <button id=button_result onclick='go_page4()'>오늘의 추천영화 보기</button>"
+     button_movepage = "<button id=button_result onclick='go_page2()'>선호장르 알아보기</button>"
      $('.cover').html('')
      $('.cover').append(button_movepage)
    }
@@ -60,14 +58,73 @@
   }
 
   function btn_home(){
-    location.href="/"
+    location.href="/temp"
   }
   function go_page2(){
     location.href="/page2"
   }
-  function go_page4(){
-    location.href="/page4"
-  }
+
+      var title=""
+      listing2();
+
+      function naver_click(){
+         naver_url="https://movie.naver.com/movie/search/result.nhn?query=" + title + "&section=all&ie=utf8"
+         location.href=naver_url
+      }
+
+      function daum_click(){
+         daum_url="http://cinefox.com/smart/search?q=" + title
+         location.href=daum_url
+      }
+
+      function recommend(random_director, all_byDirector){
+
+
+
+         director = random_director
+         $('#result_main_genre').text(director)
+
+         poster = all_byDirector['poster']
+         $('#maingenre_movie_poster1').attr('src',poster)
+
+         title = all_byDirector['title']
+         $('#maingenre_movie_title1').text(title)
+
+         summary = all_byDirector['summary']
+         
+          if (summary.length > 300){
+            summary = summary.substr(0,300)+"..."
+         }
+
+
+         $('#maingenre_movie_summary1').text(summary)
+
+
+
+
+         return title;
+      }
+
+
+      function listing2(){
+         $.ajax({
+            type: "GET",
+            url: "/main",
+            data: {},
+            success: function(response){
+               let ART_movie_list = response['ART_movie_list'];
+
+               do{
+                  random = Math.floor(Math.random() * ART_movie_list.length)
+                  random_director = ART_movie_list[random]['director']
+               }while(random_director == '<감독>\nNONE')
+
+               all_byDirector = ART_movie_list[random]
+
+               recommend(random_director, all_byDirector)
+            }
+         })
+      }
 
 
     </script>
@@ -139,12 +196,7 @@
     .mastfoot {
       color: rgba(255, 255, 255, .5);
     }
-    #video_random{
-      margin-top: 55px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
+
     #customer_email{
       color:white;
       text-align: right;
@@ -153,21 +205,20 @@
       margin-top: 30px;
     }
     #button_result{
-      margin-bottom: 100px;
       display: block;
-      margin-top: 45%;
+<!--      margin-top: 45%;-->
       margin-right: auto;
       margin-left: auto;
-      border: 0.5px solid;
       border-radius: 20px;
       background-color: #404041;
-      width:280px;
-      height:70px;
-      font-size: 20pt;
+      width:auto;
+      height:60px;
+      font-size: 15pt;
       color: white;
       font-family: 'Poor Story', sans-serif;
       font-weight: bold;
     }
+
     #background_image {
       background-repeat : no-repeat;
       background-size : cover;
@@ -177,12 +228,81 @@
       min-width: 100%;
       min-height: 100%;
     }
-    #login{
-      margin-top:80px;
-    }
-    #join{
-      margin-top:80px;
-    }
+
+
+      .result_contents{
+         border: 1px solid;
+         border-radius: 30px;
+         width:800px;
+         height: 150px;
+         background-color: #231f20;
+         text-align: center;
+         margin-top: 6%;
+         margin-right: auto;
+         margin-left: auto;
+         padding-bottom: 15px;
+      }
+
+      .result_title{
+         font-size: 26pt;
+         padding-top: 10px;
+         color:white;
+      }
+
+      #result_main_genre{
+         font-size: 30pt;
+      }
+      .result_word{
+         font-size: 21pt;
+         color:white;
+         margin-top: 15px;
+      }
+
+      .main_contents{
+         border: 0px solid;
+         border-radius: 30px;
+         width:850px;
+         margin-right: auto;
+         margin-left: auto;
+         margin-bottom: 50px;
+         padding: 15px 0px 30px 30px;
+      }
+
+
+      #main_genre_title{
+         color:black
+         text-align: center;
+      }
+
+      #maingenre_movie_poster1{
+         border:0px solid;
+         border-radius: 15px 15px;
+      }
+
+      #maingenre_movie_summary1{
+       color:black
+      }
+
+      #maingenre_movie_title1{
+         font-weight: bold;
+         font-size: 28px;
+         color: black;
+         padding-top: 20px
+      }
+
+      #naver_link{
+         border:0px solid;
+         float: right;
+         background-color: white;
+      }
+
+      #daum_link{
+         border:0px solid;
+         float: right;
+         background-color: white;
+      }
+
+
 
   </style>
 </head>
@@ -196,12 +316,30 @@
         <nav class="nav nav-masthead justify-content-center" id="menubar">
 
         </nav>
-        <div id="customer_email"></div>
+        <div id="customer_email"> </div>
       </div>
     </div>
 
-      <main role="main" class="inner cover" style=" color:#000000; margin-left:auto ; margin-right:auto; width: 370px " id="a">
+      <div class="result_contents">
+         <div class="result_title"><span id="result_main_genre">  </span></div>
+         <div class="result_word">감독의 영화를 추천합니다</div>
+      </div>
+
+      <div class=" main_contents">
+         <div class="media">
+            <img class="mr-3" id="maingenre_movie_poster1" src="" alt="Generic placeholder image">
+            <div class="media-body">
+               <h5 class="mt-0"id="maingenre_movie_title1"></h5>
+               <p class="summary-text" id="maingenre_movie_summary1"></p>
+               <button id="naver_link" onclick="naver_click()"> <img src="static/naver.PNG" style="width:50px; height:50px;"></button>
+               <button id="daum_link" onclick="daum_click()"> <img src="static/daum.PNG" style="width:50px; height:50px"></button>
+            </div>
+         </div>
+      </div>
+
+      <main role="main" class="inner cover" style=" margin-left:auto ; margin-right:auto" id="a">
       </main>
+
 
       <footer class="mastfoot mt-auto">
 

@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>세번째 페이지</title>
+    <title>세번째 페이지</title>
 
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-  <!-- JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-  crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-  crossorigin="anonymous"></script>
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
-  <script type="text/javascript">
+    <script type="text/javascript">
 
    listing_genre1();
    listing_genre2();
 
+    let movies;
+    let movies2;
 
    function listing_genre1() {
     $.ajax({
@@ -38,10 +40,10 @@
         $('#main_genre_title').append(user_genre_1)
 
         if (response['result'] == 'success') {
-          let movies = response['movies'];
+            movies = response['movies'];
 
           for (let i = 0; i < movies.length; i++) {
-            movie_card(movies[i]['title'],movies[i]['poster'],movies[i]['director'],movies[i]['summary'])
+            movie_card(movies[i]['title'],movies[i]['poster'],movies[i]['director'],movies[i]['summary'],i)
           }
         } else {
           alert('주문을 받아오지 못했습니다');
@@ -50,9 +52,7 @@
     })
   }
 
-  // like_movie() 대신에, 마이 페이지에 '보고 싶은 영화'로 들어가지는, 기능을 가진 함수를 만들어서 넣어야함.
-  // dislike_movie() 역시, 마이 페이지에 '보고 싶지 않은 영화'로 들어가는 기능을 가진 함수와 연결시켜야함.
-  function movie_card(title,poster,director,summary){
+  function movie_card(title,poster,director,summary,num){
     if (summary.length > 250)
       summary = summary.substr(0,250) + "..."
     let temp_html_1 = '<div class="card">\
@@ -64,8 +64,8 @@
     <div class="prefer-body">\
     <h5 class="mt-0"id="prefer_movie_title1"></h5>\
     <p class="summary-text" id="preference_movie"></p>\
-    <button id="like_movie" onclick="like_movie()"> <img src="static/add_button.png" style="width:50px; /height:50px;"></button>\
-    <button id="dislike_movie" onclick="dislike_movie()"> <img src="static/remove_button.png" style="width:50px; height:50px"></button>\
+    <button id="like_movie" onclick="like_movie' + num + '()"> <img src="static/add_button.png" style="width:50px; /height:50px;"></button>\
+    <button id="dislike_movie" onclick="dislike_movie' + num + '()"> <img src="static/remove_button.png" style="width:50px; height:50px"></button>\
     </div>\
     </div>\
     </div>';
@@ -87,9 +87,9 @@
         $('#second_genre_title').append(user_genre_2)
 
         if (response['result'] == 'success') {
-          let movies = response['movies'];
-          for (let i = 0; i < movies.length; i++) {
-            movie_card2(movies[i]['title'],movies[i]['poster'],movies[i]['director'],movies[i]['summary'])
+          movies2 = response['movies'];
+          for (let i = 0; i < movies2.length; i++) {
+            movie_card2(movies2[i]['title'],movies2[i]['poster'],movies2[i]['director'],movies2[i]['summary'],i)
           }
         } else {
           alert('주문을 받아오지 못했습니다');
@@ -98,9 +98,7 @@
     })
   }
 
-  // like_movie() 대신에, 마이 페이지에 '보고 싶은 영화'로 들어가지는, 기능을 가진 함수를 만들어서 넣어야함.
-  // dislike_movie() 역시, 마이 페이지에 '보고 싶지 않은 영화'로 들어가는 기능을 가진 함수와 연결시켜야함.
-  function movie_card2(title,poster,director,summary){
+  function movie_card2(title,poster,director,summary,num){
     if (summary.length > 250)
       summary = summary.substr(0,250) + "..."
 
@@ -113,24 +111,292 @@
     <div class="prefer-body">\
     <h5 class="mt-0"id="prefer_movie_title2"></h5>\
     <p class="summary-text" id="preference_movie"></p>\
-    <button id="like_movie" onclick="like_movie()"> <img src="static/add_button.png" style="width:50px; height:50px;"></button>\
-    <button id="dislike_movie" onclick="dislike_movie()"> <img src="static/remove_button.png" style="width:50px; height:50px"></button>\
+    <button id="like_movie" onclick="like_movie' + Number(num+3) + '()"> <img src="static/add_button.png" style="width:50px; height:50px;"></button>\
+    <button id="dislike_movie" onclick="dislike_movie' + Number(num+3) + '()"> <img src="static/remove_button.png" style="width:50px; height:50px"></button>\
     </div>\
     </div>\
     </div>';
     $('#movies2').append(temp_html_1);
-
   }
-
-  function btn_main_page(){
+    function btn_main_page(){
    location.href="/"
  }
+
+function DL(title){
+     jbResult = confirm("싫어요에 담겨있는 영화입니다. 좋아하는 영화에 담을까요 ?");
+     if (jbResult == true){
+            $.ajax({
+               type: "POST",
+               url: "/DLupdate_movie",
+               data: {title:title},
+               success: function(response){
+                   if (response['result'] == 'success')
+                        alert('싫어요 -> 좋아요에 성공적으로 영화가 담겼습니다')
+                   }
+            })
+     }
+}
+
+function LD(title){
+     jbResult = confirm("좋아요에 담겨있는 영화입니다. 싫어하는 영화에 담을까요 ?");
+     if (jbResult == true){
+            $.ajax({
+               type: "POST",
+               url: "/LDupdate_movie",
+               data: {title:title},
+               success: function(response){
+                   if (response['result'] == 'success')
+                        alert('좋아요 -> 싫어요에 성공적으로 영화가 담겼습니다')
+                   }
+            })
+     }
+}
+
+ function like_movie0(){
+    $.ajax({
+       type: "POST",
+       url: "/like_movie",
+       data: {
+        title:movies[0]['title'],
+        poster:movies[0]['poster']
+       },
+       success: function(response){
+            if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail2')
+                alert('이미 좋아한다고 누름')
+            else if (response['result'] == 'fail1'){
+                DL(movies[0]['title'])
+            }
+       }
+    })
+ }
+
+ function like_movie1(){
+    $.ajax({
+       type: "POST",
+       url: "/like_movie",
+       data: {
+        title:movies[1]['title'],
+        poster:movies[1]['poster']
+       },
+       success: function(response){
+           if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail2')
+                alert('이미 좋아한다고 누름')
+            else if (response['result'] == 'fail1'){
+                DL(movies[1]['title'])
+                }
+                }
+    })
+ }
+ function like_movie2(){
+    $.ajax({
+       type: "POST",
+       url: "/like_movie",
+       data: {
+        title:movies[2]['title'],
+        poster:movies[2]['poster']
+       },
+       success: function(response){
+           if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail2')
+                alert('이미 좋아한다고 누름')
+            else if (response['result'] == 'fail1'){
+                DL(movies[2]['title'])
+                }
+                }
+    })
+ }
+  function like_movie3(){
+    $.ajax({
+       type: "POST",
+       url: "/like_movie",
+       data: {
+        title:movies2[0]['title'],
+        poster:movies2[0]['poster']
+       },
+       success: function(response){
+           if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail2')
+                alert('이미 좋아한다고 누름')
+            else if (response['result'] == 'fail1'){
+                DL(movies2[0]['title'])
+                }
+                }
+    })
+ }
+
+ function like_movie4(){
+    $.ajax({
+       type: "POST",
+       url: "/like_movie",
+       data: {
+        title:movies2[1]['title'],
+        poster:movies2[1]['poster']
+       },
+       success: function(response){
+           if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail2')
+                alert('이미 좋아한다고 누름')
+            else if (response['result'] == 'fail1'){
+                DL(movies2[1]['title'])
+                }
+                }
+    })
+ }
+ function like_movie5(){
+    $.ajax({
+       type: "POST",
+       url: "/like_movie",
+       data: {
+        title:movies2[2]['title'],
+        poster:movies2[2]['poster']
+       },
+       success: function(response){
+           if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail2')
+                alert('이미 좋아한다고 누름')
+            else if (response['result'] == 'fail1'){
+                DL(movies2[2]['title'])
+                }
+                }
+    })
+ }
+ function dislike_movie0(){
+    $.ajax({
+       type: "POST",
+       url: "/dislike_movie",
+       data: {
+        title:movies[0]['title'],
+        poster:movies[0]['poster']
+       },
+       success: function(response){
+            if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail1')
+                alert('이미 안좋아한다고 누름')
+            else if (response['result'] == 'fail2'){
+                LD(movies[0]['title'])
+                }
+                }
+
+    })
+ }
+
+ function dislike_movie1(){
+    $.ajax({
+       type: "POST",
+       url: "/dislike_movie",
+       data: {
+        title:movies[1]['title'],
+        poster:movies[1]['poster']
+       },
+       success: function(response){
+            if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail')
+                alert('이미 안좋아한다고 누름')
+            else if (response['result'] == 'fail2'){
+                LD(movies[1]['title'])
+                }
+                }
+
+    })
+ }
+ function dislike_movie2(){
+    $.ajax({
+       type: "POST",
+       url: "/dislike_movie",
+       data: {
+        title:movies[2]['title'],
+        poster:movies[2]['poster']
+       },
+       success: function(response){
+            if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail1')
+                alert('이미 안좋아한다고 누름')
+            else if (response['result'] == 'fail2'){
+                LD(movies[2]['title'])
+                }
+                }
+
+    })
+ }
+  function dislike_movie3(){
+    $.ajax({
+       type: "POST",
+       url: "/dislike_movie",
+       data: {
+        title:movies2[0]['title'],
+        poster:movies2[0]['poster']
+       },
+       success: function(response){
+            if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail1')
+                alert('이미 안좋아한다고 누름')
+            else if (response['result'] == 'fail2'){
+                LD(movies2[0]['title'])
+                }
+                }
+
+    })
+ }
+
+ function dislike_movie4(){
+    $.ajax({
+       type: "POST",
+       url: "/dislike_movie",
+       data: {
+        title:movies2[1]['title'],
+        poster:movies2[1]['poster']
+       },
+       success: function(response){
+            if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail1')
+                alert('이미 안좋아한다고 누름')
+            else if (response['result'] == 'fail2'){
+                LD(movies2[1]['title'])
+                }
+                }
+
+    })
+ }
+ function dislike_movie5(){
+    $.ajax({
+       type: "POST",
+       url: "/dislike_movie",
+       data: {
+        title:movies2[2]['title'],
+        poster:movies2[2]['poster']
+       },
+       success: function(response){
+            if (response['result'] == 'success')
+                alert('성공적으로 영화가 담겼습니다')
+            else if (response['result'] == 'fail1')
+                alert('이미 안좋아한다고 누름')
+            else if (response['result'] == 'fail2'){
+                LD(movies2[2]['title'])
+                }
+                }
+
+    })
+ }
+
+
 
  function btn_my_page(){
    location.href="/mypage"
  }
-
-</script>
+    </script>
 
 <style type="text/css">
 
@@ -206,15 +472,13 @@
     margin-right: auto;
     margin-left: auto;
   }
-
-  #like_movie{
+    #like_movie{
     background-color: #B7CBFF;
   }
 
   #dislike_movie{
     background-color: #FFB7B7;
   }
-
   #main_page_btn{
    text-align: center;
    margin-top: 40px;
@@ -246,14 +510,15 @@
  }
 
 
+
 </style>
 </head>
 <body>
 
   <div class="button_contents">
-    <button id="main_page_btn" onclick="btn_main_page()">MAIN</button>  
+    <button id="main_page_btn" onclick="btn_main_page()">MAIN</button>
     <button id="my_page_btn" onclick="btn_my_page()">My Page</button>
-    
+
   </div>
 
   <div class="result_contents">

@@ -62,7 +62,7 @@
       let temp_html_1 = '<div class="card mb-3">\
       <div class="row no-gutters" id="card_size">\
       <div class="col-md-4">\
-      <img src="'+poster+'" class="card-img" alt="...">\
+      <img src="'+poster+'" class="card-img" id="movie_poster" alt="...">\
       </div>\
       <div class="col-md-8">\
       <div class="card-body">\
@@ -90,15 +90,115 @@
       }
     }
 
-    function movie_comment(){
-      let user_comment = $('#user_comment').val()
-      console.log(user_comment)
-      let user_comment_movie = $('#comment_movie_title').text()
+    function comment_save(title,poster,comment){
+      $('#save_button').hide()
       $.ajax({
         type: "POST",
         url: "/comment_save",
-        data: { email :$('#customer_email').text(),user_comment_movie_title : user_comment_movie ,user_comment_give : user_comment},
-        success: function(response){}
+        data: { email :$('#customer_email').text(),user_comment_movie_title : title ,user_comment_movie_poster: poster ,user_comment_give : comment},
+        success: function(response){
+          // 처음 저장하는 코멘트일 경우
+          if (response['result']== 'success'){
+            if(response['edit'] == true){
+              $('#user_comment').hide()
+              comment_box_html = '<div id="db_comment_box">\
+              <h3 id="db_comment">'+comment+'</h3>\
+              <button id="comment_edit" onclick="edit_card()">수정</button>\
+              <button id="comment_remove" onclick="comment_remove()">삭제</button>\
+              </div>'
+              $('#user_comment_box').append(comment_box_html)
+              alert('코멘트를 수정했습니다.')
+            }
+            else{
+              $('#user_comment').hide()
+              comment_box_html = '<div id="db_comment_box">\
+              <h3 id="db_comment">'+comment+'</h3>\
+              <button id="comment_edit" onclick="edit_card()">수정</button>\
+              <button id="comment_remove" onclick="comment_remove()">삭제</button>\
+              </div>'
+              $('#user_comment_box').append(comment_box_html)
+              alert('코멘트를 작성했습니다.')
+            }
+          }
+          // 이미 작성한 코멘트가 있는 영화일 경우
+          else{
+            test_comment = response['comment']
+            console.log(test_comment)
+            $('#user_comment').hide()
+            comment_box_html = '<div id="db_comment_box">\
+            <h3 id="db_comment">'+comment+'</h3>\
+            <button id="comment_edit" onclick="edit_card()">수정</button>\
+            <button id="comment_remove" onclick="comment_remove()">삭제</button>\
+            </div>'
+            $('#user_comment_box').append(comment_box_html)
+            alert('코멘트가 이미 있습니다.')
+          }
+        }
+      })
+    }
+
+    function comment_info(){
+      let user_comment = $('#user_comment').val()
+      console.log(user_comment)
+      let user_comment_movie = $('#comment_movie_title').text()
+      let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
+      console.log(user_comment_movie_poster)
+      comment_save(user_comment_movie, user_comment_movie_poster, user_comment)
+      
+    }
+
+    function edit_comment_info(){
+      let edit_user_comment = $('#edit_user_comment').val()
+      console.log(edit_user_comment)
+      let user_comment_movie = $('#comment_movie_title').text()
+      let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
+      console.log(user_comment_movie_poster)
+      comment_save(user_comment_movie, user_comment_movie_poster, edit_user_comment)
+    }
+
+    function edit_card(){
+      alert('코멘트를 수정해주세요. (최소 30자 ,최대 500자)')
+      edit_comment_html ='<div id="edit_comment_box">\
+      <p id="edit_user_comment_box">\
+      <textarea class="comment_area" id="edit_user_comment" placeholder="영화에 대한 코멘트를 남겨주세요."></textarea>\
+      </p><br>\
+      <a class="btn btn-primary btn-lg" href="#" role="button" onclick="edit_user_comment()">저장하기</a>\
+      </div>'
+      $('#user_comment_box').append(edit_comment_html)
+      $('#save_button').hide()
+      $('#db_comment_box').remove()
+    }
+
+    function edit_user_comment(){
+      let user_edit_comment = $('#edit_user_comment').val()
+      console.log(user_edit_comment)
+      $.ajax({
+        type:"POST",
+        url:"/comment_edit",
+        data:{email:$('#customer_email').text(),edit_movie:$('#comment_movie_title').text(),edit_comment:user_edit_comment},
+        success: function(response){
+          console.log('edit 접속')
+          $('#edit_comment_box').hide()
+          edit_comment_info()
+        }
+      })
+    }
+
+
+    function comment_remove(){
+      alert('정말 코멘트를 삭제하시겠습니까?')
+      let db_comment = $('#db_comment').text()
+      console.log(db_comment)
+      $.ajax({
+        type:"POST",
+        url:"/comment_remove",
+        data:{user_comment: db_comment},
+        success: function(response){
+          $('#user_comment').val('')
+          $('#user_comment').show()
+          $('#save_button').show()
+          $('#db_comment_box').remove()
+        }
       })
     }
 
@@ -139,13 +239,20 @@
 
        }
      })
-      $('#btn_logout').remove();
+      $('#btn_logout').hide();
     }
     else{
     }
   }
 
   function search_listing(){
+    $('#comment_box').hide()
+    $('#user_comment').show()
+    $('#user_comment').val('')
+    $('#save_button').show()
+    $('#edit_comment_box').remove()
+    $('#db_comment_box').remove()
+    //$('#')
     let search_data = $('#movie_input').val();
     if( search_data != ""){
       alert(search_data+'에 대한 정보입니다.');
@@ -375,9 +482,6 @@
   </div>
   <center>
    <div>
-    <button class="img-button" type="submit" name="click" value="">
-      <i class="fas fa-search"></i>
-    </button>
     <input class="keyword" id="movie_input" type="text" name="movie_info_give" maxlength=255 value="" autocomplete="off" placeholder="제목, 감독, 배우를 입력해주세요." size="100"  onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
     <button onclick="search_listing()">확인</button>
   </div>
@@ -396,10 +500,12 @@
     <h2 class="display-4" id="comment_movie_title"></h2><br>
     <p class="lead">이 작품에 대한 생각을 자유롭게 적어주세요.</p>
     <hr class="my-4">
-    <p>
-      <textarea class="comment_area" id="user_comment" placeholder="영화에 대한 코멘트를 남겨주세요."></textarea>
-    </p>
-    <a class="btn btn-primary btn-lg" href="#" role="button" onclick="movie_comment()">저장하기</a>
+    <div id="change_box">
+      <p id="user_comment_box">
+        <textarea class="comment_area" id="user_comment" placeholder="영화에 대한 코멘트를 남겨주세요."></textarea>
+      </p><br>
+      <a class="btn btn-primary btn-lg" id="save_button" href="#" role="button" onclick="comment_info()">저장하기</a>
+    </div>
   </div>
 </div>
 
