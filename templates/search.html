@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <script type="text/javascript">
+
+         // 영화 검색 ajax 
+         function recipe_search(){
+          let recipe = $('#recipe_input').val();      
+
+          if(recipe ==''){
+           alert('찾고자 하는 단어를 입력해주세요!');
+           $('#posting-email').focus();
+           return false;
+         }
+
+         $('#paik_official').html('');
+         $('#paik_follow').html('');
+         $('#soomi_official').html('');
+         $('#soomi_follow').html('');
+
+            // Developer 문세미 - ajax 코드 - paik-follow-recipe_search
+                  $.ajax({
+                   type: "GET",
+                   url: "/search_movie_info=" + name,
+                   data: {}, 
+                   success: function(response){
+                    if (response['result'] == 'success') {
+                     let search_info = response['search_info'];
+                     console.log(search_info);
+                     for (let i = 0; i < search_info.length; i++) {
+                       search_movie_info_card(search_info[i]['poster'],search_info[i]['title'],search_info[i]['director'],search_info[i]['summary'])
+                    }
+                 } else {
+                    alert('레시피를 받아오지 못했습니다');
+                 }
+              }
+            })
+
+        function search_movie_info_card(poster,title,posting_day,director,author,summary) {
+          let card_tamp = '<div class="card">\
+                            <img class="card-img-top" src= "'+poster+'" alt="Card image cap">\
+                            <div class="card-body">\
+                              <h5 class="card-title">'+title+'</h5>\
+                              <p class="card-text">'+posting_day+'</p>\
+                              <p class="card-text">'+director+'</p>\
+                                <p class="card-text">'+summary+'</p>\
+                            </div>\
+                  </div>';
+              $('#search_info').append(card_tamp);
+            }
+
+
+                  @app.route('/search_movie_info', methods=['GET'])
+                    def search_paik_official_view():
+                        # title_give로 클라이언트가 준 title을 가져오기
+                        title_receive = request.args.get('title_give')
+                        # title                   ART_Movie_Platform 일치하는 document 찾기 & _id 값은 출력에서 제외하기
+                        official_recipe_info = list(
+                            db.paik_all_recipes.find({'category': '공식레시피', 'title': {'$regex': title_receive}}, {'_id': 0}))
+                        # info라는 키 값으로 해당하는 레시피 데이터 내려주기
+                        return jsonify({'result': 'success', 'official_recipe_info': official_recipe_info})
+
+                  // Developer 문세미 - ajax 코드 - paik-official-recipe_search
+                  $.ajax({
+                   type: "GET",
+                   url: "/search_paik_official?title_give=" + recipe,
+                   data: {}, 
+                   success: function(response){
+                    if (response['result'] == 'success') {
+                     let official_recipe_info = response['official_recipe_info'];
+                     console.log(official_recipe_info);
+                     for (let i = 0; i < official_recipe_info.length; i++) {
+                       paik_official_recipe_list(official_recipe_info[i]['image'],official_recipe_info[i]['title'],official_recipe_info[i]['posting_day'],official_recipe_info[i]['description'],official_recipe_info[i]['author'],official_recipe_info[i]['url'])
+                    }
+                 } else {
+                    alert('레시피를 받아오지 못했습니다');
+                 }
+              }
+            })
+
+
+                  // Developer 조원행 - ajax 코드 - soomi-follow-recipe_search
+                  $.ajax({
+                   type: "GET",
+                   url: "/search_soomi_follow?title_give=" + recipe,
+                   data: {}, 
+                   success: function(response){
+                    if (response['result'] == 'success') {
+                     let soomis_follow_info = response['soomis_follow_info'];
+                     console.log(soomis_follow_info);
+                     for (let i = 0; i < soomis_follow_info.length; i++) {
+                      soomis_follow_recipes_list(soomis_follow_info[i]['image'],soomis_follow_info[i]['title'],soomis_follow_info[i]['posting_day'],soomis_follow_info[i]['description'],soomis_follow_info[i]['author'],soomis_follow_info[i]['url'])
+                   }
+                } else {
+                  alert('레시피를 받아오지 못했습니다');
+               }
+            }
+            })
+
+                  // Developer 조원행 - ajax 코드 - soomi-official-recipe_search
+                  $.ajax({
+                   type: "GET",
+                   url: "/search_soomi_official?title_give=" + recipe,
+                   data: {}, 
+                   success: function(response){
+                    if (response['result'] == 'success') {
+                     let soomis_official_info = response['soomis_official_info'];
+                     console.log(soomis_official_info);
+                     for (let i = 0; i < soomis_official_info.length; i++) {
+                      soomis_official_recipes_list(soomis_official_info[i]['image'],soomis_official_info[i]['title'],soomis_official_info[i]['url'])
+                   }
+                } else {
+                  alert('영화 목록 받아오지 못했습니다');
+               }
+            }
+            })
+         }
+       </script>
+</head>
+<body>
+
+</body>
+</html>

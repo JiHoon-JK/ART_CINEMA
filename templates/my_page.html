@@ -19,167 +19,35 @@
  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
  crossorigin="anonymous"></script>
 
+
+
+
+
+<!-- mypage에 필요한 함수 모음-->
 <script type="text/javascript">
 
 
-
-// 영화제목을 변수에 담아 전달
-  function movie_search(){
-      let title = $('#word_input').val();      
-
-      if(title ==''){
-            alert('이름, 제목를 입력해주세요!');
-            $('#word_input').focus();
-            return false;
-          }
-        }
-
-$(document).ready(function(){
-    listing();
-})
-
-function listing() {
-
-// 좋아요 누른 영화 보여주기 *임시로 short_movie db 이용
-  $.ajax({
-        type: "GET",
-        url: "/info_my_like_movie",
-        data: {},
-        success: function(response){
-          $('#like_card_board').html('');
-          if (response['result'] == 'success') {
-            let my_like_movie = response['my_like_movie'];
-            alert("받아오기 성공!")
-            console.log(my_like_movie);
-            for (let i = 0; i < my_like_movie.length; i++) {
-              my_page_like_movie(my_like_movie[i]['poster'],my_like_movie[i]['title'],my_like_movie[i]['director'])
-            }
-          } else {
-            alert('결과를 받아오지 못했습니다');
-          }
-        }
-      })
-
-// 싫어요 누른 영화 보여주기 *임시로 short_movie db 이용
-  $.ajax({
-        type: "GET",
-        url: "/info_my_dislike_movie",
-        data: {},
-        success: function(response){
-          $('#dislike_card_board').html('');
-          if (response['result'] == 'success') {
-            let my_dislike_movie = response['my_dislike_movie'];
-            alert("받아오기 성공!")
-            console.log(my_dislike_movie);
-            for (let i = 0; i < my_dislike_movie.length; i++) {
-              my_page_dislike_movie(my_dislike_movie[i]['poster'],my_dislike_movie[i]['title'],my_dislike_movie[i]['director'])
-            }
-          } else {
-            alert('결과를 받아오지 못했습니다');
-          }
-        }
-      })
-
-// 댓글 누른 영화 보여주기 *임시로 short_movie db 이용
-  $.ajax({
-        type: "GET",
-        url: "/info_my_comment_movie",
-        data: {},
-        success: function(response){
-          $('#comment_card_board').html('');
-          if (response['result'] == 'success') {
-            let my_comment_movie = response['my_comment_movie'];
-            alert("받아오기 성공!")
-            console.log(my_comment_movie);
-            for (let i = 0; i < my_comment_movie.length; i++) {
-              my_page_comment_movie(my_comment_movie[i]['poster'],my_comment_movie[i]['title'],my_comment_movie[i]['director'])
-            }
-          } else {
-            alert('결과를 받아오지 못했습니다');
-          }
-        }
-      })
-
-
-
-  $.ajax({
-        type: "GET",
-        url: "/info_my_diswatch_movie",
-        data: {},
-        success: function(response){
-          $('#diswatch_card_board').html('');
-          if (response['result'] == 'success') {
-            let my_diswatch_movie = response['my_diswatch_movie'];
-            alert("받아오기 성공!")
-            console.log(my_diswatch_movie);
-            for (let i = 0; i < my_diswatch_movie.length; i++) {
-              my_page_diswatch_movie(my_diswatch_movie[i]['poster'],my_diswatch_movie[i]['title'],my_diswatch_movie[i]['director'])
-            }
-          } else {
-            alert('결과를 받아오지 못했습니다');
-          }
-        }
-      })
-}
-
-
-
-  // 종류에 따른 분류
-  function my_page_like_movie(poster, title, director) {
-            let card_tamp = '<div class="card">\
-            <img src="'+ poster +'" class="card-img-top" alt="...">\
-            <div class="card-body">\
-              <h5 class="card-title">' + title + '</h5>\
-              <p class="card-text"><small class="text-muted">'+ director +'</small></p>\
-            </div>';
-          $('#like_card_board').append(card_tamp);
-        }
-
-
-  function my_page_dislike_movie(poster, title, director) {
-            let card_tamp = '<div class="card">\
-            <img src="'+ poster +'" class="card-img-top" alt="...">\
-            <div class="card-body">\
-              <h5 class="card-title">' + title + '</h5>\
-              <p class="card-text"><small class="text-muted">'+ director +'</small></p>\
-            </div>';
-          $('#dislike_card_board').append(card_tamp);
-        }
-
-
-  function my_page_comment_movie(poster, title, director) {
-            let card_tamp = '<div class="card">\
-            <img src="'+ poster +'" class="card-img-top" alt="...">\
-            <div class="card-body">\
-              <h5 class="card-title">' + title + '</h5>\
-              <p class="card-text"><small class="text-muted">'+ director +'</small></p>\
-            </div>';
-          $('#comment_card_board').append(card_tamp);
-        }
-
-
-  function my_page_diswatch_movie(poster, title, director) {
-            let card_tamp = '<div class="card">\
-            <img src="'+ poster +'" class="card-img-top" alt="...">\
-            <div class="card-body">\
-              <h5 class="card-title">' + title + '</h5>\
-              <p class="card-text"><small class="text-muted">'+ director +'</small></p>\
-            </div>';
-          $('#diswatch_card_board').append(card_tamp);
-        }
-
-
-
-  //로그아웃 
-  $(document).ready(function(){
-        get_session()
-    });
-
     function get_session(){
-        html_logout = '<a class="nav-link" href="#" id="btn_logout" onclick="btn_logout()">로그아웃</a>'
-        $('#').append(html_logout)
-        email_head("{{sessionemail}}")
+        email = "{{sessionemail2}}"
+        html_logout = '<a class="nav-link" id="btn_logout" onclick="btn_logout()">로그아웃</a>'
+        temp_html = '<div style="padding:4px">안녕하세요 ' + '<a href="http://electronic-moongchi.tistory.com">' + email + '</a>님!</div>'
+
+        $('#right_nav').append(html_logout);
+        $('#right_nav').append(temp_html);
+
+        $('#comment_movies_select').html('');
     }
+
+    /* Logout 기능 구현 */
+    $(document).ready(function(){
+          get_session()
+      });
+
+    // function get_session(){
+    //     html_logout = '<a class="nav-link" href="#" id="btn_logout" onclick="btn_logout()">로그아웃</a>'
+    //     $('#').append(html_logout)
+    //     email_head("{{sessionemail}}")
+    // }
 
 
     function btn_logout(){
@@ -187,22 +55,181 @@ function listing() {
       if(jbResult == true){
         $.ajax({
            type: "POST",
-           url: "/test2",
+           url: "/",
            data: {},
            success: function(response){
+           }
+         })
+          $('#btn_logout').remove();  
+        }
+          else{
+          }
+      }
 
-     }
-   })
-    $('#btn_logout').remove();  
+</script>
+
+<!-- ajax -->
+<script type="text/javascript">
+  
+  $(document).ready(function(){
+    bring_comment_movie_list()
+    bring_like_movie_list()
+    bring_dislike_movie_list()
+  });
+  
+
+  let like_movie;
+  let dislike_movie;
+
+  function bring_comment_movie_list(){
+    $.ajax({
+      type: "GET",
+      url: "/info_my_comment_movie",
+      data: {},
+      success: function(response){
+        let my_comment_movie = response['my_comment_movie']
+        console.log(my_comment_movie)
+        $('#comment_movies_select').append(my_comment_movie);
+
+        if (response['result'] == 'success') {
+            my_comment_movie = response['my_comment_movie'];
+            console.log(my_comment_movie)
+
+          for (let i = 0; i < my_comment_movie.length; i++) {
+            movie_comment_content(my_comment_movie[i]['user_comment_movie_poster'],my_comment_movie[i]['user_comment_movie_title'])
+          }
+        } else {
+          alert('영화 리스트를 받아오지 못했습니다');
+        }
+      }
+    })
   }
-    else{
+
+
+  function bring_like_movie_list(){
+    $.ajax({
+      type: "GET",
+      url: "/info_like_movie",
+      data: {},
+      success: function(response){
+        let like_movie = response['my_like_movie']
+        console.log(like_movie)
+        $('#like_movies_select').append(like_movie);
+
+        if (response['result'] == 'success') {
+            like_movie = response['like_movies'];
+
+          for (let i = 0; i < like_movie.length; i++) {
+            movie_like_content(like_movie[i]['poster'],like_movie[i]['title'])
+          }
+        } else {
+          alert('영화 리스트를 받아오지 못했습니다');
+        }
+      }
+    })
+  }
+
+
+  function bring_dislike_movie_list(){
+    $.ajax({
+      type: "GET",
+      url: "/info_dislike_movie",
+      data: {},
+      success: function(response){
+        let dislike_movie = response['my_dislike_movie']
+        console.log(dislike_movie)
+        $('#dislike_movies_select').append(dislike_movie);
+
+        if (response['result'] == 'success') {
+            dislike_movie = response['dislike_movies'];
+
+          for (let i = 0; i < dislike_movie.length; i++) {
+            movie_dislike_content(dislike_movie[i]['poster'],dislike_movie[i]['title'])
+          }
+        } else {
+          alert('영화 리스트를 받아오지 못했습니다');
+        }
+      }
+    })
+  }
+
+
+</script>
+
+
+<!-- html 뿌려주는 -->
+<script type="text/javascript">
+  function movie_comment_content(poster, title){
+    let temp_html = '<li class="movie_ifno_container">\
+                              <div class="img_and_title">\
+                                <div class="movie_still_cut_container">\
+                                  <div class="movie_img_wrapper">\
+                                    <a href="link_to_movie">\
+                                      <div class="movie_img_poster">\
+                                        <img class="content_img" src=" '+ poster +'">\
+                                      </div>\
+                                    </a>\
+                                  </div>\
+                                </div>\
+                                <div class="movie_title_wrapper">\
+                                  <h5 class="movie_title">'+ title +'</h5>\
+                                </div>\
+                              </div>\
+                            </li>';
+    $('#comment_movies_select').append(temp_html);
+
     }
+
+  function movie_like_content(poster, title){
+    let temp_html = '<li class="movie_ifno_container">\
+                              <div class="img_and_title">\
+                                <div class="movie_still_cut_container">\
+                                  <div class="movie_img_wrapper">\
+                                    <a href="link_to_movie">\
+                                      <div class="movie_img_poster">\
+                                        <img class="content_img" src=" '+ poster +'">\
+                                      </div>\
+                                    </a>\
+                                  </div>\
+                                </div>\
+                                <div class="movie_title_wrapper">\
+                                  <h5 class="movie_title">'+ title +'</h5>\
+                                </div>\
+                              </div>\
+                            </li>';
+    $('#like_movies_select').append(temp_html);
+
+
+    }
+
+  function movie_dislike_content(poster, title){
+    let temp_html = '<li class="movie_ifno_container">\
+                              <div class="img_and_title">\
+                                <div class="movie_still_cut_container">\
+                                  <div class="movie_img_wrapper">\
+                                    <a href="link_to_movie">\
+                                      <div class="movie_img_poster">\
+                                        <img class="content_img" src=" '+ poster +'">\
+                                      </div>\
+                                    </a>\
+                                  </div>\
+                                </div>\
+                                <div class="movie_title_wrapper">\
+                                  <h5 class="movie_title">'+ title +'</h5>\
+                                </div>\
+                              </div>\
+                            </li>';
+    $('#dislike_movies_select').append(temp_html);
   }
 </script>
+
+
+<!-- btn 기능 함수 -->
 <script type="text/javascript">
-function btn_temp_page(){
-  location.href="/temp"
+function btn_main_page(){
+  location.href="/main"
 }
+
 function btn_my_page() {
   location.href="/mypage"
 }
@@ -210,392 +237,398 @@ function go_page2(){
   location.href="/page2"
 }
 
+function btn_home(){
+  location.href="/temp"
+}
 
 </script>
 
+<head>
 
 </head>
+
 <body>
-  <div class="wrap clearfix">
 
-    <!-- 상단을 가리키는 top_side에는 로고, DB내 영화검색, 유저이메일  -->
-    <div class="top_side">
-      <nav class = "top_info">
-        <!-- top_left_banner에는 로고만 -->
-        <div class="top_left_banner">
-          <a class = "home_logo">
-            <img class="go_home_img" src="C:\Users\ASUS\Desktop\Sparta\ART_CINEMA_200411\static" onclick="btn_temp_page()">
-          </a>
-        </div>
+  <div id="root">
+    <div class="self">
+      <nav class="top_sidebar" id="menubar">
+        <a class="ART_cinema_logo" src="">
+          <img src="/static/logo.png" style="width:70px; height:50px; cursor: pointer;" onclick="btn_home()">
+        </a>
+        <ul class="left_nav">
+          <li>
+            <input class="keyword" id="movie_input" type="text" name="movie_info_give" maxlength=255 value="" autocomplete="off" placeholder="제목, 감독, 배우를 입력해주세요."  size="80"  onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
+            <button onclick="search_listing()">확인</button>
+          </li>
+        </ul>
+        <ul class="right_nav">
+          
 
-        <!-- top_center_banner에는 검색 기능만 -->
-        <div class="top_center_banner">
-            <!-- <a active="1" class="search_text" href="/my_movie"></a> -->
-              <div class="movie_search_container">
-                <input type="text" id="word_input" placeholder="제목, 감독, 배우를 입력해주세요.">
-            </div>
-        </div>
+          <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-right: 5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+            <div style="padding:4px">안녕하세요 ' + '<a href="http://electronic-moongchi.tistory.com">' + email + '</a>님!</div>
+            <a class="nav-link" id="btn_logout" onclick="btn_logout()">로그아웃</a>
+          </svg>
+        </ul>
+      </nav>
+      <main class="mypage_main">
+        <div class="mypage_main_container">
+          <section class="mypage_list_section">
+            <ul class="row_list">
+              <li class="unit_row">
+                <h3 class="row_title">댓글 달았어요</h3>
+                <section class="row_section">
+                  <li class="fixed_row">
+                    <div class="slide_row">
+                      <div class="movie_list_row" style="">
+                        <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)" id="comment_movies_select">
 
-        <!-- top_right_banner에는 유저 이메일(나중애 닉네임으로 변경 예정) -->
-        <div class="top_right_banner">
-            <a class = "mypage">
-              <div class="user_email" onclick="btn_my_page()">god2dia@gmail.com</div>
-            </a>
-            <a class="nav-link" href="#" id="btn_logout" onclick="btn_logout()">로그아웃</a>
+                          <!-- like_temp_html 적용부분 -->
+                          <li class="movie_ifno_container">
+                            <div class="img_and_title">
+                              <div class="movie_still_cut_container">
+                                <div class="movie_img_wrapper">
+                                  <a href="link_to_movie">
+                                    <div class="movie_img_poster">
+                                      <img class="content_img" src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
+                                    </div>
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="movie_title_wrapper">
+                                <h5 class="movie_title">기도의 힘</h5>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                </section>
+              </li>
+              <!-- //////////////////////////////////////////// -->
+              <li class="unit_row">
+                <h3 class="row_title">좋아요</h3>
+                <section class="row_section">
+                    <li class="fixed_row">
+                      <div class="slide_row">
+                        <div class="movie_list_row">
+                          <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)" id="like_movies_select">
 
-          </div>
+                            <!-- 반복 출력 -->
+                            <li class="movie_ifno_container">
+                              <div class="img_and_title">
+                                <div class="movie_still_cut_container">
+                                  <div class="movie_img_wrapper">
+                                    <a href="link_to_movie">
+                                      <div class="movie_img_poster">
+                                        <img class="content_img" src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
+                                      </div>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="movie_title_wrapper">
+                                  <h5 class="movie_title">기도의 힘</h5>
+                                </div>
+                              </div>
+                            </li>
 
-        </div>
-      </nav>        
+                            <li class="movie_ifno_container">
+                              <div class="img_and_title">
+                                <div class="movie_still_cut_container">
+                                  <div class="movie_img_wrapper">
+                                    <a href="link_to_movie">
+                                      <div class="movie_img_poster">
+                                        <img class="content_img" src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
+                                      </div>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="movie_title_wrapper">
+                                  <h5 class="movie_title">기도의 힘</h5>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                </section>
+              </li>
+              <!-- //////////////////////////////////////////// -->
+              <li class="unit_row">
+                <h3 class="row_title">싫어요</h3>
+                <section class="row_section">
+                    <li class="fixed_row">
+                      <div class="slide_row">
+                        <div class="movie_list_row">
+                          <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)" id="dislike_movies_select">
+
+                            <!-- like_temp_html 적용부분 -->
+                            <li class="movie_ifno_container">
+                              <div class="img_and_title">
+                                <div class="movie_still_cut_container">
+                                  <div class="movie_img_wrapper">
+                                    <a href="link_to_movie">
+                                      <div class="movie_img_poster">
+                                        <img class="content_img" src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
+                                      </div>
+                                    </a>
+                                  </div>
+                                </div>
+                                <div class="movie_title_wrapper">
+                                  <h5 class="movie_title">기도의 힘</h5>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                </section>
+              </li>
+            </ul>
+          </section>
+        </div> 
+      </main>
     </div>
+  </div>
 
+</body>
 
+<style type="text/css">
 
-    <div class = "center_side">
-      <div class = "section_movie">
-      <div class= "card_title" id="genre_title">
-        <h5>좋아요! 영화</h5>
-      </div>
-      <div class="card-group" id="like_card_board">
-        <div class="card">
-          <img class="card-img-top" src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1584000334/sqxotxchcbzcihfqcjjj.webp" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">미안하다 사랑한다</h5>
-            <p class="card-text"><small class="text-muted">감독 : OOO</small></p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class = "section_movie">
-      <div class= "card_title" id="genre_title">
-        <h5>싫어요! 영화</h5>
-      </div>
-      <div class="card-group" id="dislike_card_board">
-        <div class="card">
-          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1586507136/flr2ffnqzlv1txliqztz.webp" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">일루셔니스트</h5>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class = "section_movie">
-      <div class= "card_title" id="genre_title">
-        <h5>댓글단! 영화</h5>
-      </div>
-      <div class="card-group" id="comment_card_board">
-        <div class="card">
-          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1584000433/b13cxuzhhbxzeaelbl7u.webp" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">착한남자</h5>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-    <div class = "section_movie">
-      <div class= "card_title" id="genre_title">
-        <h5>평가를 기다리고 있어요</h5>
-      </div>
-      <div class="card-group" id="diswatch_card_board">
-        <div class="card">
-          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1585302564/njhspw3tnmufqamcmmqf.webp" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">올더머니</h5>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-
-        <!-- <div class="card">
-          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1586507136/flr2ffnqzlv1txliqztz.webp" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">일루셔니스트</h5>
-
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1584000433/b13cxuzhhbxzeaelbl7u.webp" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">착한남자</h5>
-
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1585302564/njhspw3tnmufqamcmmqf.webp" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">올더머니</h5>
-          </div>
-        </div> -->
-
-        <!-- <div class="card">
-          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1584947673/k0syxfurhwhodeyoltdc.webp" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">블랙 호크 다운</h5>
-          </div>
-        </div>
-        <div class="card">
-          <a class = "watch" onclick="btn_home()"></a>
-          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1581314484/uuwoepbb3ujikhsp3byq.webp" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">괴물</h5>
-            <p class="card-text"><small class="text-muted">감독 : OOO</small></p>
-          </div>
-        </div>
-        <div class="card">
-          <img src="https://dhgywazgeek0d.cloudfront.net/watcha/image/upload/c_fill,h_264,q_80,w_470/v1463392382/m85knc-6050.webp" class="card-img-top" alt="...">
-          <div class="card-body">
-            <h5 class="card-title">맨 인 블랙3</h5>
-          </div>
-        </div> -->
-      </div>
-
-      </div>
-
-      <footer>
-        <p class="copy">Copyright ⓒ Developer 지훈, 희진, 하경. All Rights Reserved.</p>
-        ::after
-      </footer>
-    </div>
-  </body>
-    <style type="text/css">
-    body {
-      width: 100%;
-      background: rgb(20, 21, 23);
-      color: #ffffff;
-      overflow-x: hidden;
-      word-break: break-all;
-      -ms-word-break: break-all;
-    }
-
-    .clearfix:after{
-      height: 100%;
-      content: '';
-      display: block;
-      clear: both;
-    }
-
-    /*페이지 상단*/
-    .top_side {
-      background-color: #030708;
-      z-index:500;
-      font-size:14px;
-      width:100%;
-      height:72px;
-      /*padding:0 4%;*/
-    }
-    .go_home_img{
-      background-size: 173px 26px;
-      position: relative;
-      z-index: 10001;
-      float: left;
-      line-height: 72px;
-      margin-left: 23px;
-    }
-   .home_logo img{
-      margin: 10px 0 0 8px;
-      position: relative;
-      float: left;
-      background-size: 173px 26px;
-      width: 80px;
-      height: 52px;
-    }
-
-    .movie_search_container {
-      margin-top: 20px;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-      border: 0px solid;
-    }
-    .search_text {
-      float: center;
-      line-height: 72px;
-      margin-left: 23px;
-      color: #ffffff;
-    }
-
-    #word_input {
-      display: flex;
-      width: 800px;
-      height: 30px;
-      margin: auto;
-    }
-    .top_info {
-      display: flex;
-    }
-    .top_left_banner {
-      width: 150px;
-      background-color: #030708;
-      z-index:500;
-      font-size:14px;
-      height:72px;
-      padding:0 4%;
-    }
-
-    .top_center_banner {
-      width: 1300px;
-      flex: right;
-      background-color: #030708;
-      z-index:500;
-      font-size:14px;
-      height:72px;
-      /*padding:0 4%;*/
-    }text-align: 
-
-/***********가운데***********/
-    .top_right_banner {
-      width: 230px;
-      flex: right;
-      background-color: #030708;
-      z-index:500;
-      font-size:14px;
-      height:72px;
-      /*padding:0 4%;*/
-      text-align: right;
-    }text-align: 
-
-    /*페이지 가운데*/
-    .title {
-      float: left;
-      color: #030708;
-      padding-left: 33px;
-    }
-
-    .title_text {
-      float: left;
-      line-height: 72px;
-      margin-left: 23px;
-      color: #ffffff;
-    }
-
-        .my_genre_title{
-     height:50px;
-     font-size:21pt;
-     margin-left: 25px;
-     padding-top: 10px;
-     font-weight: bold;
-     font-family: sans-serif;
-   }
-
-   .my_genre_contents{
-     width: 1250px;
-     float: left;
-   }
-
-   .genre_style{
-     width:500px;
-     height: 110px;
-     float: left;
-     text-align: center;
-     font-size: 20pt;
-     padding-top: 15px
-   }
-
-   .center_side{
-    width: 1600px;
-    height: 130px;
-    margin-top: 50px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    border: 0px solid;
-    border-radius: 20px;
-  }
-
-  .section_movie {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 0 0%;
-    flex: none;
-    margin-bottom: 0;
-  }
-
-  #genre_title {
-    float: center;
-    color: #ffffff;
-    /*padding-left: 33px;*/
-  }
-
-  .card-group {
-    margin-bottom: 30px;
-    height: 240px;
-  }
-
-  .card {
-    width: 300px;
-    height: 240px;
-    border: none;
-  }
-
-  .card-group .card {
-    -webkit-box-flex: 1;
-    -ms-flex: 1 0 0%;
-    flex: none;
-    margin-bottom: 0;
-  }
-
-  .card img {
-    height: 80%;
-  }
-
-  .card-body {
-    padding: 0rem;
-    background-color: black; 
-  }
-
-  .card-text {
+  html, body {
+    font-weight: 400;
     color: white;
+    height: 100%;
+    background: rgb(20, 21, 23);
+    padding: 0px;
+    margin: 0px;
+  }
+
+  ul {
+    list-style-type: none;
+    margin-block-end: 0px;
+    margin-block-start: 0px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+    padding: 0px;
+    margin: 0px;  
   }
 
 
-
-
-    /*페이지 하단*/
-  footer{
-    position: fixed; bottom: 0;
+  #root {
     width: 100%;
-    padding: 8px 0;
-    background: #231f20;
+    height: 100%;
   }
 
-  footer .copy{
-    text-align: center;;
-    color: #ffffff; font-size: 13px;;
+  .self {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 72px 0px 0px;
   }
 
-    
+  .top_sidebar {
+    position: fixed;
+    top: 0px;
+    z-index: 500;
+    font-size: 14px;
+    letter-spacing: -0.4px;
+    width: 100%;
+    height: 72px;
+    background-color: rgb(3, 7, 8);
+    padding: 0px 4%;
+  }
 
-.card-img-top {
-    -webkit-transform:scale(1);
-    -moz-transform:scale(1);
-    -ms-transform:scale(1); 
-    -o-transform:scale(1);  
-    transform:scale(1);
-    -webkit-transition:.3s;
-    -moz-transition:.3s;
-    -ms-transition:.3s;
-    -o-transition:.3s;
-    transition:.3s;
-}
-.card-img-top:hover {
-    -webkit-transform:scale(1.2);
-    -moz-transform:scale(1.2);
-    -ms-transform:scale(1.2);   
-    -o-transform:scale(1.2);
-    transform:scale(1.2);
-}
+  .ART_cinema_logo {
+    position: relative;
+    z-index: 10001;
+    float: left;
+    background-size: 173px 26px;
+    width: 173px;
+    height: 72px;
+  }
 
 
+  /* nav */
+
+  .left_nav {
+    float: center;
+    padding-left: 33px;
+  }
+
+  .right_nav {
+    display: flex;
+    position: relative;
+    right: -11px;
+    float: right;
+  }
+
+  
+
+  /* main - div*/
+
+  .mypage_main {
+    flex: 1;
+    background: #141517;
+  }
+
+  .mypage_main_container {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .header {
+    margin-top: 3.2vw;
+    padding: 0px 4%;
+  }
+
+  .header_title {
+    color: rgb(255, 255, 255);
+    font-size: 3vw;
+    letter-spacing: -0.03125vw;
+    line-height: 2.03125vw;
+  }
+
+  /* main - section */
+  .mypage_list_section {
+    position: relative;
+    background-color: rgb(20, 21, 23);
+    overflow-x: visible;
+  }
+
+  .row_list {
+    padding-top: 1.01562vw;
+    padding-bottom: 2.34375vw;
+  }
+
+  .unit_row {
+    margin-bottom: 0.546875vw;
+  }
+
+  .row_title {
+    color: #FFFFFF;
+    font-size: 2vw;
+    -webkit-letter-spacing: -0.03125vw;
+    letter-spacing: -0.03125vw;
+    line-height: 2.03125vw;
+    padding: 0 4%;
+    margin-bottom: 0.703125vw;
+    font-family: sans-serif;
+  }
+
+  .row_section {
+    position: relative;
+    white-space: nowrap;
+    padding-right: 4%;
+    padding-left: 4%;
+    overflow-x: visible;
+  }
+
+  .fixed_row {
+    margin-bottom: 0vw;
+  }
+
+  .slide_row {
+    position: relative;
+  }
+
+  .movie_list_row {
+    /* scroll-bar 제어*/
+    white-space:nowrap; 
+    overflow:auto;
+    width:100%; 
+    height:auto;
+    /*               */
+    position: relative;
+    white-space: nowrap;
+    padding-right: 4%;
+    padding-left: 4%;
+    overflow-x: visible;
+  }
+
+  .movie_list_row_set {
+    margin-right: -0.15625vw;
+    margin-left: -0.15625vw;
+  }
+
+  .movie_ifno_container {
+    padding-left: 0;
+    display: inline-block;
+  }
+
+  .img_and_title {
+    z-index: 1;
+    padding: 0.15625vw;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 1.5625vw;
+    -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
+    -webkit-transition: transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
+    transition: transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
+  }
+
+
+
+
+  /* 이미지만*/
+  .movie_still_cut_container {
+    position: relative;
+  }
+
+  .movie_img_wrapper {
+    position: relative;
+    z-index: 3;
+  }
+
+ .movie_img_poster {
+    position: relative;
+    overflow: hidden;
+    background-color: #0f1112;
+    width: 100%;
+    padding: 28.125% 0;position: relative;
+    overflow: hidden;
+    background-color: #0f1112;
+    width: 100%;
+    padding: 0;
+
+ }
+
+   .movie_img_poster:hover img {
+      -webkit-transform:scale(1.2);
+      -moz-transform:scale(1.2);
+      -ms-transform:scale(1.2);   
+      -o-transform:scale(1.2);
+      transform:scale(.95);
+  }
+
+
+  /*타이틀만*/
+  .movie_title_wrapper {
+    height: 3.125vw;
+    margin-top: 0.234375vw;
+    opacity: 1;
+    -webkit-transition: opacity 0.2s linear 0s;
+    transition: opacity 0.2s linear 0s;    
+  }
+
+  .movie_title {
+    display: block;
+    color: rgba(255,255,255,0.95);
+    font-weight: 400;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    padding: 0 1.015625vw 0 0;
+    opacity: 1;
+    -webkit-transition: opacity 0.25s cubic-bezier(0.5,0,0.1,1) 0.2s;
+    transition: opacity 0.25s cubic-bezier(0.5,0,0.1,1) 0.2s;
+  }
 </style>
 
-  </html>
+</html>

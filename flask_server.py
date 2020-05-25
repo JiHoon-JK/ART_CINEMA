@@ -274,35 +274,32 @@ def register():
         return jsonify({'result': 'success', 'userdb': email})
 
 # mypage연결 api
+@app.route('/info_my_comment_movie', methods=['GET'])
+def show_my_comment_movie():
+    my_comment_movie = list(db.serverside_usercomment.find({}, {'_id': 0}))
+    return jsonify({'result': 'success', 'my_comment_movie': my_comment_movie})
+
+
 @app.route('/info_my_like_movie', methods=['GET'])
 def show_like_movie():
-    for repeat in range(1):
+    for count in range(1):
         # 서버 내부에서 수행 할 기능 / DB에 저장돼있는 모든 정보 중 'genre1':'드라마' 가져오
-        my_like_movie = list(db.genre1_art_movie.find({}, {'_id': 0}))
+        my_like_movie = list(db.LDDB.find({}, {'_id': 0}))
         return jsonify({'result': 'success', 'my_like_movie': my_like_movie})
 
 
 @app.route('/info_my_dislike_movie', methods=['GET'])
 def show_dislike_movie():
-    for repeat in range(1):
-        # 서버 내부에서 수행 할 기능 / DB에 저장돼있는 모든 정보 중 'genre1':'드라마' 가져오
-        my_dislike_movie = list(db.genre2_art_movie.find({}, {'_id': 0}))
-        return jsonify({'result': 'success', 'my_dislike_movie': my_dislike_movie})
+    my_dislike_movie = list(db.LDDB.find({}, {'_id': 0}))
+    return jsonify({'result': 'success', 'my_dislike_movie': my_dislike_movie})
 
-
-@app.route('/info_my_comment_movie', methods=['GET'])
-def show_comment_movie():
-    for count in range(1):
-        # 서버 내부에서 수행 할 기능 / DB에 저장돼있는 모든 정보 중 'genre1':'드라마' 가져오
-        my_comment_movie = list(db.ART_movie_list.find({'commented_cnt':count}, {'_id': 0}))
-        return jsonify({'result': 'success', 'my_comment_movie': my_comment_movie})
 
 
 @app.route('/info_my_diswatch_movie', methods=['GET'])
 def show_diswatch_movie():
     for repeat in range(1):
         # 서버 내부에서 수행 할 기능 / DB에 저장돼있는 모든 정보 중 'genre1':'드라마' 가져오
-        my_diswatch_movie = list(db.ART_movie_list.find({}, {'_id': 0}))
+        my_diswatch_movie = list(db.LDDB.find({}, {'_id': 0}))
         return jsonify({'result': 'success', 'my_diswatch_movie': my_diswatch_movie})
 
 
@@ -519,25 +516,22 @@ def search_movie():
 
 @app.route('/search_DB', methods=['GET'])
 def search_DB():
-    if():
-        
+    search_movie = list(db.search_movie.find({}, {'_id': 0}))
+    print(search_movie)
+    search_title_give = search_movie[-1]['search_movie']
+    print(search_title_give)
+    movie_info_ART = list(db.ART_movie_list.find({'title':{'$regex':search_title_give}}, {'_id': 0}))
+    movie_info_Long = list(db.Long_movie_list.find({'title':{'$regex':search_title_give}}, {'_id': 0}))
+    print(movie_info_ART)
+    print(movie_info_Long)
+    movie_info = movie_info_ART + movie_info_Long
+    print(movie_info)
+    if (movie_info == []):
+        print('영화가 없을 때!!!')
+        return jsonify({'result': 'fail'})
     else:
-        search_movie = list(db.search_movie.find({}, {'_id': 0}))
-        print(search_movie)
-        search_title_give = search_movie[-1]['search_movie']
-        print(search_title_give)
-        movie_info_ART = list(db.ART_movie_list.find({'title':{'$regex':search_title_give}}, {'_id': 0}))
-        movie_info_Long = list(db.Long_movie_list.find({'title':{'$regex':search_title_give}}, {'_id': 0}))
-        print(movie_info_ART)
-        print(movie_info_Long)
-        movie_info = movie_info_ART + movie_info_Long
-        print(movie_info)
-        if (movie_info == []):
-            print('영화가 없을 때!!!')
-            return jsonify({'result': 'fail'})
-        else:
-            print('영화가 있을 때!!!')
-            return jsonify({'result': 'success', 'Movie_info':movie_info})
+        print('영화가 있을 때!!!')
+        return jsonify({'result': 'success', 'Movie_info':movie_info})
 
 def counting_liked_plus(title):
     db.ART_movie_list.update_one({'title': title}, {'$inc': {'liked_cnt':1}})
