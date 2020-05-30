@@ -22,10 +22,31 @@
 
 
  <script>
-  $(document).ready(function(){
+
+    console.log('페이지 5로 잘 들어왔니?')
+   // $.ajax({
+   //  type:"GET",
+   //  url:"/search_parameter",
+   //  data:{},
+   //  success: function(response){
+   //    para_data = response['search_data']
+   //    console.log(para_data)
+   //    if(para_data == ''){
+   //      console.log('파라미터 전달 성공')
+   //    }else{
+   //      console.log('파라미터 전달 실패')
+   //    }
+   //  }
+   // })
+
+   let movie_infos = new Array()
+   let Mtype=""
+
+   $(document).ready(function(){
     search_movie = $('#movie_input').val();
 
     get_session();
+    get_parameter();
 
     $('#movie_temp_html').html('');
     $('#search_movie_title').text('');
@@ -107,7 +128,7 @@
               <button id="comment_remove" onclick="comment_remove()">삭제</button>\
               </div>'
               $('#user_comment_box').append(comment_box_html)
-              alert('코멘트를 수정했습니다.')
+              //alert('코멘트를 수정했습니다.')
             }
             else{
               $('#user_comment').hide()
@@ -141,26 +162,31 @@
       let user_comment = $('#user_comment').val()
       console.log(user_comment)
       let user_comment_movie = $('#comment_movie_title').text()
+      console.log(user_comment_movie)
       let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
       console.log(user_comment_movie_poster)
-      comment_save(user_comment_movie, user_comment_movie_poster, user_comment)
+      comment_save(user_comment_movie,user_comment_movie_poster,user_comment)
       
     }
 
     function edit_comment_info(){
       let edit_user_comment = $('#edit_user_comment').val()
       console.log(edit_user_comment)
-      let user_comment_movie = $('#comment_movie_title').text()
+      let user_comment_movie = $('#_comment_movie_title').text()
       let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
       console.log(user_comment_movie_poster)
       comment_save(user_comment_movie, user_comment_movie_poster, edit_user_comment)
     }
 
     function edit_card(){
+
+      db_comment = $('#db_comment').text()
+      console.log(db_comment)
+
       alert('코멘트를 수정해주세요. (최소 30자 ,최대 500자)')
       edit_comment_html ='<div id="edit_comment_box">\
       <p id="edit_user_comment_box">\
-      <textarea class="comment_area" id="edit_user_comment" placeholder="영화에 대한 코멘트를 남겨주세요."></textarea>\
+      <textarea name="txtarea" class="comment_area" id="edit_user_comment">'+db_comment+'</textarea>\
       </p><br>\
       <a class="btn btn-primary btn-lg" href="#" role="button" onclick="edit_user_comment()">저장하기</a>\
       </div>'
@@ -223,6 +249,18 @@
 
     }
 
+    function get_parameter(){
+      console.log("{{para_data}}")
+      if("{{para_data}}" == ""){
+        console.log("파라미터가 없습니다.")
+      }else{
+        console.log("파라미터가 있습니다.")
+        search_result = "{{para_data}}"
+        console.log("검색 결과 : "+search_result)
+        bring_DB(search_result)
+      }
+    }
+
     function email_head(email){
      let temp_html = email;
      $('#customer_email').append(temp_html);
@@ -245,6 +283,7 @@
     }
   }
 
+  // 검색 엔진 api
   function search_listing(){
     $('#comment_box').hide()
     $('#user_comment').show()
@@ -252,17 +291,17 @@
     $('#save_button').show()
     $('#edit_comment_box').remove()
     $('#db_comment_box').remove()
-    //$('#')
+
     let search_data = $('#movie_input').val();
     if( search_data != ""){
       alert(search_data+'에 대한 정보입니다.');
-      $.ajax({
-        type: "POST",
-        url: "/search_movie",
-        data: { search_title_give : search_data},
-        success: function(response){}
-      })
-      bring_DB();
+      // $.ajax({
+      //   type: "POST",
+      //   url: "/search_movie",
+      //   data: { search_title_give : search_data},
+      //   success: function(response){}
+      // })
+      bring_DB(search_data);
     }
     else{
       alert('검색어를 입력해주세요.');
@@ -270,200 +309,270 @@
   }
 
 
-  function bring_DB(){
+  function bring_DB(data){
+    console.log(data)
     $.ajax({
       type: "GET",
       url: "/search_DB",
-      data: {},
+      data: {movie_input:data},
       success: function(response){
-        if(response['result'] == 'success'){
-          let movie_infos = response['Movie_info'];
-
+        if(response['result'] == 'success' && response['check_comment'] == 'success'){
+          movie_infos = response['Movie_info'];
+          let movie_comment = response['Movie_comment'];
           console.log(movie_infos);
-
+          console.log(movie_comment);
           $('#movie_temp_html').html('');
 
-          if(movie_infos.length > 1){
-            for(let i=0; i<movie_infos.length-1; i++){
-              movie_card(movie_infos[i]['poster'],movie_infos[i]['title'],movie_infos[i]['summary'],movie_infos[i]['director']);
-              $('#search_movie_title').text(movie_infos[i]['title']);
-              $('#comment_movie_title').text(movie_infos[i]['title']);
-            }
-          }else{
-            for(let i=0; i<movie_infos.length; i++){
-              movie_card(movie_infos[i]['poster'],movie_infos[i]['title'],movie_infos[i]['summary'],movie_infos[i]['director']);
-              $('#search_movie_title').text(movie_infos[i]['title']);
-              $('#comment_movie_title').text(movie_infos[i]['title']);
-            }
-          }
+          
+          console.log('코멘트가 있다!')
 
-        }else{
-          alert('해당 영화는 존재하지 않습니다. 다른 영화를 검색해주세요.')
+          let title = movie_infos[0]['title']
+          console.log(title)
+          let poster = movie_infos[0]['poster']
+
+          for(let i=0; i<movie_infos.length-(movie_infos.length-1); i++){movie_card(movie_infos[i]['poster'],movie_infos[i]['title'],movie_infos[i]['summary'],movie_infos[i]['director']);
+            $('#search_movie_title').text(movie_infos[i]['title']);
+          $('#comment_movie_title').text(movie_infos[i]['title']);
+
+          comment_save(title,poster,movie_comment)
+          $('#comment_box').show();
+        }
+
+
+      }
+      else if(response['result'] == 'success' && response['check_comment'] == 'fail'){
+        movie_infos = response['Movie_info'];
+        let movie_comment = response['Movie_comment'];
+        console.log(movie_infos);
+        console.log(movie_comment);
+        $('#movie_temp_html').html('');
+
+        console.log('코멘트가 없다.')
+        for(let i=0; i<movie_infos.length-(movie_infos.length-1); i++){
+          movie_card(movie_infos[i]['poster'],movie_infos[i]['title'],movie_infos[i]['summary'],movie_infos[i]['director']);
+          $('#search_movie_title').text(movie_infos[i]['title']);
+          $('#comment_movie_title').text(movie_infos[i]['title']);
         }
       }
-    })
+
+      else{
+        alert('영화를 검색해주세요.')
+      }
+    }
+  })
+    console.log(movie_infos)
+    return movie_infos;
   }
 
-
-  //alert('성공!! 1');
-
-  //console.log(search_info);
-  //let movie_info = response['movie_info'];
-  //console.log(movie_info);
-  //alert('성공!! 2');
-  //if (search_info == movie_info){
-   //alert('성공!! 3');
-   //for (let i=0; i < movie_info.length; i++){
-
-        //   }
-
-        // }else{
-        //   alert('해당 영화는 존재하지 않습니다.');
-        // }
-        // keyword = request.args.get('keyword', '').replace(' ', ')(?=.*')if keyword:
-        //   keywordQuery = {'text': {'$regex': '(?=.*'+keyword+')' }}
-
-      //}
-
-
-    </script>
-
-
-
-    <style type="text/css">
-
-      #menubar{
-        color: blue;
-        font-weight: bold;
+  function like_movie(){
+    $.ajax({
+     type: "POST",
+     url: "/like_movie",
+     data: {
+      title:movie_infos[0]['title'],
+      poster:movie_infos[0]['poster']
+    },
+    success: function(response){
+      if (response['result'] == 'success')
+        alert('성공적으로 영화가 담겼습니다')
+      else if (response['result'] == 'fail2')
+        alert('이미 좋아한다고 누름')
+      else if (response['result'] == 'fail1'){
+        DL(movie_infos[0]['title'] , movie_infos[0]['poster'])
       }
-
-      #comment_box{
-        display: none;
-      }
-
-      .nav-masthead {
-       float: right;
-     }
-
-     .page_title{
-      margin-top: 40px;
-      color: lightgray;
-      text-align: center;
-      font-size: 50pt;
-      font-weight: bold;
-
     }
-
-    .main_contents{
-      display: flex;
-      border: 0px solid;
-      border-radius: 30px;
-      width:1100px;
-      margin-right: auto;
-      margin-left: auto;
-      margin-top : 50px;
-      margin-bottom: 50px;
-      padding: 50px 30px 30px 30px;
-      background-color:white;
-    }
-    .search_movie_title{
-      font-size: 30pt;
-      color:white;
-      margin-top: 5px;
-      text-align: center;
-    }
-    .search_movie_info_text{
-      font-size: 20px;
-      font-weight: bold;
-      color: white;
-      margin-top: 5px;
-      text-align: center;
-    }
-    .prefer_button{
-      float: left;
-    }
-    #card_size{
-      width: 1000px;
-      border: 4px solid black;
-    }
-    #like_movie{
-      background-color: #B7CBFF;
-      align-content: right;
-    }
-
-    #dislike_movie{
-      background-color: #FFB7B7;
-    }
-    #comment_button{
-      width: 150px;
-      height: 80px;
-      font-weight:bold;
-
-    }
-    .card_summary{
-      font-weight:bold;
-    }
-    .card_title{
-      font-weight: bold;
-    }
-
-    .prefer_button{
-      float: right;
-    }
-
-    #movie_input{
-      text-align: center;
-      border: 3px solid black;
-    }
-    .home_logo img{
-      margin: 10px 0 0 8px;
-      position: relative;
-      float: left;
-      background-size: 173px 26px;
-      width: 80px;
-      height: 52px;
-    }
-    .masthead-brand {
-     float: left;
-   }
-
-   #customer_email{
-     color: white;
-     text-align: right;
-     margin-right: 50px;
-     margin-top:10px;
-   }
-
-   .contents .jumbotron{
-    background-color:#7C7B7B;
+  })
   }
 
-  .display-4{
+  function dislike_movie(){
+    $.ajax({
+     type: "POST",
+     url: "/dislike_movie",
+     data: {
+      title:movie_infos[0]['title'],
+      poster:movie_infos[0]['poster']
+    },
+    success: function(response){
+      if (response['result'] == 'success')
+        alert('성공적으로 영화가 담겼습니다')
+      else if (response['result'] == 'fail1')
+        alert('이미 안좋아한다고 누름')
+      else if (response['result'] == 'fail2'){
+        LD(movie_infos[0]['title'], movie_infos[0]['poster'])
+      }
+    }
+  })
+  }
+
+  function DL(title,poster){
+   jbResult = confirm("싫어요에 담겨있는 영화입니다. 좋아하는 영화에 담을까요 ?");
+   if (jbResult == true){
+    $.ajax({
+     type: "POST",
+     url: "/DLupdate_movie",
+     data: {title:title, poster:poster},
+     success: function(response){
+       if (response['result'] == 'success')
+        alert('싫어요 -> 좋아요에 성공적으로 영화가 담겼습니다')
+    }
+  })
+  }
+}
+
+function LD(title,poster){
+ jbResult = confirm("좋아요에 담겨있는 영화입니다. 싫어하는 영화에 담을까요 ?");
+ if (jbResult == true){
+  $.ajax({
+   type: "POST",
+   url: "/LDupdate_movie",
+   data: {title:title, poster:poster},
+   success: function(response){
+     if (response['result'] == 'success')
+      alert('좋아요 -> 싫어요에 성공적으로 영화가 담겼습니다')
+  }
+})
+}
+}
+
+
+</script>
+
+
+
+<style type="text/css">
+
+  #menubar{
+    color: blue;
     font-weight: bold;
   }
 
-  .movie_comment{
-    color: black;
-    width: 65%;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top : 50px;
-    margin-bottom: 50px;
+  #comment_box{
+    display: none;
   }
 
-  textarea{
-    width: 60%;
-    height: 100px;
-  }
+  .nav-masthead {
+   float: right;
+ }
 
-  input[type=text]{
-    height: 40px;
-  }
+ .page_title{
+  margin-top: 40px;
+  color: lightgray;
+  text-align: center;
+  font-size: 50pt;
+  font-weight: bold;
+
+}
+
+.main_contents{
+  display: flex;
+  border: 0px solid;
+  border-radius: 30px;
+  width:1100px;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top : 50px;
+  margin-bottom: 50px;
+  padding: 50px 30px 30px 30px;
+  background-color:white;
+}
+.search_movie_title{
+  font-size: 30pt;
+  color:white;
+  margin-top: 5px;
+  text-align: center;
+}
+.search_movie_info_text{
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  margin-top: 5px;
+  text-align: center;
+}
+.prefer_button{
+  float: left;
+}
+#card_size{
+  width: 1000px;
+  border: 4px solid black;
+}
+#like_movie{
+  background-color: #B7CBFF;
+  align-content: right;
+}
+
+#dislike_movie{
+  background-color: #FFB7B7;
+}
+#comment_button{
+  width: 150px;
+  height: 80px;
+  font-weight:bold;
+
+}
+.card_summary{
+  font-weight:bold;
+}
+.card_title{
+  font-weight: bold;
+}
+
+.prefer_button{
+  float: right;
+}
+
+#movie_input{
+  text-align: center;
+  border: 3px solid black;
+}
+.home_logo img{
+  margin: 10px 0 0 8px;
+  position: relative;
+  float: left;
+  background-size: 173px 26px;
+  width: 80px;
+  height: 52px;
+}
+.masthead-brand {
+ float: left;
+}
+
+#customer_email{
+ color: white;
+ text-align: right;
+ margin-right: 50px;
+ margin-top:10px;
+}
+
+.contents .jumbotron{
+  background-color:#7C7B7B;
+}
+
+.display-4{
+  font-weight: bold;
+}
+
+.movie_comment{
+  color: black;
+  width: 65%;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top : 50px;
+  margin-bottom: 50px;
+}
+
+textarea{
+  width: 60%;
+  height: 100px;
+}
+
+input[type=text]{
+  height: 40px;
+}
 
 
-  img{
-    -webkit-perspective: 1;
-  }
+img{
+  -webkit-perspective: 1;
+}
 
 </style>
 
@@ -496,7 +605,7 @@
 </div>
 
 <div class="movie_comment" id="comment_box">
-  <div class="jumbotron">
+  <div class="jumbotron" id="comment_jumbo">
     <h2 class="display-4" id="comment_movie_title"></h2><br>
     <p class="lead">이 작품에 대한 생각을 자유롭게 적어주세요.</p>
     <hr class="my-4">
