@@ -41,19 +41,30 @@
         success: function(response){
           ran=Math.floor(Math.random() * 5) + 1
           if(ran==1){
-            $('#video_random').attr('src','https://tv.naver.com/embed/12431518?autoPlay=true')
+            youtube_1 = `<iframe width="700" height="400" src="https://www.youtube.com/embed/-MliIE5PGrI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+            youtube_1_src = $(youtube_1).attr('src')
+            $('#video_random').attr('src',youtube_1_src)
           }
           else if(ran==2){
-            $('#video_random').attr('src','https://tv.naver.com/embed/12431518?autoPlay=true')
+            youtube_2 = `<iframe width="700" height="400" src="https://www.youtube.com/embed/zOXFqZ9rGUo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
+            youtube_2_src = $(youtube_2).attr('src')
+            $('#video_random').attr('src',youtube_2_src)
           }
           else if(ran==3){
-            $('#video_random').attr('src','https://tv.naver.com/embed/12317390?autoPlay=true')
+            youtube_3 = `<iframe width="700" height="400" src="https://www.youtube.com/embed/I8CKdYNZUrg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` 
+            youtube_3_src = $(youtube_3).attr('src')
+            $('#video_random').attr('src',youtube_3_src)
           }
           else if(ran==4){
-            $('#video_random').attr('src','https://tv.naver.com/embed/12431518?autoPlay=true')
+            youtube_4 = `<iframe width="700" height="400" src="https://www.youtube.com/embed/JzBX1vz4ABY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` 
+            youtube_4_src = $(youtube_4).attr('src')
+
+            $('#video_random').attr('src',youtube_4_src)
           }
           else if(ran==5){
-            $('#video_random').attr('src','https://tv.naver.com/embed/12431518?autoPlay=true')
+            youtube_5 = `<iframe width="700" height="400" src="https://www.youtube.com/embed/LxHvQ2iGkpE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>` 
+            youtube_5_src = $(youtube_5).attr('src')
+            $('#video_random').attr('src',youtube_5_src)
           }
         }
       })
@@ -90,7 +101,7 @@
      }
 
      if($('#new_inputPassword1').val().length < 5){
-        alert('비밀번호는 네자리 이상으로 입력해주세요');
+        alert('비밀번호는 다섯자리 이상으로 입력해주세요');
         $('#new_inputPassword1').focus();
         return;
      }
@@ -178,7 +189,7 @@
    $('#join').remove();
    $('.cover').html('');
 
-   temp_html1 = '<div id = "login", style="padding-top:70px;"><h1 class="cover-heading" style="text-align: center,">Please log-in</h1><div class="form-label-group"><input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus><label for="inputEmail">Email address</label></div><div class="form-label-group"><input type="password" id="inputPassword" class="form-control" placeholder="Password" required><label for="inputPassword">Password</label></div><div class="checkbox mb-3"><label><input type="checkbox" value="remember-me"> Remember me</label></div><div style="text-align:center;"><button type="button" class="btn btn-light" style="font-size:15px" onclick="ccclick()" > <b>Login</button></div></div>'
+   temp_html1 = '<div id = "login", style="padding-top:70px;"><h1 class="cover-heading" style="text-align: center,">Please log-in</h1><div class="form-label-group"><input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus><label for="inputEmail">Email address</label></div><div class="form-label-group"><input type="password" id="inputPassword" class="form-control" placeholder="Password" required><label for="inputPassword">Password</label></div><div class="checkbox mb-3"><label><input type="checkbox" value="remember-me"> Remember me</label></div><div style="text-align:center;"><button type="button" class="btn btn-light" style="font-size:15px" onclick="ccclick()" > <b>Login</button></div><a href="https://kauth.kakao.com/oauth/authorize?client_id=ed05ee340a96bd313f4d38b2d44ae633&redirect_uri=http://localhost:5000/#&response_type=code" class="kakao_button" style="float:right;"><img src="static/kakao_logo.png" width="70" height="70" style="border-radius:50%;"></a></div>'
    $('.cover').append(temp_html1)
   }
 
@@ -265,6 +276,7 @@
       color: rgba(255, 255, 255, .5);
     }
     #video_random{
+      width: 100%
       margin-top: 55px;
       display: block;
       margin-left: auto;
@@ -329,7 +341,7 @@
     </div>
 
       <iframe src='' id="video_random" frameborder='no' scrolling='no'
-      marginwidth='0' marginheight='0' WIDTH='1050' HEIGHT='450' allow='autoplay' allowfullscreen></iframe>
+      marginwidth='0' marginheight='0' width="1310" HEIGHT='560' allow='autoplay' style="margin-top:80px;" allowfullscreen></iframe>
 
       <main role="main" class="inner cover" style=" color:#000000; margin-left:auto ; margin-right:auto; width: 370px " id="a">
       </main>
