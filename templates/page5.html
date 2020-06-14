@@ -55,30 +55,6 @@
   });
 
 
-/*
-    function listing(){
-      $.ajax({
-        type: "GET",
-        url: "/main",
-        data: {},
-        success: function(response){
-          let ART_movie_list = response['ART_movie_list'];
-          let random = Math.floor(Math.random() * ART_movie_list.length)
-          let title = ART_movie_list[random]['title']
-          let poster = ART_movie_list[random]['poster']
-          let director = ART_movie_list[random]['director']
-          let summary = ART_movie_list[random]['summary']
-          if (summary.length > 100){
-           summary = summary.substr(0,100)+"..."
-         }
-
-         for (let i = 0; i < 1; i++) {
-           movie_card(ART_movie_list[i]['poster'],ART_movie_list[i]['title'],ART_movie_list[i]['summary'],ART_movie_list[i]['director'])
-         }
-       }
-     })
-    }
-    */
     function movie_card(poster,title,summary,director){
       let temp_html_1 = '<div class="card mb-3">\
       <div class="row no-gutters" id="card_size">\

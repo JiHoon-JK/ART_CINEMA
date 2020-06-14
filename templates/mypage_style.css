@@ -1,0 +1,355 @@
+
+body {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #f0f4f5;
+}
+
+/*
+html, body {
+  font-weight: 400;
+  color: white;
+  height: 100%;
+  background: rgb(20, 21, 23);
+  padding: 0px;
+  margin: 0px;
+}
+
+ul {
+  list-style-type: none;
+  margin-block-end: 0px;
+  margin-block-start: 0px;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 0px;
+  padding: 0px;
+  margin: 0px;  
+  }*/
+
+  /*menubar CSS*/
+.navbar {
+  /*flex 박스 안에 3가지 박스를 넣겠다*/
+  display: flex; 
+  /*3박스간의 사이 간격을 띄울때 space-between을 사용한다*/
+  justify-content: space-between;
+  /*아이템들을 수직적으로 정렬 하고 싶을때*/
+  align-items: center;
+  background-color: rgb(20, 21, 23);
+  padding: 8px 12px;
+}
+
+
+.navbar__menu {
+  list-style: none;
+  padding-left: 15%;
+  display: flex;
+}
+
+.navbar__icons {
+  list-style: none;
+  display: flex;
+  color: white;
+  padding-left: 0;
+}
+
+.navbar__icons li {
+  padding: 8px 12px;
+  margin-left: 
+}
+
+.navbar__toggleBtn {
+  /*문서 흐름에서 벗어나는것*/
+  /*display: none;*/
+  position: absolute;
+  right: 32px;
+  font-size: 24px;
+  color: #d49466;
+}
+
+.navbar__categoryBtn {
+  position: absolute;
+  /*display: block;*/
+  right: 32px;
+  font-size: 24px;
+  color: white;
+}
+
+input {
+  font-size: none;
+  font-family: none;
+}
+
+@media screen and (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 24px;
+  }
+
+  .navbar__menu {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .navbar__menu li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .navbar__icons {
+    display: none;
+    justify-content: center;
+    /*width: 100%;*/
+  }
+
+  .navbar__toggleBtn {
+    display: block;
+  }
+
+  .navbar__menu.active, 
+  .navbar__icons.active {
+    display: flex;
+  }
+}
+
+
+
+  /* main - div*/
+
+.mypage_main {
+  flex: 1;
+  background: #141517;
+}
+
+.mypage_main_container {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+.header {
+  margin-top: 3.2vw;
+  padding: 0px 4%;
+}
+
+/* main - section */
+.mypage_list_section {
+  position: relative;
+  background-color: rgb(20, 21, 23);
+  overflow-x: visible;
+}
+
+.row_list {
+  padding-top: 1.01562vw;
+  padding-bottom: 2.34375vw;
+}
+
+.unit_row {
+  margin-bottom: 0.546875vw;
+}
+
+.row_title {
+  color: #FFFFFF;
+  font-size: 2vw;
+  -webkit-letter-spacing: -0.03125vw;
+  letter-spacing: -0.03125vw;
+  line-height: 2.03125vw;
+  padding: 0 4%;
+  margin-bottom: 0.703125vw;
+  font-family: sans-serif;
+}
+
+.row_section {
+  position: relative;
+  white-space: nowrap;
+  padding-right: 4%;
+  padding-left: 4%;
+  overflow-x: visible;
+}
+
+.fixed_row {
+  margin-bottom: 0vw;
+}
+
+.slide_row {
+  position: relative;
+}
+
+
+.movie_list_row {
+  position: relative;
+  white-space: nowrap;
+  padding-right: 4%;
+  padding-left: 4%;
+  overflow-x: visible;
+}
+
+.movie_list_row_set {
+  margin-right: -0.15625vw;
+  margin-left: -0.15625vw;
+}
+
+.movie_ifno_container {
+  padding-left: 0;
+  display: inline-block;
+}
+
+.img_and_title {
+  width: 200px;
+  height: auto;
+  z-index: 1;
+  padding: 0.15625vw;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 1.5625vw;
+  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
+  -webkit-transition: transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
+  transition: transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
+}
+
+
+
+
+/* 이미지만*/
+.movie_still_cut_container {
+  position: relative;
+}
+
+.movie_img_wrapper {
+  position: relative;
+  z-index: 3;
+}
+
+.movie_img_poster {
+  position: relative;
+  overflow: hidden;
+  background-color: #0f1112;
+  width: 100%;
+  padding: 28.125% 0;position: relative;
+  overflow: hidden;
+  background-color: #0f1112;
+  width: 100%;
+  padding: 0;
+  margin: 15pt;
+
+}
+
+.content_img {
+  text-align:center;
+  display:flex; /* 내용을 중앙정렬 하기위해 flex 사용 */
+  align-items:center; /* 위아래 기준 중앙정렬 */
+  justify-content:center; /* 좌우 기준 중앙정렬 */
+  display: block;
+  width: 200px;
+  height: auto;
+}
+
+.movie_img_poster_first {
+  position: relative;
+  overflow: hidden;
+  background-color: #0f1112;
+  width: 100%;
+  padding: 28.125% 0;position: relative;
+  overflow: hidden;
+  background-color: #0f1112;
+  padding: 0;
+}
+
+
+.comment_in_img {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  /*-webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);*/
+  transform: translate(0%, -50%);
+  text-align: left;
+}
+
+.movie_img_poster_first:hover .overlay {
+  opacity: 1;
+}
+
+.movie_img_poster_second {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  background-color: #0f1112;
+  width: 100%;
+  padding: 28.125% 0;position: relative;
+  overflow: hidden;
+  background-color: #0f1112;
+  width: 100%;
+  padding: 0;
+  margin: 15pt;
+
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  transition: .5s ease;
+  background: rgba(3, 3, 8, 0.7);
+}
+
+.movie_img_poster:hover img {
+  -webkit-transform:scale(1.2);
+  -moz-transform:scale(1.2);
+  -ms-transform:scale(1.2);   
+  -o-transform:scale(1.2);
+  transform:scale(.95);
+}
+/*타이틀만*/
+
+.movie_title_wrapper {
+  height: 3.125vw;
+  margin-top: 0.234375vw;
+  opacity: 1;
+  -webkit-transition: opacity 0.2s linear 0s;
+  transition: opacity 0.2s linear 0s;    
+}
+
+.movie_title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: block;
+  color: rgba(255,255,255,0.95);
+  /*font-size: 1.46484375vw;*/
+  font-size: 1vw;
+  font-weight: 400;
+  word-wrap: break-word;
+  word-break: break-word;
+  padding: 0 1.015625vw 0 0;
+  opacity: 1;
+  -webkit-transition: opacity 0.25s cubic-bezier(0.5,0,0.1,1) 0.2s;
+  transition: opacity 0.25s cubic-bezier(0.5,0,0.1,1) 0.2s;
+}
+
+.text {
+
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: left;
+}

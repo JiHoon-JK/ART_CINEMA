@@ -214,7 +214,16 @@ def page5():
 
 @app.route('/mypage')
 def mypage():
-    return render_template('my_page.html')
+    para = request.args.get("movie_title")
+    print(para)
+    print('제발좀....')
+    if 'email' in session:
+        email1 = session['email']
+        print('tempLogged in as ' + email1)
+        print(session)
+        return render_template('my_page.html', sessionemail=email1, para_data=para)
+    else:
+        return render_template('my_page.html')
 
 
 @app.route('/user', methods=['GET'])
