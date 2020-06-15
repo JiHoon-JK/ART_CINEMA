@@ -183,7 +183,15 @@ def temp():
 def page3():
     genre_cnt()
     recommend_movie_db()
-    return render_template('page3.html')
+    if 'email' in session:
+        email1 = session['email']
+        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
+        print('Logged in as ' + email1)
+        print(session)
+        return render_template('page3.html', sessionemail2=a[0].get('nickname'))
+
+    else:
+        return render_template('page3.html')
 
 
 @app.route('/page4')
@@ -205,17 +213,41 @@ def page5():
     print('제발....')
     if 'email' in session:
         email1 = session['email']
+        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
         print('tempLogged in as ' + email1)
         print(session)
-        return render_template('page5.html', sessionemail=email1, para_data=para)
+        return render_template('page5.html', sessionemail2=a[0].get('nickname'), para_data=para)
     else:
         return render_template('page5.html')
 
 
 @app.route('/mypage')
 def mypage():
-    return render_template('my_page.html')
+    if 'email' in session:
+        para = request.args.get("user")
+        print('zzzzzzzz')
+        print(para)
+        email1 = session['email']
+        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
+        print('Logged in as ' + email1)
+        print(session)
+        return render_template('my_page.html',sessionemail2=a[0].get('nickname'),para_data=para)
 
+    else:
+        return render_template('my_page.html')
+
+
+@app.route('/mypage/more_Info')
+def more_Info():
+    if 'email' in session:
+        email1 = session['email']
+        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
+        print('Logged in as ' + email1)
+        print(session)
+        return render_template('(MP)more_Info.html', sessionemail2=a[0].get('nickname'))
+
+    else:
+        return render_template('(MP)more_Info.html')
 
 @app.route('/user', methods=['GET'])
 def listing():
@@ -225,7 +257,7 @@ def listing():
 
 @app.route('/main', methods=['GET'])
 def listing2():
-    result = list(db.ART_movie_list.find({}, {'_id': 0}))
+    result = list(db.ART_movie_list.find({'$where':"(this.title.length<30)"}, {'_id': 0}))
     return jsonify({'result': 'success', 'ART_movie_list': result})
 
 
@@ -282,13 +314,19 @@ def register():
         db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname})
         return jsonify({'result': 'success', 'userdb': email})
 
+# @app.route('/customer2', methods=['GET'])
+# def register():
+#
+#     return jsonify({'result': 'success', 'userdb': email})
 
 # mypage연결 api
 @app.route('/info_my_like_movie', methods=['GET'])
 def show_like_movie():
     # DB_collection중 LDDB에서 정보 빼오기
+    nickname=request.args.get("nickname")
+    print(nickname)
     status_like = True
-    my_like_movie = list(db.LDDB.find({'like' : status_like}, {'_id': 0}))
+    my_like_movie = list(db.LDDB.find({'nickname':nickname, 'like' : status_like}, {'_id': 0}))
     print(my_like_movie)
     return jsonify({'result': 'success', 'my_like_movie': my_like_movie})
 
@@ -296,8 +334,10 @@ def show_like_movie():
 @app.route('/info_my_dislike_movie', methods=['GET'])
 def show_dislike_movie():
     # DB_collection중 LDDB에서 정보 빼오기
+    nickname=request.args.get("nickname")
+    print(nickname)
     status_like = False
-    my_dislike_movie = list(db.LDDB.find({'like' : status_like}, {'_id': 0}))
+    my_dislike_movie = list(db.LDDB.find({'nickname':nickname,'like' : status_like}, {'_id': 0}))
     print(my_dislike_movie)
     return jsonify({'result': 'success', 'my_dislike_movie': my_dislike_movie})
 
@@ -305,7 +345,10 @@ def show_dislike_movie():
 @app.route('/info_my_comment_movie', methods=['GET'])
 def show_comment_movie():
     # DB_collection중 serverside_usercomment 정보 빼오기
-    my_comment_movie = list(db.serverside_usercomment.find({}, {'_id': 0}))
+    nickname=request.args.get("nickname")
+    print(nickname)
+    my_comment_movie = list(db.serverside_usercomment.find({'user_nickname':nickname}, {'_id': 0}))
+    print(my_comment_movie)
     return jsonify({'result': 'success', 'my_comment_movie': my_comment_movie})
 
 @app.route('/info_my_diswatch_movie', methods=['GET'])
@@ -325,6 +368,7 @@ def dislike_button():
 
     dislike_movie = {
         'email': b,
+        'nickname': request.form['nickname'],
         'title': request.form['title'],
         'poster': request.form['poster'],
         'like': False,
@@ -363,6 +407,7 @@ def like_button():
 
     like_movie = {
         'email': b,
+        'nickname':request.form['nickname'],
         'title': request.form['title'],
         'poster': request.form['poster'],
         'like': True,
@@ -420,6 +465,32 @@ def LDupdate_button():
     all_user_disliked_movie(title, b)
     return jsonify({'result': 'success'})
 
+@app.route('/check_LDDB' ,methods=['POST'])
+def LDDB_check():
+    if 'email' in session:
+        email1 = session['email']
+        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
+        b = a[0].get('email')
+
+    like_movie = {
+        'email': b,
+        'title': request.form['title'],
+        'poster': request.form['poster'],
+        'like': True,
+        'dislike': False
+    }
+    print(like_movie)
+    a = list(db.LDDB.find({'email': like_movie['email'], 'title': like_movie['title'], 'like':True}))
+    print('----test----')
+    print(len(a))
+    if len(a) == 0:
+        print('좋아요를 누르지 않았던 영화')
+        return jsonify({'result':'like_fail'})
+    else:
+        print('좋아요를 누른 영화')
+        return jsonify({'result':'like_success'})
+
+
 @app.route('/sort/comment',methods=['POST'])
 def sort_comment():
     find_db = list(db.ART_movie_list.find({},{'_id':0}))
@@ -451,13 +522,14 @@ def select_movie():
 
 @app.route('/comment_save', methods=['POST'])
 def saved_comment():
-    user_email = request.form['email']
+    user_nickname = request.form['nickname']
     user_comment_movie_title = request.form['user_comment_movie_title']
     user_comment_movie_poster = request.form['user_comment_movie_poster']
     user_comment_movie = request.form['user_comment_give']
     print(user_comment_movie)
+    print(user_comment_movie_title)
     find_db = list(
-        db.serverside_usercomment.find({'user_email': user_email, 'user_comment_movie_title': user_comment_movie_title},
+        db.serverside_usercomment.find({'user_nickname': user_nickname, 'user_comment_movie_title': user_comment_movie_title},
                                        {'_id': 0}))
     print(find_db)
     find_db_len = len(find_db)
@@ -479,7 +551,7 @@ def saved_comment():
             return jsonify({'result': 'success', 'comment': comment, 'edit': edit_check})
     else:
         data = {
-            'user_email': user_email,
+            'user_nickname': user_nickname,
             'user_comment_movie_title': user_comment_movie_title,
             'user_comment_movie_poster': user_comment_movie_poster,
             'user_comment': user_comment_movie,
@@ -496,12 +568,12 @@ def saved_comment():
 def edited_comment():
     # before_edit_comment = request.form['before_edit_comment']
     # print(before_edit_comment+'1')
-    email = request.form['email']
+    nickname = request.form['nickname']
     edit_movie_title = request.form['edit_movie']
     edit_comment = request.form['edit_comment']
     print('////' + edit_comment)
     update_comment_db = list(
-        db.serverside_usercomment.update({'user_email': email, 'user_comment_movie_title': edit_movie_title},
+        db.serverside_usercomment.update({'user_nickname': nickname, 'user_comment_movie_title': edit_movie_title},
                                          {'$set': {'user_comment': edit_comment, 'edit': True}}))
     print(update_comment_db)
     return jsonify({'result': 'success'})
@@ -525,31 +597,48 @@ def removed_comment():
 
 @app.route('/genre1_movie', methods=['GET'])
 def recommend():
-    user_info = list(db.userdb.find({}, {'_id': 0}))
-
+    nickname_receive = request.args.get("nickname")
+    print(nickname_receive)
+    user_info = list(db.userdb.find({'nickname':nickname_receive}, {'_id': 0}))
     print(user_info)
-    user_genre_1 = (user_info[0]['genre_1'])
+    user_genre_1 = user_info[0]['genre_1']
     result = list(db.genre1_art_movie.find({}, {'_id': 0}))
     return jsonify({'result': 'success', 'movies': result, 'user_genre_1': user_genre_1})
 
 
 @app.route('/genre2_movie', methods=['GET'])
 def recommend2():
-    user_info = list(db.userdb.find({}, {'_id': 0}))
+    nickname_receive = request.args.get("nickname")
+    print(nickname_receive)
+    user_info = list(db.userdb.find({'nickname':nickname_receive}, {'_id': 0}))
     print(user_info)
-    user_genre_2 = (user_info[0]['genre_2'])
+    user_genre_2 = user_info[0]['genre_2']
     result = list(db.genre2_art_movie.find({}, {'_id': 0}))
     return jsonify({'result': 'success', 'movies': result, 'user_genre_2': user_genre_2})
 
 
-# @app.route('/search_movie', methods=['POST'])
-# def search_movie():
-#     search_movie = request.form['search_title_give']
-#     data = {
-#         'search_movie': search_movie
-#     }
-#     db.search_movie.insert_one(data)
-#     return jsonify({'result': 'success'})
+@app.route('/search_movie', methods=['POST'])
+def search_movie():
+    search_movie = request.form['search_title_give']
+    nickname = request.form['nickname']
+    data = {
+        'nickname' : nickname,
+        'search_movie': search_movie
+    }
+    print('-----------xxxx----------')
+    print(data)
+    db.search_movie.insert_one(data)
+    return jsonify({'result': 'success'})
+
+@app.route('/lastest_searching_listing', methods=['GET'])
+def lastest_searching_listing():
+    nickname = request.args.get("nickname")
+    print(nickname)
+    # 최근 검색어 10개 가져오기
+    search_db = list(db.search_movie.find({'nickname':nickname},{'_id':0}))
+    print(search_db)
+    print('리스팅 됐냐?')
+    return jsonify({'result':'success','list':search_db})
 
 # 페이지 5 내에서 검색했을 때
 @app.route('/search_DB', methods=['GET'])
@@ -563,10 +652,12 @@ def search_DB():
     counting_searched(movie_input)
     
     # 영화에 대한 코멘트가 많은데, 해당 유저의 커멘트를 찾기위해서 작성
+    print(session)
     if 'email' in session:
         email1 = session['email']
+        nickname = request.args.get("nickname")
         comment_db = list(db.serverside_usercomment.find(
-            {'user_comment_movie_title': {'$regex': movie_input}, 'user_email': email1}, {'_id': 0}))
+            {'user_comment_movie_title': {'$regex': movie_input}, 'user_nickname': nickname}, {'_id': 0}))
         print(comment_db)
 
     print('------------------')
@@ -629,7 +720,8 @@ def all_user_disliked_movie(title, b):
 
 
 def counting_searched(title):
-    # title = '<영화제목>\n' + title
+    print(title)
+    print('cnt_search test')
     db.ART_movie_list.update_one({'title': title}, {'$inc': {'searched_cnt': 1}})
 
 

@@ -195,24 +195,24 @@ function listing(){
 
 $(document).ready(function(){
  $('#customer_email').html('');
- customer_info();
+<!-- customer_info();-->
 });
 
-function customer_info(){
- $.ajax({
-  type: "GET",
-  url: "/customer",
-  data: {},
-  success: function(response){
-   if (response['result'] == 'success') {
-    let userdb = response['userdb'];
-    email_head(userdb[userdb.length-1]['email']);
-  } else {
-    alert('이메일을 받아오지 못했습니다');
-  }
-}
-})
-}
+<!--function customer_info(){-->
+<!-- $.ajax({-->
+<!--  type: "GET",-->
+<!--  url: "/customer2",-->
+<!--  data: {},-->
+<!--  success: function(response){-->
+<!--   if (response['result'] == 'success') {-->
+<!--    let userdb = response['userdb'];-->
+<!--    email_head(userdb[userdb.length-1]['email']);-->
+<!--  } else {-->
+<!--    alert('이메일을 받아오지 못했습니다');-->
+<!--  }-->
+<!--}-->
+<!--})-->
+<!--}-->
 
 
 function email_head(email){
@@ -308,7 +308,7 @@ function skip(){
   .contents{
     border: 1px solid;
     border-radius: 30px;
-    background-color: #231f20;
+    background-color: #89a3b2;
     margin-top:100px;
     margin-bottom: 100px;
 

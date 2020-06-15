@@ -9,6 +9,15 @@
  <!-- Bootstrap CSS -->
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ <!-- google font -->
+ <link href="https://fonts.googleapis.com/css?family=Gamja+Flower&display=swap&subset=korean" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css?family=Poor+Story&display=swap&subset=korean" rel="stylesheet">
+
+ <!-- 추가한 부분 -->
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+ rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css?family=Lato"rel="stylesheet">
 
  <!-- JS -->
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -18,85 +27,119 @@
  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
  crossorigin="anonymous"></script>
- <!-- font awesome  -->
+
+ <!-- 추가한 부분 -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+ 
 
 
  <script>
 
-    console.log('페이지 5로 잘 들어왔니?')
-   // $.ajax({
-   //  type:"GET",
-   //  url:"/search_parameter",
-   //  data:{},
-   //  success: function(response){
-   //    para_data = response['search_data']
-   //    console.log(para_data)
-   //    if(para_data == ''){
-   //      console.log('파라미터 전달 성공')
-   //    }else{
-   //      console.log('파라미터 전달 실패')
-   //    }
-   //  }
-   // })
 
    let movie_infos = new Array()
    let Mtype=""
+
+   let pencil_image = `<svg class="bi bi-pencil" width="1.5em" height="1.5em" style="padding-top:5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+   <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+   <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+   </svg>`
+
+   let trash_can_image = `<svg class="bi bi-trash" width="1.5em" height="1.5em" style="padding-top:5px; "viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+   <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+   <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+   </svg>`
+
+   let edit_pencil_image = `<svg class="bi bi-pencil-square" width="1.5em" height="1.5em" style="padding-top:5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+   </svg>`
 
    $(document).ready(function(){
     search_movie = $('#movie_input').val();
 
     get_session();
     get_parameter();
+    lastest_searching_listing();
+
 
     $('#movie_temp_html').html('');
-    $('#search_movie_title').text('');
+    // $('#search_movie_title').text('');
     $('#comment_movie_title').text('');
 
   });
 
+   function like_animation(){
 
-/*
-    function listing(){
-      $.ajax({
-        type: "GET",
-        url: "/main",
-        data: {},
-        success: function(response){
-          let ART_movie_list = response['ART_movie_list'];
-          let random = Math.floor(Math.random() * ART_movie_list.length)
-          let title = ART_movie_list[random]['title']
-          let poster = ART_movie_list[random]['poster']
-          let director = ART_movie_list[random]['director']
-          let summary = ART_movie_list[random]['summary']
-          if (summary.length > 100){
-           summary = summary.substr(0,100)+"..."
-         }
+    console.log('좋아요 실행됐니?')
+    $('.like-button').toggleClass('is-active');
+    check_like();
+  };
 
-         for (let i = 0; i < 1; i++) {
-           movie_card(ART_movie_list[i]['poster'],ART_movie_list[i]['title'],ART_movie_list[i]['summary'],ART_movie_list[i]['director'])
-         }
-       }
-     })
+  // 좋아요를 누른 영화와 누르지 않은 영화를 나눠서 like/dislike 나누는 함수
+  function check_like(){
+    if($('#like').hasClass('is-active')){
+      console.log('좋아요를 눌렀습니다!');
+      like_movie();
+
+    }else{
+      console.log('좋아요를 누르지않았습니다!');
+      dislike_movie();
     }
-    */
-    function movie_card(poster,title,summary,director){
+  }
+
+  //영화에 들어왔는데, 좋아요를 누른 영화라면 
+  function check_like_db(){
+    $.ajax({
+     type: "POST",
+     url: "/check_LDDB",
+     data: {
+      title:movie_infos[0]['title'],
+      poster:movie_infos[0]['poster']
+    },
+    success: function(response){
+      if(response['result']=='like_success'){
+        console.log('이미 좋아요를 눌렀습니다.');
+        alert('좋아요를 눌렀던 영화입니다.')
+        $('.like-button').toggleClass('is-active');
+      }else{
+        console.log('아직 좋아요를 누르지 않았습니다.')
+      }
+    }
+  })
+    
+  }
+
+  function movie_card(poster,title,summary,director){
+      // let receive_title = title
+      // console.log(receive_title)
       let temp_html_1 = '<div class="card mb-3">\
       <div class="row no-gutters" id="card_size">\
       <div class="col-md-4">\
-      <img src="'+poster+'" class="card-img" id="movie_poster" alt="...">\
+      <img src="'+poster+'" class="card-img" id="movie_poster" style="position:relative;"alt="...">\
+      <div class="container" style="text-align:center; position:absolute; top:10px; right:-265px;">\
+      <div class="wrapper" style="display:inline-block; vertical-align:middle;">\
+      <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like" style="margin-bottom:20px; margin-left:10px;">\
+      <i class="material-icons not-liked bouncy">favorite_border</i>\
+      <i class="material-icons is-liked bouncy">favorite</i>\
+      <span class="like-overlay"></span>\
+      </a>\
+      </div>\
+      </div>\
       </div>\
       <div class="col-md-8">\
       <div class="card-body">\
-      <h1 class="card_title" id="card_movie_title">'+title+'</h1><br>\
-      <h4 class="card_summary"><기본 정보></h4>\
+      <div class="card-title" style="">\
+      <h1 class="card_title" id="card_movie_title" style="font-weight:bold;">'+title+'\
+      </h1>\
+      </div>\
+      <h3 class="card-text" style="text-align:right;"><small class="text-muted">'+director+'</small></h3><br>\
       <p class="card-text">'+summary+'</p>\
-      <p class="card-text"><small class="text-muted">'+director+'</small></p><br><br>\
-      <button id="comment_button" onclick="btn_comment()">커맨트 남기기</button>\
+      <button id="namu_wiki_link" onclick="namu_wiki_click()"><img src="static/namu_wiki.jfif"\
+      style="width:50px; height:50px;"></button>\
+      <button id="google_link" onclick="google_click()" style="margin-right: 3px;"><img src="static/google_logo.webp"\
+      style="width:50px; height:50px;"></button>\
+      <button id="comment_button" onclick="btn_comment()">코멘트 남기기'+pencil_image+'</button>\
       </div>\
-      </div>\
-      <div class="prefer_button">\
-      <button id="like_movie" onclick="like_movie()"> <img src="static/add_button.png" style="width:50px; height:50px;"></button>\
-      <button id="dislike_movie" onclick="dislike_movie()"> <img src="static/remove_button.png" style="width:50px; height:50px"></button>\
       </div>\
       </div>\
       </div>'
@@ -116,7 +159,7 @@
       $.ajax({
         type: "POST",
         url: "/comment_save",
-        data: { email :$('#customer_email').text(),user_comment_movie_title : title ,user_comment_movie_poster: poster ,user_comment_give : comment},
+        data: { nickname :$('#customer_email').text(),user_comment_movie_title : title ,user_comment_movie_poster: poster ,user_comment_give : comment},
         success: function(response){
           // 처음 저장하는 코멘트일 경우
           if (response['result']== 'success'){
@@ -124,8 +167,9 @@
               $('#user_comment').hide()
               comment_box_html = '<div id="db_comment_box">\
               <h3 id="db_comment">'+comment+'</h3>\
-              <button id="comment_edit" onclick="edit_card()">수정</button>\
-              <button id="comment_remove" onclick="comment_remove()">삭제</button>\
+              <br>\
+              <button id="comment_edit" onclick="edit_card()">수정'+edit_pencil_image+'</button>\
+              <button id="comment_remove" onclick="comment_remove()">삭제'+trash_can_image+'</button>\
               </div>'
               $('#user_comment_box').append(comment_box_html)
               //alert('코멘트를 수정했습니다.')
@@ -134,8 +178,9 @@
               $('#user_comment').hide()
               comment_box_html = '<div id="db_comment_box">\
               <h3 id="db_comment">'+comment+'</h3>\
-              <button id="comment_edit" onclick="edit_card()">수정</button>\
-              <button id="comment_remove" onclick="comment_remove()">삭제</button>\
+              <br>\
+              <button id="comment_edit" onclick="edit_card()">수정'+edit_pencil_image+'</button>\
+              <button id="comment_remove" onclick="comment_remove()">삭제'+trash_can_image+'</button>\
               </div>'
               $('#user_comment_box').append(comment_box_html)
               alert('코멘트를 작성했습니다.')
@@ -148,8 +193,9 @@
             $('#user_comment').hide()
             comment_box_html = '<div id="db_comment_box">\
             <h3 id="db_comment">'+comment+'</h3>\
-            <button id="comment_edit" onclick="edit_card()">수정</button>\
-            <button id="comment_remove" onclick="comment_remove()">삭제</button>\
+            <br>\
+            <button id="comment_edit" onclick="edit_card()">수정'+edit_pencil_image+'</button>\
+            <button id="comment_remove" onclick="comment_remove()">삭제'+trash_can_image+'</button>\
             </div>'
             $('#user_comment_box').append(comment_box_html)
             alert('코멘트가 이미 있습니다.')
@@ -172,7 +218,7 @@
     function edit_comment_info(){
       let edit_user_comment = $('#edit_user_comment').val()
       console.log(edit_user_comment)
-      let user_comment_movie = $('#_comment_movie_title').text()
+      let user_comment_movie = $('#comment_movie_title').text()
       let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
       console.log(user_comment_movie_poster)
       comment_save(user_comment_movie, user_comment_movie_poster, edit_user_comment)
@@ -201,7 +247,7 @@
       $.ajax({
         type:"POST",
         url:"/comment_edit",
-        data:{email:$('#customer_email').text(),edit_movie:$('#comment_movie_title').text(),edit_comment:user_edit_comment},
+        data:{nickname:$('#customer_email').text(),edit_movie:$('#comment_movie_title').text(),edit_comment:user_edit_comment},
         success: function(response){
           console.log('edit 접속')
           $('#edit_comment_box').hide()
@@ -229,22 +275,27 @@
     }
 
     function btn_home(){
-      location.href="/"
+      location.href="/temp"
     }
 
-    function btn_mypage(){
-      location.href="/mypage"
+    function btn_mypage(nickname){
+      location.href="/mypage?user="+nickname
+    }
+
+    function go_page5(data){
+      location.href="/page5?movie_title="+data
     }
 
     function get_session(){
-      non_login = '<a class="nav=link" href="#" id="btn_home" onclick="btn_home()">로그인을 해야 사용가능합니다.</a>'
-      html_logout = '<a class="nav-link" href="#" id="btn_logout" onclick="btn_logout()">로그아웃</a>'
-      console.log("{{sessionemail}}")
-      if("{{sessionemail}}" == ""){
+      nickname = "{{sessionemail2}}"
+      non_login = '<a class="nav-link" href="#" id="btn_home" onclick="btn_home()">로그인을 해야 사용가능합니다.</a>'
+      html_logout = '<a class="nav-link" style="cursor:pointer;"id="btn_logout" onclick="btn_logout()">로그아웃</a>'
+      console.log("{{sessionemail2}}")
+      if("{{sessionemail2}}" == ""){
         $('#menubar').append(non_login)
       }else{
         $('#menubar').append(html_logout)
-        email_head("{{sessionemail}}")
+        email_head("{{sessionemail2}}")
       }
 
     }
@@ -293,19 +344,77 @@
     $('#db_comment_box').remove()
 
     let search_data = $('#movie_input').val();
+    let nickname = $('#customer_email').text();
+    console.log(nickname)
     if( search_data != ""){
       alert(search_data+'에 대한 정보입니다.');
-      // $.ajax({
-      //   type: "POST",
-      //   url: "/search_movie",
-      //   data: { search_title_give : search_data},
-      //   success: function(response){}
-      // })
-      bring_DB(search_data);
+      $.ajax({
+        type: "POST",
+        url: "/search_movie",
+        data: {
+          search_title_give : search_data,
+          nickname : nickname
+        },
+        success: function(response){
+          console.log('성공!!!')
+        }
+      })
+      go_page5(search_data);
+      // bring_DB(search_data);
     }
     else{
       alert('검색어를 입력해주세요.');
     }
+  }
+
+  function lastest_searching_listing() {
+    $.ajax({
+      type:"GET",
+      url:"/lastest_searching_listing",
+      data:{nickname:$('#customer_email').text()},
+      success:function(response){
+        console.log('최근 검색어 리스팅 성공!')
+        if(response['result']=='success'){
+          search_list = response['list']
+          console.log(search_list)
+          final_search_list = search_list.reverse()
+          console.log(final_search_list)
+          search_list_bar = '최근 검색어'
+          search_list_1 = search_list[0]['search_movie']
+          search_list_2 = search_list[1]['search_movie']
+          search_list_3 = search_list[2]['search_movie']
+          search_list_4 = search_list[3]['search_movie']
+          search_list_5 = search_list[4]['search_movie']
+          search_list_6 = search_list[5]['search_movie']
+          search_list_7 = search_list[6]['search_movie']
+          search_list_8 = search_list[7]['search_movie']
+          search_list_9 = search_list[8]['search_movie']
+          search_list_10 = search_list[9]['search_movie']
+
+          bring_search_list_html(search_list_bar, search_list_1, search_list_2, search_list_3, search_list_4, search_list_5, search_list_6, search_list_7, search_list_8, search_list_9, search_list_10)
+        }
+      }
+    })
+  }
+
+  function bring_search_list_html(search_bar,search_list_1,search_list_2,search_list_3,search_list_4,search_list_5,search_list_6,search_list_7,search_list_8,search_list_9,search_list_10){
+    $('#search_list_contents').remove()
+    search_list_html = '<ul id="search_list_contents" style="padding-left:0px;margin-top:30px;">\
+    <p><a id="rank_bar" style="font-weight:bold;font-size:20pt;">'+'<'+search_bar+'>'+'</a></p><br>\
+    <p><a href="/page5?movie_title='+search_list_1+'" id="rank_first">'+search_list_1+'</a></p>\
+    <p><a href="/page5?movie_title='+search_list_2+'" id="rank_second">'+search_list_2+'</a></p>\
+    <p><a href="/page5?movie_title='+search_list_3+'" id="rank_third">'+search_list_3+'</a></p>\
+    <p><a href="/page5?movie_title='+search_list_4+'" id="rank_fourth">'+search_list_4+'</a></p>\
+    <p><a href="/page5?movie_title='+search_list_5+'" id="rank_fifth">'+search_list_5+'</a></p>\
+    <p><a href="/page5?movie_title='+search_list_6+'" id="rank_fifth">'+search_list_6+'</a></p>\
+    <p><a href="/page5?movie_title='+search_list_7+'" id="rank_fifth">'+search_list_7+'</a></p>\
+    <p><a href="/page5?movie_title='+search_list_8+'" id="rank_fifth">'+search_list_8+'</a></p>\
+    <p><a href="/page5?movie_title='+search_list_9+'" id="rank_fifth">'+search_list_9+'</a></p>\
+    <p><a href="/page5?movie_title='+search_list_10+'" id="rank_fifth">'+search_list_10+'</a></p>\
+    </ul>'
+
+    $('.lastest_searching_movie').append(search_list_html);
+
   }
 
 
@@ -314,7 +423,7 @@
     $.ajax({
       type: "GET",
       url: "/search_DB",
-      data: {movie_input:data},
+      data: {movie_input:data,nickname:$('#customer_email').text()},
       success: function(response){
         if(response['result'] == 'success' && response['check_comment'] == 'success'){
           movie_infos = response['Movie_info'];
@@ -337,12 +446,15 @@
           comment_save(title,poster,movie_comment)
           $('#comment_box').show();
         }
-
-
+        console.log(movie_infos)
+        check_like_db();
+        return (title , movie_infos)
       }
       else if(response['result'] == 'success' && response['check_comment'] == 'fail'){
         movie_infos = response['Movie_info'];
         let movie_comment = response['Movie_comment'];
+        let title = movie_infos['title']
+        console.log(title)
         console.log(movie_infos);
         console.log(movie_comment);
         $('#movie_temp_html').html('');
@@ -350,9 +462,13 @@
         console.log('코멘트가 없다.')
         for(let i=0; i<movie_infos.length-(movie_infos.length-1); i++){
           movie_card(movie_infos[i]['poster'],movie_infos[i]['title'],movie_infos[i]['summary'],movie_infos[i]['director']);
-          $('#search_movie_title').text(movie_infos[i]['title']);
+          $('#search_movie_title').text("<"+movie_infos[i]['title']+">");
           $('#comment_movie_title').text(movie_infos[i]['title']);
         }
+
+        console.log(movie_infos)
+        check_like_db();
+        return (title , movie_infos)   
       }
 
       else{
@@ -369,6 +485,7 @@
      type: "POST",
      url: "/like_movie",
      data: {
+      nickname:$('#customer_email').text(),
       title:movie_infos[0]['title'],
       poster:movie_infos[0]['poster']
     },
@@ -389,6 +506,7 @@
      type: "POST",
      url: "/dislike_movie",
      data: {
+      nickname:$('#customer_email').text(),
       title:movie_infos[0]['title'],
       poster:movie_infos[0]['poster']
     },
@@ -412,8 +530,10 @@
      url: "/DLupdate_movie",
      data: {title:title, poster:poster},
      success: function(response){
-       if (response['result'] == 'success')
+       if (response['result'] == 'success'){
         alert('싫어요 -> 좋아요에 성공적으로 영화가 담겼습니다')
+        return true
+      }
     }
   })
   }
@@ -427,11 +547,32 @@ function LD(title,poster){
    url: "/LDupdate_movie",
    data: {title:title, poster:poster},
    success: function(response){
-     if (response['result'] == 'success')
+     if (response['result'] == 'success'){
       alert('좋아요 -> 싫어요에 성공적으로 영화가 담겼습니다')
+      return true
+    }
   }
 })
 }
+}
+
+
+// 나무 위키 클릭 함수
+function namu_wiki_click(){
+  movie_title = $('#search_movie_title').text()
+  console.log(movie_title)
+  namu_wiki_url="https://namu.wiki/w/"+ movie_title
+  location.href=namu_wiki_url
+}
+
+// 구글 클릭 함수
+function google_click(){
+  movie_title = $('#search_movie_title').text()
+  console.log(movie_title)
+  google_url = "https://play.google.com/store/search?q="+movie_title+"&c=movies&hl=ko"
+
+  // google_url="https://www.google.com/search?q="+movie_title
+  location.href=google_url
 }
 
 
@@ -441,13 +582,20 @@ function LD(title,poster){
 
 <style type="text/css">
 
+  *{
+    font-family: 'Noto Serif KR', serif;
+  }
+  
   #menubar{
-    color: blue;
+    color: black;
     font-weight: bold;
   }
 
   #comment_box{
     display: none;
+    margin-left:400px;
+    width:1100px;
+    height: 421px;
   }
 
   .nav-masthead {
@@ -456,7 +604,7 @@ function LD(title,poster){
 
  .page_title{
   margin-top: 40px;
-  color: lightgray;
+  color: black;
   text-align: center;
   font-size: 50pt;
   font-weight: bold;
@@ -465,26 +613,27 @@ function LD(title,poster){
 
 .main_contents{
   display: flex;
-  border: 0px solid;
+  border: 3px solid black;
   border-radius: 30px;
   width:1100px;
-  margin-right: auto;
-  margin-left: auto;
+  margin-right:auto;
+  margin-left: 450px;
   margin-top : 50px;
   margin-bottom: 50px;
   padding: 50px 30px 30px 30px;
-  background-color:white;
+  background-color:#89a3b2;
 }
 .search_movie_title{
   font-size: 30pt;
-  color:white;
+  font-weight: bold;
+  color:black;
   margin-top: 5px;
   text-align: center;
 }
 .search_movie_info_text{
   font-size: 20px;
   font-weight: bold;
-  color: white;
+  color: #89a3b2;
   margin-top: 5px;
   text-align: center;
 }
@@ -493,7 +642,8 @@ function LD(title,poster){
 }
 #card_size{
   width: 1000px;
-  border: 4px solid black;
+  background-color:#89a3b2;
+  border: 1px solid #89a3b2;
 }
 #like_movie{
   background-color: #B7CBFF;
@@ -505,10 +655,24 @@ function LD(title,poster){
 }
 #comment_button{
   width: 150px;
-  height: 80px;
+  height: 50px;
+  margin-left:180px;
+  margin-top:10px;
   font-weight:bold;
+  border-radius: 5px;
+
+  border: 1px solid #d2f7e1; 
+  background-color: rgba(0,0,0,0);
+  color: #d2f7e1; 
+  padding: 3px;
 
 }
+
+#comment_button:hover{
+  color:black;
+  background-color: #d2f7e1;
+}
+
 .card_summary{
   font-weight:bold;
 }
@@ -520,9 +684,17 @@ function LD(title,poster){
   float: right;
 }
 
+.movie_info{
+  /*  position: absolute;*/
+/*  margin-left:auto;
+margin-right:auto;*/
+}
+
 #movie_input{
   text-align: center;
-  border: 3px solid black;
+  border: 3px solid #7d7d89;
+  width: 800px;
+  height: 55px;
 }
 .home_logo img{
   margin: 10px 0 0 8px;
@@ -539,16 +711,25 @@ function LD(title,poster){
 #customer_email{
  color: white;
  text-align: right;
- margin-right: 50px;
  margin-top:10px;
 }
 
 .contents .jumbotron{
-  background-color:#7C7B7B;
+  background-color:#89a3b2;
 }
 
 .display-4{
   font-weight: bold;
+}
+
+.lastest_searching_movie{
+  float:right;
+  width:300px;
+  height: 600px;
+  margin-right: 15px;
+  margin-top:45px;
+  border: 3px solid black;
+  text-align: center;
 }
 
 .movie_comment{
@@ -558,6 +739,18 @@ function LD(title,poster){
   margin-left: auto;
   margin-top : 50px;
   margin-bottom: 50px;
+}
+
+#google_link{
+  border:0px solid;
+  float: right;
+  background-color: #89a3b2;
+}
+
+#namu_wiki_link{
+ border:0px solid;
+ float: right;
+ background-color: #89a3b2;
 }
 
 textarea{
@@ -574,49 +767,224 @@ img{
   -webkit-perspective: 1;
 }
 
+#like_button{
+  margin-right: 20px;
+  cursor: pointer; 
+  background: rgba(255,255,255,0.3);
+  background-size: 50%;       
+  border-radius: 50%;
+  text-align: center;
+  line-height: 75px;
+  z-index: 10;
+  color: blue;
+}
+
+#dislike_button{
+  margin-right: 20px;
+  cursor: pointer; 
+  background: rgba(255,255,255,0.3);       
+  border-radius: 50%;
+  text-align: center;
+  line-height: 75px;
+  z-index: 10;
+  color: red;
+}
+
+/*추가한 부분*/
+.container {
+  width: 600px;
+  height: auto;
+}
+.container h1 {
+  font-family: 'Lato';
+  font-size: 3rem;
+  font-weight: 300;
+}
+.container h4 {
+  font-family: 'Lato';
+  font-soze: 1.2rem;
+  padding-top: 40px;
+  color: #999;
+}
+.container .love {
+  font-size: 0.9rem;
+  color: #ff4f8f;
+}
+.container .wrapper .like-button {
+  /*누르면 나오는 애니메이션 크기*/
+  position: relative;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ccc;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  margin: 0 auto;
+  text-decoration: none;
+  overflow: hidden;
+}
+.container .wrapper .like-button .like-overlay {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #ff4f8f;
+  -webkit-transform: scale(0);
+  transform: scale(0);
+  -webkit-transition: all .4s;
+  transition: all .4s;
+  z-index: 0;
+}
+.container .wrapper .like-button i.not-liked {
+  display: block;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.container .wrapper .like-button i.is-liked {
+  display: none;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+}
+.container .wrapper .like-button.is-active .like-overlay {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+}
+.container .wrapper .like-button.is-active i.not-liked {
+  display: none;
+}
+.container .wrapper .like-button.is-active i.is-liked {
+  display: block;
+}
+
+@-webkit-keyframes bouncy {
+  from, to {
+    -webkit-transform: scale(1, 1);
+  }
+  25% {
+    -webkit-transform: scale(0.9, 1.1);
+  }
+  50% {
+    -webkit-transform: scale(1.1, 0.9);
+  }
+  75% {
+    -webkit-transform: scale(0.95, 1.05);
+  }
+}
+@keyframes bouncy {
+  from, to {
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+  }
+  25% {
+    -webkit-transform: scale(0.9, 1.1);
+    transform: scale(0.9, 1.1);
+  }
+  50% {
+    -webkit-transform: scale(1.1, 0.9);
+    transform: scale(1.1, 0.9);
+  }
+  75% {
+    -webkit-transform: scale(0.95, 1.05);
+    transform: scale(0.95, 1.05);
+  }
+}
+.bouncy {
+  -webkit-animation: bouncy 0.6s;
+  animation: bouncy 0.6s;
+  -webkit-animation-duration: 0.6s;
+  animation-duration: 0.6s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.link-button {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: #6dacff;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-transition: all .4s;
+  transition: all .4s;
+}
+.link-button img {
+  width: 32px;
+  height: 32px;
+  display: block;
+}
+.link-button:hover {
+  -webkit-transform: scale(1.1) rotate(180deg);
+  transform: scale(1.1) rotate(180deg);
+  background: #ff4f8f;
+}
+
+
 </style>
 
 
 </head>
-<body style="background-color:#3D3D3D">
-  <div class="movie_info">
-    <div>
-     <h3 class="masthead-brand">
-      <img src="static/logo.png" style="width:70px; height:50px; cursor: pointer;" onclick="btn_home()">
-    </h3>
-    <nav class="nav nav-masthead justify-content-center" id="menubar">
-
-    </nav>
-    <div id= "customer_email" style="cursor: pointer;" onclick="btn_mypage()"></div>
-  </div>
-  <center>
-   <div>
-    <input class="keyword" id="movie_input" type="text" name="movie_info_give" maxlength=255 value="" autocomplete="off" placeholder="제목, 감독, 배우를 입력해주세요." size="100"  onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
-    <button onclick="search_listing()">확인</button>
-  </div>
-</center>
-
-<div class = "page_title"> Movie Info </div><br>
-<div class="search_movie_info">
-  <div class="search_movie_title" id="search_movie_title"></div>
-  <div class="search_movie_info_text"></div>
-</div>
-<div class="main_contents" id="movie_temp_html"></div>
-</div>
-
-<div class="movie_comment" id="comment_box">
-  <div class="jumbotron" id="comment_jumbo">
-    <h2 class="display-4" id="comment_movie_title"></h2><br>
-    <p class="lead">이 작품에 대한 생각을 자유롭게 적어주세요.</p>
-    <hr class="my-4">
-    <div id="change_box">
-      <p id="user_comment_box">
-        <textarea class="comment_area" id="user_comment" placeholder="영화에 대한 코멘트를 남겨주세요."></textarea>
-      </p><br>
-      <a class="btn btn-primary btn-lg" id="save_button" href="#" role="button" onclick="comment_info()">저장하기</a>
+<body style="background-color:#c5adba">
+  <div class="movie_info" style="margin-top:25px;">
+    <div class="movie_info" style="margin-top:25px;">
+      <div class="movie_top" style="margin-left: 25%;">
+        <img src="static/logo.png" style="width:100px; height:80px; cursor: pointer;" onclick="btn_home()">
+        <input class="keyword" id="movie_input" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px;" type="text" name="movie_info_give" maxlength=255 value="" autocomplete="off" placeholder="제목, 감독, 배우를 입력해주세요." onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
+        <svg class="bi bi-search" onclick="" width="2em" height="2em" style="margin-top:13px;margin-right: 7px; margin-left: 10px; cursor: pointer;"viewBox="0 0 16 16" fill="currentColor" onclick="search_listing()"xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+          <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+        </svg>
+        <nav class="nav nav-masthead justify-content-center" id="menubar">
+          <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-top:10px;padding-right: 5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+          </svg>
+          <p id= "customer_email" style="cursor: pointer;" onclick="btn_mypage(nickname)"></p>
+        </nav>
+      </div>
     </div>
-  </div>
-</div>
+    <div class="movie_title_set">
+      <div class="page_title" style="font-size: 40px;"> Movie Info...</div>
+      <div class="search_movie_info">
+        <div class="search_movie_title" id="search_movie_title"></div>
+        <div class="search_movie_info_text"></div>
+      </div>
+      <div class ="lastest_searching_movie"></div>
+      <div class="main_contents" id="movie_temp_html">
 
-</body>
-</html>
+      </div>
+
+
+    </div>
+
+    <div class="movie_comment" id="comment_box">
+      <div class="jumbotron" id="comment_jumbo" style="background-color:#89a3b2; border: 2px solid black;">
+        <h3 class="display-4" id="comment_movie_title"></h3><br>
+        <p class="lead">이 작품에 대한 생각을 자유롭게 적어주세요.</p>
+        <hr class="my-4">
+        <div id="change_box">
+          <p id="user_comment_box">
+            <textarea class="comment_area" id="user_comment" placeholder="영화에 대한 코멘트를 남겨주세요."></textarea>
+          </p><br>
+          <a class="btn btn-primary btn-lg" id="save_button" href="#" role="button" onclick="comment_info()">저장하기</a>
+        </div>
+      </div>
+    </div>
+  </body>
+  </html>
