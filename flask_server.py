@@ -627,19 +627,23 @@ def search_movie():
     }
     print('-----------xxxx----------')
     print(data)
-    db.search_movie.insert_one(data)
+    db.search_movie.insert(data)
     return jsonify({'result': 'success'})
 
 @app.route('/lastest_searching_listing', methods=['GET'])
 def lastest_searching_listing():
     nickname = request.args.get("nickname")
     print(nickname)
-    # 최근 검색어 10개 가져오기
-    search_db = list(db.search_movie.find({'nickname':nickname},{'_id':0}))
-    print(search_db)
-    print('리스팅 됐냐?')
-    return jsonify({'result':'success','list':search_db})
-
+    # 닉네임이 존재한 경우
+    if(len(nickname)!=0):
+        search_db = list(db.search_movie.find({'nickname':nickname},{'_id':0}))
+        print('최근 검색어 리스팅이 되었습니다.')
+        return jsonify({'result':'success','list':search_db})
+    #닉네임이 존재하지 않은 경우 (로그인을 하지 않고 검색한 경우)
+    else:
+        print('유저가 없습니다.')
+        return jsonify({'result':'fail'})
+    
 # 페이지 5 내에서 검색했을 때
 @app.route('/search_DB', methods=['GET'])
 def search_DB():

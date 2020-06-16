@@ -31,6 +31,11 @@
 
 
   <script>
+    // 이미지
+    let pencil_image = `<svg class="bi bi-pencil" width="1.5em" height="1.5em" style="padding-bottom:5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M11.293 1.293a1 1 0 0 1 1.414 0l2 2a1 1 0 0 1 0 1.414l-9 9a1 1 0 0 1-.39.242l-3 1a1 1 0 0 1-1.266-1.265l1-3a1 1 0 0 1 .242-.391l9-9zM12 2l2 2-9 9-3 1 1-3 9-9z"/>
+    <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
+    </svg>`
 
     // 처음에 실행되는 함수
     $(document).ready(function(){
@@ -39,6 +44,7 @@
 
       var title=""
       listing2();
+
     });
 
     // 세션을 받아오는 함수
@@ -49,7 +55,7 @@
 
       $('#menubar').append(temp_html);
       $('#menubar').append(html_logout);
-      select_button();
+      comment_button();
 
     }
 
@@ -209,11 +215,10 @@
     }
 
     // 선호장르 알아보기 버튼 추가 함수
-    function select_button(){
-     button_movepage = "<button id=button_result onclick='go_page2()'style='vertical-align:middle;'><span>선호장르 알아보기</span></button>"
-     //$('.button_cover').html('')
-     $('.button_cover').append(button_movepage)
-   }
+    function comment_button(){
+      button_movepage = '<button id=comment_write style="vertical-align:middle;" onclick="go_page5($(maingenre_movie_title1).text())">코멘트 작성하기'+pencil_image+'</button>'
+      $('.button_cover').append(button_movepage)
+    }
 
    // 로그아웃 함수
    function btn_logout(){
@@ -885,11 +890,19 @@ function LD(title,poster){
           </svg>
         </div>
         <nav class="nav nav-masthead justify-content-center" id="menubar" style="margin-top: 25px;">
+          <div class="star_button" style="margin-right: 15px; text-align:center;">
+            <svg class="bi bi-star" width="2em" height="2em" style="cursor: pointer;" onclick="go_page2()" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.523-3.356c.329-.314.158-.888-.283-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767l-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288l1.847-3.658 1.846 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.564.564 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+              <div class="star_text" style="margin-top: 5px;">
+                <p style="font-size:small;">선호장르 알아보기</p>
+              </div>
+            </svg>
+          </div>
           <div class="film_button" style="margin-right: 10px;">
             <svg class="bi bi-film" width="2em" height="2em" style="cursor: pointer;" onclick="go_page3(nickname)" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
               <path fill-rule="evenodd" d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0h8v6H4V1zm8 8H4v6h8V9zM1 1h2v2H1V1zm2 3H1v2h2V4zM1 7h2v2H1V7zm2 3H1v2h2v-2zm-2 3h2v2H1v-2zM15 1h-2v2h2V1zm-2 3h2v2h-2V4zm2 3h-2v2h2V7zm-2 3h2v2h-2v-2zm2 3h-2v2h2v-2z"/>
             </svg>
-            <div class="flim_text" style="">
+            <div class="flim_text" style="margin-top: 5px;">
               <p style="font-size:small;">For You</p>
             </div>
           </div>
@@ -934,7 +947,7 @@ function LD(title,poster){
 
       <div class=" main_contents">
         <div class="media">
-          <img class="mr-3" id="maingenre_movie_poster1" style="position:relative;" src="" alt="Generic placeholder image">
+          <img class="mr-3" id="maingenre_movie_poster1" style="position:relative;" src="" alt="Generic placeholder image" >
           <div class="container" style="text-align:center; position:absolute; left:270px;">
             <div class="wrapper" style="display:inline-block; vertical-align:middle;">
               <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like" style="margin-bottom:20px; margin-left:10px;">
