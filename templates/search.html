@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>검색 결과 페이지</title>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link href="https://fonts.googleapis.com/css?family=Gamja+Flower&display=swap&subset=korean" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poor+Story&display=swap&subset=korean" rel="stylesheet">
+
+	<!-- 추가한 부분 -->
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato"rel="stylesheet">
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+	integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+	<!-- 추가한 부분 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<script type="text/javascript">
+	
+	// 처음 시작시, 로딩되는 함수
+	$(document).ready(function(){
+		get_session();
+		get_parameter();
+	})
+
+	// 타 페이지로 이동하는 함수들
+
+	function btn_home(){
+		location.href="/temp"
+	}
+
+	function btn_mypage(nickname){
+		location.href="/mypage?user="+nickname
+	}
+
+	function go_search_page(data){
+		location.href="/search_page?search_data="+data
+	}
+
+	function go_page5(data){
+		location.href="/page5?search_data="+data
+	}
+
+	// 세션을 받아오는 함수
+
+	function get_session(){
+		nickname = "{{sessionemail2}}"
+		non_login = '<a class="nav-link" href="/" id="btn_main" onclick="btn_main()">로그인을 해야 사용가능합니다.</a>'
+		html_logout = '<a class="nav-link" style="cursor:pointer;"id="btn_logout" onclick="btn_logout()">로그아웃</a>'
+		console.log("{{sessionemail2}}")
+		if("{{sessionemail2}}" == ""){
+			$('#menubar').append(non_login)
+		}else{
+			$('#menubar').append(html_logout)
+			email_head("{{sessionemail2}}")
+		}
+
+	}
+
+	// 받아온 세션을 사용하는 함수
+
+	function email_head(email){
+		let temp_html = email;
+		$('#customer_email').append(temp_html);
+	}
+
+   // 로그아웃 하는 함수
+
+   function btn_logout(){
+   	jbResult = confirm( "정말 로그아웃을 하시겠습니까?" );
+   	if(jbResult == true){
+   		$.ajax({
+   			type: "POST",
+   			url: "/test2",
+   			data: {},
+   			success: function(response){
+
+   			}
+   		})
+   		$('#btn_logout').hide();
+   	}
+   	else{
+   	}
+   }
+
+   // 검색한 parameter를 받아오는 함수
+   function get_parameter(){
+   	console.log("{{para_data}}")
+   	if("{{para_data}}" == ""){
+   		console.log("파라미터가 없습니다.")
+   	}else{
+   		console.log("파라미터가 있습니다.")
+   		search_result = "{{para_data}}"
+   		console.log("검색 결과 : "+search_result)
+   		title_listing();
+   		director_listing();
+   	}
+   }
+
+	// 입력한 검색어 확인 함수
+	function search_listing(){
+		let search_data = $('#movie_input').val();
+		if( search_data != ""){
+			alert(search_data+'에 대한 정보입니다.');
+			go_search_page(search_data);
+		}
+		else{
+			alert('검색어를 입력해주세요.');
+		}
+	}
+
+	// title 정보를 listing 하는 함수
+
+	function title_listing_card(num,poster,title,director){
+		let info_html = '<div class="title_list_'+num+'" style="width:32.5%; height:532px; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
+		border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px;">\
+		<div class="test_poster">\
+		<img src="'+poster+'" class="poster_img" width="250" height="365"style="margin-bottom: 30px;">\
+		</div>\
+		<div class="test_title" style="font-size:25px;">'+title+'</div>\
+		<div class="test_director" style="font-size:15px; margin-top: 5px;">'+director+'</div>\
+		</div>'
+
+		$('.movie_list').append(info_html);
+	}
+
+	// 영화제목으로 DB검색
+
+	function title_listing(){
+		para = "{{para_data}}"
+		console.log(para)
+		$.ajax({
+			type: "GET",
+			url: "/search_title",
+			data: {search_data:para},
+			success: function(response){
+				if(response['result'] == 'success'){
+					console.log('영화제목은 존재합니다.')
+					title_infos = response['title_info']
+					console.log(title_infos)
+
+					for(let i=0; i<title_infos.length; i++){
+						console.log('for문 돌아가냐?')
+						title_listing_card(i,title_infos[i]['poster'],title_infos[i]['title'],title_infos[i]['director']);
+					}
+				}else{
+					console.log('영화제목으로 된 정보는 없습니다.')
+				}
+
+			}
+		})
+	}
+
+	// director 정보를 listing 하는 함수
+
+	function director_listing_card(num,poster,title,director){
+		let info_html = '<div class="director_list_'+num+'" style="width:32.5%; height:532px; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
+		border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px;">\
+		<div class="test_poster">\
+		<img src="'+poster+'" class="poster_img" width="250" height="365"style="margin-bottom: 30px;">\
+		</div>\
+		<div class="test_title" style="font-size:25px;">'+title+'</div>\
+		<div class="test_director" style="font-size:15px; margin-top: 5px;">'+director+'</div>\
+		</div>'
+
+		$('.director_list').append(info_html);
+	}
+
+	// 감독으로 DB검색
+
+	function director_listing(){
+		para = "{{para_data}}"
+		console.log(para)
+		$.ajax({
+			type: "GET",
+			url: "/search_director",
+			data: {search_data:para},
+			success: function(response){
+				if(response['result'] == 'success'){
+					console.log('감독은 존재합니다.')
+					director_infos = response['director_info']
+					console.log(director_infos)
+
+					for(let j=0; j<director_infos.length; j++){
+						console.log('for문 돌아가냐?')
+						director_listing_card(j,director_infos[j]['poster'],director_infos[j]['title'],director_infos[j]['director']);
+					}
+				}else{
+					console.log('감독은 없습니다.')
+				}
+
+			}
+		})
+	}
+
+	// 사용자 DB검색
+
+
+
+
+</script>
+
+<style type="text/css">
+	
+	*{
+		font-family: 'Noto Serif KR', serif;
+	}
+
+	#movie_input{
+		text-align: center;
+		border: 3px solid #7d7d89;
+		width: 800px;
+		height: 55px;
+	}
+
+	#menubar{
+		color: black;
+		font-weight: bold;
+		float:right;
+	}
+
+	#customer_email{
+		color: white;
+		text-align: right;
+		margin-top:10px;
+	}
+
+</style>
+
+<body style="background-color:#c5adba">
+	<div class="root">
+		<div class="search_info" style="margin-top:25px;">
+			<div class="top_bar" style="margin-left: 25%;">
+				<img src="static/logo.png" style="width:100px; height:80px; cursor: pointer;" onclick="btn_home()">
+				<input class="keyword" id="movie_input" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px;" type="text" name="movie_info_give" maxlength=255 value="" autocomplete="off" placeholder="'영화제목'  / '감독' /  '사용자' 를 입력해주세요." onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
+				<svg class="bi bi-search" onclick="" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px; cursor: pointer;"viewBox="0 0 16 16" fill="currentColor" onclick="search_listing()"xmlns="http://www.w3.org/2000/svg">
+					<path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+					<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+				</svg>
+				<nav class="nav nav-masthead justify-content-center" id="menubar" style="margin-top:20px;">
+					<svg class="bi bi-person-circle" width="2em" height="2em" style="padding-top:10px; padding-right: 5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+						<path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+						<path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+						<path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+					</svg>
+					<p id= "customer_email" style="cursor: pointer;" onclick="btn_mypage(nickname)"></p>
+				</nav>
+			</div>
+			<div class="search_list_contents" style="text-align: center;">
+				<div class="movie_contents" style="">
+					<div class="movie_text">
+						<h2 style="margin-top:40px; margin-bottom: 20px;">영화
+							<svg class="bi bi-film" width="1em" height="1em" style="margin-bottom: 5px;" onclick="" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M0 1a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V1zm4 0h8v6H4V1zm8 8H4v6h8V9zM1 1h2v2H1V1zm2 3H1v2h2V4zM1 7h2v2H1V7zm2 3H1v2h2v-2zm-2 3h2v2H1v-2zM15 1h-2v2h2V1zm-2 3h2v2h-2V4zm2 3h-2v2h2V7zm-2 3h2v2h-2v-2zm2 3h-2v2h2v-2z"/>
+							</svg>
+						</h2>
+					</div>
+					<hr width="200px" style="height: 3px;" color="#7d7d89">
+					<div class="movie_list" style="margin-top:30px; display: inline-block; margin-left:auto;margin-right: auto; width:1200px;">
+					</div>
+				</div>
+				<div class="director_contents" style="text-align: center;">
+					<div class="director_text">
+						<h2 style="margin-top:40px; margin-bottom: 20px;">감독
+							<svg class="bi bi-person-lines-fill" width="1em" height="1em" style="margin-bottom: 5px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm7 1.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm-2-3a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm0-3a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm2 9a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+							</svg>
+						</h2>
+					</div>
+					<hr width="200px" style="height: 3px;" color="#7d7d89">
+					<div class="director_list" style="margin-top:30px; display: inline-block; margin-left:auto;margin-right:auto; width:1200px;"></div>
+				</div>
+				<div class="user_contents">
+					<div class="user_text">
+						<h2 style="margin-top:40px; margin-bottom: 20px;">사용자
+							<svg class="bi bi-people-fill" width="1em" height="1em" style="margin-bottom: 5px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+								<path fill-rule="evenodd" d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216zM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
+							</svg>
+						</h2>
+						<hr width="200px" style="height: 3px;" color="#7d7d89">
+					</div>
+					<div class="user_list" style="margin-top:30px;">사용자 들어가는 부분</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>

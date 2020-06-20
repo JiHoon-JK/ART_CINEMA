@@ -194,16 +194,19 @@ def page3():
         return render_template('page3.html')
 
 
-@app.route('/page4')
-def page4():
+@app.route('/search_page')
+def search_page():
+    para = request.args.get("search_data")
+    print(para)
+    print('제발....')
     if 'email' in session:
         email1 = session['email']
-        print('Logged in as ' + email1)
+        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
+        print('tempLogged in as ' + email1)
         print(session)
-        return render_template('page4.html', sessionemail=email1)
-
+        return render_template('search.html', sessionemail2=a[0].get('nickname'), para_data=para)
     else:
-        return render_template('page4.html')
+        return render_template('search.html')
 
 
 @app.route('/page5')
@@ -687,24 +690,33 @@ def search_DB():
             print('코멘트가 없습니다.')
             return jsonify({'result': 'success', 'check_comment': 'fail', 'Movie_info': movie_info})
 
-# 다른 페이지에서 접속했을 때
-# @app.route('/search_parameter', methods=['GET'])
-# def get_parameter():
-#     # parameter 값으로 movie_title 를 키로 받는다.
-#     para = request.args.get("movie_title")
-#     parameter_dict=request.args.to_dict()
-#     print('zdsadsad')
-#     print(type(para))
-#     print('-------')
-#     print(request.args)
-#     print(len(parameter_dict))
+@app.route('/search_title', methods=['GET'])
+def search_title():
+    search_data = request.args.get("search_data")
+    print(search_data)
+    search_title_info = list(db.ART_movie_list.find({'title':{'$regex':search_data}},{'_id':0}))
+    print(search_title_info)
+    if(search_title_info == []):
+        print('해당 영화제목은 없습니다.')
+        return jsonify({'result':'fail'})
+    else:
+        print('해당 영화제목은 존재합니다.')
+        return jsonify({'result':'success','title_info':search_title_info})
 
-#     return jsonify({'result':'success','search_data':para})
+@app.route('/search_director', methods=['GET'])
+def search_director():
+    search_data = request.args.get("search_data")
+    print(search_data)
+    search_director_info = list(db.ART_movie_list.find({'director':{'$regex':search_data}},{'_id':0}))
+    print(search_director_info)
+    if(search_director_info == []):
+        print('해당 감독은 없습니다.')
+        return jsonify({'result':'fail'})
+    else:
+        print('해당 감독은 존재합니다.')
+        return jsonify({'result':'success','director_info':search_director_info})
 
-# @app.route('/url_get' , methods=['GET'])
-# def url_parameter():
-#
-#     return redirect(url_for())
+
 
     
 def counting_liked_plus(title):

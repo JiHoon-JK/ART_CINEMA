@@ -255,6 +255,11 @@
         location.href="/page5?movie_title="+data
       }
 
+      // 검색 결과 보여주는 페이지로 가는 함수
+      function go_search_page(data){
+        location.href="/search_page?search_data="+data
+      }
+
       
       // 네이버 클릭 함수
       function naver_click(){
@@ -338,8 +343,8 @@ function search_listing(){
   let search_data = $('#movie_input').val();
   if( search_data != ""){
     alert(search_data+'에 대한 정보입니다.');
-    go_page5(search_data)
-    //url_get(search_data)
+    go_search_page(search_data);
+    // go_page5(search_data);
   }
   else{
     alert('검색어를 입력해주세요.');
@@ -882,7 +887,7 @@ function LD(title,poster){
             <img src="static/logo.png" style="width:100px; height:80px; cursor:pointer; margin-right: 10px; " onclick="btn_home()">
           </h3>
           <input class="keyword" id="movie_input" type="text" name="movie_info_give" maxlength=255 value=""
-          autocomplete="off" placeholder="제목, 감독, 배우를 입력해주세요."
+          autocomplete="off" placeholder="'영화제목'  / '감독' / '사용자' 를 입력해주세요."
           onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
           <svg class="bi bi-search" onclick="" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
