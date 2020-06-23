@@ -35,6 +35,7 @@
 	$(document).ready(function(){
 		get_session();
 		get_parameter();
+
 	})
 
 	// 타 페이지로 이동하는 함수들
@@ -108,6 +109,9 @@
    		console.log("검색 결과 : "+search_result)
    		title_listing();
    		director_listing();
+   		user_listing();
+		insert_search_listing(search_result);
+		alert(search_result+'를 최근검색어에 넣었습니다.')
    	}
    }
 
@@ -123,16 +127,47 @@
 		}
 	}
 
+	// 검색어를 저장하는 함수
+	function insert_search_listing(data){
+		$.ajax({
+			type: "POST",
+			url: "/search_movie",
+			data: {
+				search_title_give : data,
+				nickname : nickname
+			},
+			success: function(response){
+				console.log('최근 검색 db에 넣었습니다.')
+			}
+		})
+	}
+
+	// 영화제목 항목 중에서, onclick 을 눌렀는지 체크하는 함수
+	function title_checking_onclick(num){
+		$(".T_poster_img"+num).attr('id','checking'+num);
+		title = $(".T_test_title"+num).text();
+		alert('['+ title +']'+' 에 대한 정보입니다.')
+		go_page5(title);
+	}
+
+	// 감독 항목 중에서, onclick을 눌렀는지 체크하는 함수
+	function director_checking_onclick(num){
+		$(".D_poster_img"+num).attr('id','checking'+num);
+		title = $(".D_test_title"+num).text();
+		alert('['+ title +']'+' 에 대한 정보입니다.')
+		go_page5(title);
+	}
+
 	// title 정보를 listing 하는 함수
 
 	function title_listing_card(num,poster,title,director){
 		let info_html = '<div class="title_list_'+num+'" style="width:32.5%; height:532px; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
 		border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px;">\
 		<div class="test_poster">\
-		<img src="'+poster+'" class="poster_img" width="250" height="365"style="margin-bottom: 30px;">\
+		<img src="'+poster+'" class="T_poster_img'+num+'" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="title_checking_onclick('+num+')">\
 		</div>\
-		<div class="test_title" style="font-size:25px;">'+title+'</div>\
-		<div class="test_director" style="font-size:15px; margin-top: 5px;">'+director+'</div>\
+		<div class="T_test_title'+num+'" style="font-size:25px;">'+title+'</div>\
+		<div class="T_test_director'+num+'" style="font-size:15px; margin-top: 5px;">'+director+'</div>\
 		</div>'
 
 		$('.movie_list').append(info_html);
@@ -167,17 +202,18 @@
 
 	// director 정보를 listing 하는 함수
 
-	function director_listing_card(num,poster,title,director){
+	function director_listing_card(num,poster,title,director){ 
 		let info_html = '<div class="director_list_'+num+'" style="width:32.5%; height:532px; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
 		border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px;">\
 		<div class="test_poster">\
-		<img src="'+poster+'" class="poster_img" width="250" height="365"style="margin-bottom: 30px;">\
+		<img src="'+poster+'" class="D_poster_img'+num+'" id="" width="250" height="365"style="margin-bottom: 30px; cursor:pointer;" onclick="director_checking_onclick('+num+')">\
 		</div>\
-		<div class="test_title" style="font-size:25px;">'+title+'</div>\
-		<div class="test_director" style="font-size:15px; margin-top: 5px;">'+director+'</div>\
+		<div class="D_test_title'+num+'" style="font-size:25px;">'+title+'</div>\
+		<div class="D_test_director'+num+'" style="font-size:15px; margin-top: 5px;">'+director+'</div>\
 		</div>'
 
 		$('.director_list').append(info_html);
+
 	}
 
 	// 감독으로 DB검색
@@ -207,8 +243,54 @@
 		})
 	}
 
-	// 사용자 DB검색
+	// 사용자 정보를 listing 하는 함수
+	// 사진을 사용자가 업로드하면, 해당 사진이 몽고 db로 업로드 되고, db 에서 꺼내서 사용할 수 있도록 구현할 수 있을 때, photo 인수를 함수에 인자로 넣고 구현해보도록 하자.
+	// 일단은 임의 프로필 사진으로 대체한다.
 
+	// 그렇다면, db에 있는 photo,comment_count,introduce 가 기본적으로 있어야한다.
+	// 회원가입을 할 때, 해당 항목을 기본 폼으로 넣어서 userdb에 항목으로 넣어야한다.
+
+	function user_listing_card(num,nickname,comment_count,introduce){
+		let info_html = `<div class="user_${num}" style="width:32.5%; height:250px; float:left; margin-top:30px;\
+		border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px; cursor:pointer;" onclick="location.href='/mypage?user=${nickname}'">	\
+		<img src="static/user_image.jpg" width="70" height="70" style="border-radius: 70%;">\
+		<span class="user_nickname${num}" style="margin-left:10px; font-size: large; font-weight: bold;">${nickname}</span></br></br>\
+		<span class="comment_count'+num+'">커멘트 ${comment_count}</span>\
+		<p style="margin-top:40px; margin-bottom: 50px;">\
+		<span class="user_introduce${num}">${introduce}</span>\
+		</p>\
+		<hr width="200px" style="height: 3px;" color="#7d7d89">\
+		</div>`
+
+		$('.user_list').append(info_html);
+	}
+
+	// 사용자로 DB검색
+	function user_listing(){
+		para = "{{para_data}}"
+		console.log(para)
+		$.ajax({
+			type: "GET",
+			url: "/search_user",
+			data: {search_data:para},
+			success: function(response){
+				if(response['result'] == 'success'){
+					console.log('사용자가 존재합니다.')
+					user_infos = response['user_info']
+					console.log(user_infos)
+					user_comment_counts = response['user_comment_count']
+					console.log(user_comment_counts)
+
+					for(let k=0; k<user_infos.length; k++){
+						console.log('for문 돌아가고 있니?')
+						user_listing_card(k,user_infos[k]['nickname'],user_comment_counts,user_infos[k]['introduce']);
+					}
+				}else{
+					console.log('사용자는 없습니다.')
+				}
+			}
+		})
+	}
 
 
 
@@ -284,7 +366,7 @@
 					<hr width="200px" style="height: 3px;" color="#7d7d89">
 					<div class="director_list" style="margin-top:30px; display: inline-block; margin-left:auto;margin-right:auto; width:1200px;"></div>
 				</div>
-				<div class="user_contents">
+				<div class="user_contents" style="text-align: center;">
 					<div class="user_text">
 						<h2 style="margin-top:40px; margin-bottom: 20px;">사용자
 							<svg class="bi bi-people-fill" width="1em" height="1em" style="margin-bottom: 5px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -293,11 +375,13 @@
 						</h2>
 						<hr width="200px" style="height: 3px;" color="#7d7d89">
 					</div>
-					<div class="user_list" style="margin-top:30px;">사용자 들어가는 부분</div>
+					
+					<div class="user_list" style="margin-top:30px; display: inline-block; margin-left:auto;margin-right:auto; width:1200px;"></div>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
 
 </body>
 </html>

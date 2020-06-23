@@ -285,8 +285,12 @@
       location.href="/mypage?user="+nickname
     }
 
+    function go_search_page(data){
+      location.href="/search_page?search_data="+data
+    }
+
     function go_page5(data){
-      location.href="/page5?movie_title="+data
+      location.href="/page5?search_data="+data
     }
 
     function get_session(){
@@ -363,7 +367,7 @@
           console.log('성공!!!')
         }
       })
-      go_page5(search_data);
+      go_search_page(search_data);
       // bring_DB(search_data);
     }
     else{
@@ -385,20 +389,30 @@
           // 최신 순으로 나오기 위해서, reverse() 사용
           search_list.reverse()
           console.log(search_list)
-          search_list_bar = '최근 검색어'
-          search_list_1 = search_list[0]['search_movie']
-          search_list_2 = search_list[1]['search_movie']
-          search_list_3 = search_list[2]['search_movie']
-          search_list_4 = search_list[3]['search_movie']
-          search_list_5 = search_list[4]['search_movie']
-          search_list_6 = search_list[5]['search_movie']
-          search_list_7 = search_list[6]['search_movie']
-          search_list_8 = search_list[7]['search_movie']
-          search_list_9 = search_list[8]['search_movie']
-          search_list_10 = search_list[9]['search_movie']
+          if(search_list.length > 9 ){
+            search_list_bar = '최근 검색어'
+            search_list_1 = search_list[0]['search_movie']
+            search_list_2 = search_list[1]['search_movie']
+            search_list_3 = search_list[2]['search_movie']
+            search_list_4 = search_list[3]['search_movie']
+            search_list_5 = search_list[4]['search_movie']
+            search_list_6 = search_list[5]['search_movie']
+            search_list_7 = search_list[6]['search_movie']
+            search_list_8 = search_list[7]['search_movie']
+            search_list_9 = search_list[8]['search_movie']
+            search_list_10 = search_list[9]['search_movie']
 
-          bring_search_list_html(search_list_bar, search_list_1, search_list_2, search_list_3, search_list_4, search_list_5, search_list_6, search_list_7, search_list_8, search_list_9, search_list_10)
+            bring_search_list_html(search_list_bar, search_list_1, search_list_2, search_list_3, search_list_4, search_list_5, search_list_6, search_list_7, search_list_8, search_list_9, search_list_10)
+          }else{
+            $('.lastest_searching_movie').append('<ul id="search_list_contents" style="padding-left:0px;margin-top:250px; margin-bottom:50%;">\
+              <p style="font-weight:bold;font-size:large;">10개 이상 검색해야 해당 기능을 사용할 수 있습니다.</p>');
+            for(let i = 0; i < search_list.length ;i++){
+              console.log(search_list[i])
+
+            }
+          }
         }
+
         // 로그인이 되어있지 않을 때
         else if(response['result']=='fail'){
           alert('로그인을 먼저 진행해주세요!')
@@ -411,16 +425,16 @@
     $('#search_list_contents').remove()
     search_list_html = '<ul id="search_list_contents" style="padding-left:0px;margin-top:30px;">\
     <p><a id="rank_bar" style="font-weight:bold;font-size:20pt;">'+'<'+search_bar+'>'+'</a></p><br>\
-    <p><a href="/page5?movie_title='+search_list_1+'" id="rank_first">'+search_list_1+'</a></p>\
-    <p><a href="/page5?movie_title='+search_list_2+'" id="rank_second">'+search_list_2+'</a></p>\
-    <p><a href="/page5?movie_title='+search_list_3+'" id="rank_third">'+search_list_3+'</a></p>\
-    <p><a href="/page5?movie_title='+search_list_4+'" id="rank_fourth">'+search_list_4+'</a></p>\
-    <p><a href="/page5?movie_title='+search_list_5+'" id="rank_fifth">'+search_list_5+'</a></p>\
-    <p><a href="/page5?movie_title='+search_list_6+'" id="rank_fifth">'+search_list_6+'</a></p>\
-    <p><a href="/page5?movie_title='+search_list_7+'" id="rank_fifth">'+search_list_7+'</a></p>\
-    <p><a href="/page5?movie_title='+search_list_8+'" id="rank_fifth">'+search_list_8+'</a></p>\
-    <p><a href="/page5?movie_title='+search_list_9+'" id="rank_fifth">'+search_list_9+'</a></p>\
-    <p><a href="/page5?movie_title='+search_list_10+'" id="rank_fifth">'+search_list_10+'</a></p>\
+    <p><a href="/page5?search_data='+search_list_1+'" id="rank_first">'+search_list_1+'</a></p>\
+    <p><a href="/page5?search_data='+search_list_2+'" id="rank_second">'+search_list_2+'</a></p>\
+    <p><a href="/page5?search_data='+search_list_3+'" id="rank_third">'+search_list_3+'</a></p>\
+    <p><a href="/page5?search_data='+search_list_4+'" id="rank_fourth">'+search_list_4+'</a></p>\
+    <p><a href="/page5?search_data='+search_list_5+'" id="rank_fifth">'+search_list_5+'</a></p>\
+    <p><a href="/page5?search_data='+search_list_6+'" id="rank_fifth">'+search_list_6+'</a></p>\
+    <p><a href="/page5?search_data='+search_list_7+'" id="rank_fifth">'+search_list_7+'</a></p>\
+    <p><a href="/page5?search_data='+search_list_8+'" id="rank_fifth">'+search_list_8+'</a></p>\
+    <p><a href="/page5?search_data='+search_list_9+'" id="rank_fifth">'+search_list_9+'</a></p>\
+    <p><a href="/page5?search_data='+search_list_10+'" id="rank_fifth">'+search_list_10+'</a></p>\
     </ul>'
 
     $('.lastest_searching_movie').append(search_list_html);

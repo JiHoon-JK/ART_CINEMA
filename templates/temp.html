@@ -198,16 +198,16 @@
       $('#rank_menu_contents').remove()
       rank_box_html = '<ul id="rank_menu_contents">\
       <p><a id="rank_bar" style="font-weight:bold;font-size:20pt;">'+'<'+rank_bar+'>'+'</a></p><br>\
-      <p><a href="/page5?movie_title='+rank_1+'" id="rank_first">'+'1위 '+rank_1+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_2+'" id="rank_second">'+'2위 '+rank_2+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_3+'" id="rank_third">'+'3위 '+rank_3+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_4+'" id="rank_fourth">'+'4위 '+rank_4+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_5+'" id="rank_fifth">'+'5위 '+rank_5+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_6+'" id="rank_fifth">'+'6위 '+rank_6+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_7+'" id="rank_fifth">'+'7위 '+rank_7+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_8+'" id="rank_fifth">'+'8위 '+rank_8+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_9+'" id="rank_fifth">'+'9위 '+rank_9+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_10+'" id="rank_fifth">'+'10위 '+rank_10+'</a></p>\
+      <p><a href="/page5?movie_title='+rank_1+'" id="rank_1st">'+'1위 '+rank_1+'</a></p>\
+      <p><a href="/page5?movie_title='+rank_2+'" id="rank_2nd">'+'2위 '+rank_2+'</a></p>\
+      <p><a href="/page5?movie_title='+rank_3+'" id="rank_3rd">'+'3위 '+rank_3+'</a></p>\
+      <p><a href="/page5?movie_title='+rank_4+'" id="rank_4th">'+'4위 '+rank_4+'</a></p>\
+      <p><a href="/page5?movie_title='+rank_5+'" id="rank_5th">'+'5위 '+rank_5+'</a></p>\
+      <p><a href="/page5?movie_title='+rank_6+'" id="rank_6th">'+'6위 '+rank_6+'</a></p>\
+      <p><a href="/page5?movie_title='+rank_7+'" id="rank_7th">'+'7위 '+rank_7+'</a></p>\
+      <p><a href="/page5?movie_title='+rank_8+'" id="rank_8th">'+'8위 '+rank_8+'</a></p>\
+      <p><a href="/page5?movie_title='+rank_9+'" id="rank_9th">'+'9위 '+rank_9+'</a></p>\
+      <p><a href="/page5?movie_title='+rank_10+'" id="rank_10th">'+'10위 '+rank_10+'</a></p>\
       </ul>'
 
       $('#rank_box').append(rank_box_html);
@@ -216,7 +216,7 @@
 
     // 선호장르 알아보기 버튼 추가 함수
     function comment_button(){
-      button_movepage = '<button id=comment_write style="vertical-align:middle;" onclick="go_page5($(maingenre_movie_title1).text())">코멘트 작성하기11'+pencil_image+'</button>'
+      button_movepage = '<button id=comment_write style="vertical-align:middle;" onclick="go_page5($(maingenre_movie_title1).text())">코멘트 작성하기'+pencil_image+'</button>'
       $('.button_cover').append(button_movepage)
     }
 
@@ -252,7 +252,7 @@
   }
       // 검색 페이지(page5)로 가는 함수
       function go_page5(data){
-        location.href="/page5?movie_title="+data
+        location.href="/page5?search_data="+data
       }
 
       // 검색 결과 보여주는 페이지로 가는 함수

@@ -18,6 +18,7 @@ global email1
 global session
 
 
+
 def genre_cnt():
     all_selected_movie = list(db.select_movie.find({}))
     print(all_selected_movie)
@@ -211,7 +212,7 @@ def search_page():
 
 @app.route('/page5')
 def page5():
-    para = request.args.get("movie_title")
+    para = request.args.get("search_data")
     print(para)
     print('제발....')
     if 'email' in session:
@@ -278,7 +279,9 @@ def login():
     for i in range(len(a)):
         if a[i].get('email') == email:
             if a[i].get('pwd') == pw_hash:
-                return jsonify({'result': 'success', 'userdb': email})
+                user_nickname = a[i].get('nickname')
+                print(user_nickname)
+                return jsonify({'result': 'success', 'userdb': user_nickname})
             else:
                 return jsonify({'result': 'fail', 'userdb': 'failed'})
     else:
@@ -298,13 +301,14 @@ def register():
     email = request.form['email']
     pwd = request.form['pwd']
     nickname = request.form['nickname']
+    introduce = request.form['introduce']
 
     pw_hash = hashlib.sha256(pwd.encode('utf-8')).hexdigest()
 
     a = list(db.userdb.find({}))
 
     if len(a) == 0:
-        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname, 'genre_1': "", 'genre_2': ""})
+        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname, 'genre_1': "", 'genre_2': "", 'profile_photo':"", "introduce":introduce})
         return jsonify({'result': 'success'})
 
     else:
@@ -314,7 +318,7 @@ def register():
             elif a[i].get('nickname') == nickname:
                 return jsonify({'result': 'fail2'})
 
-        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname})
+        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname ,'genre_1': "", 'genre_2': "", 'profile_photo':"", "introduce":introduce})
         return jsonify({'result': 'success', 'userdb': email})
 
 # @app.route('/customer2', methods=['GET'])
@@ -631,6 +635,7 @@ def search_movie():
     print('-----------xxxx----------')
     print(data)
     db.search_movie.insert(data)
+    counting_searched(search_movie)
     return jsonify({'result': 'success'})
 
 @app.route('/lastest_searching_listing', methods=['GET'])
@@ -669,6 +674,7 @@ def search_DB():
 
     print('------------------')
     print(comment_db)
+    print(movie_input)
     movie_info_ART = list(db.ART_movie_list.find({'title': {'$regex': movie_input}}, {'_id': 0}))
     # movie_info_Long = list(db.Long_movie_list.find({'title':{'$regex':search_title_give}}, {'_id': 0}))
     print(movie_info_ART)
@@ -717,6 +723,22 @@ def search_director():
         return jsonify({'result':'success','director_info':search_director_info})
 
 
+@app.route('/search_user', methods=['GET'])
+def search_user():
+    search_data = request.args.get("search_data")
+    print(search_data)
+    search_user_info = list(db.userdb.find({'nickname':{'$regex':search_data}},{'_id':0}))
+    print(search_user_info)
+    user_comment = list(db.serverside_usercomment.find({'user_nickname':{'$regex':search_data}},{'_id':0}))
+    print(user_comment)
+    user_comment_count = len(user_comment)
+    print(user_comment_count)
+    if(search_user_info == []):
+        print('해당 유저는 없습니다.')
+        return jsonify({'result':'fail'})
+    else:
+        print('해당 유저는 존재합니다.')
+        return jsonify({'result':'success','user_info':search_user_info,'user_comment_count':user_comment_count})
 
     
 def counting_liked_plus(title):
@@ -735,10 +757,11 @@ def all_user_disliked_movie(title, b):
     db.serverside_dislikeDB.insert_one({'email': b, 'title': title})
 
 
-def counting_searched(title):
-    print(title)
+def counting_searched(data):
+    print(data)
     print('cnt_search test')
-    db.ART_movie_list.update_one({'title': title}, {'$inc': {'searched_cnt': 1}})
+    db.ART_movie_list.update_one({'title': {'$regex':data}}, {'$inc': {'searched_cnt': 1}})
+    db.ART_movie_list.update_one({'director': {'$regex':data}}, {'$inc': {'searched_cnt': 1}})
 
 
 def counting_commented_plus(title):
