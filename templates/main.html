@@ -25,6 +25,7 @@
     $(document).ready(function(){
         listing2()
         get_session()
+
     });
 
     function get_session(){
@@ -75,6 +76,7 @@
      pw1 = $('#new_inputPassword1').val()
      pw2 = $('#new_inputPassword2').val()
      nickname = $('#new_inputNickname').val()
+     introduce_yourself = $('#new_input_introduce').val()
 
      if(email== ""){
         alert('이메일을 입력하세여')
@@ -100,6 +102,12 @@
         return;
      }
 
+     if(introduce_yourself==""){
+      alert('자신을 소개해주세요.');
+      $('#new_input_introduce').focus();
+      return;
+     }
+
      if($('#new_inputPassword1').val().length < 5){
         alert('비밀번호는 다섯자리 이상으로 입력해주세요');
         $('#new_inputPassword1').focus();
@@ -112,7 +120,7 @@
          $.ajax({
             type: "POST",
                url: "/customer",
-               data: { email:$('#new_inputEmail').val(), pwd:$('#new_inputPassword1').val(), nickname:$('#new_inputNickname').val()},
+               data: { email:$('#new_inputEmail').val(), pwd:$('#new_inputPassword1').val(), nickname:$('#new_inputNickname').val(), introduce:$('#new_input_introduce').val()},
                success: function(response){
                   if (response['result'] == 'success'){
                     alert('회원가입이 완료되었습니다.')
@@ -144,8 +152,8 @@
           if (response['result'] == 'success'){
              $.cookie('mytoken', response['token']);
              userdb = response['userdb'];
-
-             alert('로그인완료')
+             console.log(userdb)
+             alert(userdb+'님, 환영합니다.')
 
              location.href="/temp"
           }
@@ -198,7 +206,7 @@
     $('#login').remove();
     $('.cover').html('');
 
-    temp_html2 = '<div id = "join", style="padding-top:50px;"><h1 class="cover-heading" style="text-align: center">Please register</h1><div class="form-label-group"><input type="email" id="new_inputEmail" class="form-control" placeholder="Email address" required autofocus><label for="new_inputEmail" id="label_id">Input Email address</label></div><div class="form-label-group"><input type="text" id="new_inputNickname" class="form-control" placeholder="Nickname" required><label for="new_inputNickname" id="label_nickname">Input Nickname</label></div><div class="form-label-group"><input type="password" id="new_inputPassword1" class="form-control" placeholder="Password" required><label for="new_inputPassword1">Input Password</label></div><div class="form-label-group"><input type="password" id="new_inputPassword2" class="form-control" placeholder="Password" required><label for="new_inputPassword2">Input Password again</label></div><div style="text-align:center;"><button type="button" class="btn btn-light" style="font-size:15px" onclick="register()"> <b>join </button></div></div>'
+    temp_html2 = '<div id = "join", style="padding-top:50px;"><h1 class="cover-heading" style="text-align: center">Please register</h1><div class="form-label-group"><input type="email" id="new_inputEmail" class="form-control" placeholder="Email address" required autofocus><label for="new_inputEmail" id="label_id">Input Email address</label></div><div class="form-label-group"><input type="text" id="new_inputNickname" class="form-control" placeholder="Nickname" required><label for="new_inputNickname" id="label_nickname">Input Nickname</label></div><div class="form-label-group"><input type="password" id="new_inputPassword1" class="form-control" placeholder="Password" required><label for="new_inputPassword1">Input Password</label></div><div class="form-label-group"><input type="password" id="new_inputPassword2" class="form-control" placeholder="Password" required><label for="new_inputPassword2">Input Password again</label><input type="introduce" id="new_input_introduce" class="form-control" placeholder="Introduce Self" required><label for="new_input_introduce">Introduce Yourself</label></div><div style="text-align:center;"><button type="button" class="btn btn-light" style="font-size:15px" onclick="register()"> <b>join </button></div></div>'
     $('.cover').append(temp_html2)
   }
 

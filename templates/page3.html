@@ -183,10 +183,11 @@
     </div>\
     </div>\
     <div class="card-body">\
-    <h4 class="card-title movie_title" id="maingenre_movie_title1">'+title+'</h4>\
-    <h5 class="card-text" style="text-align:right;"><small class="text-muted" id="maingenre_movie_director1">'+director+'</small></h5>\
+    <h4 class="card-title movie_title" id="maingenre_movie_title'+num+'">'+title+'</h4>\
+    <h5 class="card-text" style="text-align:right;"><small class="text-muted" id="maingenre_movie_director'+num+'">'+director+'</small></h5>\
     <br>\
-    <p class="card-text" id="maingenre_movie_summary1">'+summary+'</p>\
+    <p class="card-text" id="maingenre_movie_summary'+num+'">'+summary+'</p>\
+    <button id="maingenre_movie_button'+num+'" onclick="go_page5($(maingenre_movie_title'+num+').text())">코멘트 작성하기</button>\
     <div class="prefer-body">\
     <h5 class="mt-0"id="prefer_movie_title1"></h5>\
     <p class="summary-text" id="preference_movie"></p>\
@@ -249,10 +250,11 @@ function movie_card2(title,poster,director,summary,num){
   </div>\
   </div>\
   <div class="card-body">\
-  <h4 class="card-title movie_title" id="maingenre_movie_title1">'+title+'</h4>\
-  <h5 class="card-text" style="text-align:right;"><small class="text-muted" id="maingenre_movie_director1">'+director+'</small></h5>\
+  <h4 class="card-title movie_title" id="secondgenre_movie_title'+num+'">'+title+'</h4>\
+  <h5 class="card-text" style="text-align:right;"><small class="text-muted" id="secondgenre_movie_director'+num+'">'+director+'</small></h5>\
   <br>\
-  <p class="card-text" id="maingenre_movie_summary1">'+summary+'</p>\
+  <p class="card-text" id="secondgenre_movie_summary'+num+'">'+summary+'</p>\
+  <button id="maingenre_movie_button'+num+'" onclick="go_page5($(secondgenre_movie_title'+num+').text())">코멘트 작성하기</button>\
   <div class="prefer-body">\
   <h5 class="mt-0"id="prefer_movie_title1"></h5>\
   <p class="summary-text" id="preference_movie"></p>\
@@ -639,6 +641,11 @@ function go_home(){
 function go_my_page(nickname){
  location.href="/mypage?user="+nickname
 }
+
+function go_page5(data){
+  location.href="/page5?movie_title="+data
+}
+
 </script>
 
 <style type="text/css">
