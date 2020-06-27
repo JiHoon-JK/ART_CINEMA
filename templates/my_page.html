@@ -28,6 +28,7 @@
 
   $(document).ready(function(){
     get_session();
+    get_parameter();
   });
 
   function get_session(){
@@ -49,6 +50,19 @@
     $('#dislike_movies_select').html('');
   }
 
+
+// 다른 유저가 접근헀다면, 쿼리스트링 값을 받아서, 해당하는 마이페이지를 띄워야함.
+  function get_parameter(){
+      console.log("{{para_data}}")
+      if("{{para_data}}" == ""){
+        console.log("파라미터가 없습니다.")
+      }else{
+        console.log("파라미터가 있습니다.")
+        search_result = "{{para_data}}"
+        console.log("검색 결과 : "+search_result)
+        // bring_DB(search_result)
+      }
+    }
 
 
   function btn_logout(){
