@@ -23,6 +23,8 @@ def genre_cnt():
     all_selected_movie = list(db.select_movie.find({}))
     print(all_selected_movie)
     all_long_movie = list(db.Long_movie_list.find({}))
+
+
     # 장르마다 점수 값 배정
     genre_score = {
         '드라마': 0,
@@ -44,6 +46,8 @@ def genre_cnt():
         '액션': 0
     }
 
+    # global genre_score
+
     if 'email' in session:
         email1 = session['email']
         a = list(db.userdb.find({'email': email1}, {'_id': 0}))
@@ -61,15 +65,25 @@ def genre_cnt():
                     if selected_second_genre == key:
                         genre_score[key] = genre_score[key] + 3
 
-    result = sorted(genre_score.items(), key=lambda x: x[1], reverse=True)
-    print(result)
+    
+    score_result = sorted(genre_score.items(), key=lambda x: x[1], reverse=True)
+    print(score_result)
     global customer_main_genre
     global customer_second_genre
-    customer_main_genre = result[0][0]
-    customer_second_genre = result[1][0]
+    customer_main_genre = score_result[0][0]
+    customer_second_genre = score_result[1][0]
 
+    db.userdb.update_one({'email': b}, {'$set': {'genre_score' : score_result}})
     db.userdb.update_one({'email': b}, {'$set': {'genre_1': customer_main_genre}})
     db.userdb.update_one({'email': b}, {'$set': {'genre_2': customer_second_genre}})
+
+    return jsonify({'result': 'success'})
+
+# 영화 장르 점수에 점수 더해지는 함수
+def genre_score_plus():
+
+    user_genre_score = db.userdb.find()
+
 
     return jsonify({'result': 'success'})
 
@@ -241,17 +255,17 @@ def mypage():
         return render_template('my_page.html')
 
 
-@app.route('/mypage/more_Info')
-def more_Info():
-    if 'email' in session:
-        email1 = session['email']
-        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
-        print('Logged in as ' + email1)
-        print(session)
-        return render_template('(MP)more_Info.html', sessionemail2=a[0].get('nickname'))
+# @app.route('/mypage/more_Info')
+# def more_Info():
+#     if 'email' in session:
+#         email1 = session['email']
+#         a = list(db.userdb.find({'email': email1}, {'_id': 0}))
+#         print('Logged in as ' + email1)
+#         print(session)
+#         return render_template('(MP)more_Info.html', sessionemail2=a[0].get('nickname'))
 
-    else:
-        return render_template('(MP)more_Info.html')
+#     else:
+#         return render_template('(MP)more_Info.html')
 
 @app.route('/user', methods=['GET'])
 def listing():
@@ -563,7 +577,6 @@ def saved_comment():
             'user_comment_movie_poster': user_comment_movie_poster,
             'user_comment': user_comment_movie,
             'edit': False,
-            'gonggam_cnt':0
         }
         print(data)
         print('코멘트를 작성했습니다.')
@@ -773,34 +786,6 @@ def counting_commented_plus(title):
 def counting_commented_minus(title):
     print(title)
     db.ART_movie_list.update_one({'title': title}, {'$inc': {'commented_cnt': -1}})
-
-
-@app.route('/get_comments', methods=['POST'])
-def get_comments():
-    if 'email' in session:
-        email1 = session['email']
-
-    title = request.form['title']
-    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-
-    others_comments = list(db.serverside_usercomment.find({'user_comment_movie_title':title},{'_id':0}))
-    others_comments = sorted(others_comments, key=(lambda x: x['gonggam_cnt']), reverse=True)
-
-    # print(others_comments)
-    # print(others_comments[0].get('user_email'))
-    # for i in range(len(others_comments)):
-    #     if others_comments[i].get('user_email') == email1:
-    return jsonify({'result': 'success', 'others_comments': others_comments})
-
-
-@app.route('/comment_like_counting', methods=['POST'])
-def comment_like_counting():
-
-    title = request.form['title']
-    nickname = request.form['nickname']
-
-    db.serverside_usercomment.update_one({'user_comment_movie_title': title, 'user_nickname':nickname}, {'$inc': {'gonggam_cnt': 1}})
-    return jsonify({'result': 'success'})
 
 
 if __name__ == '__main__':

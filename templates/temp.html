@@ -39,10 +39,10 @@
 
     // 처음에 실행되는 함수
     $(document).ready(function(){
-      get_session()
-      sort_search_db()
+      get_session();
+      sort_search_db();
 
-      var title=""
+      var title="";
       listing2();
 
     });
@@ -952,7 +952,7 @@ function LD(title,poster){
 
       <div class=" main_contents">
         <div class="media">
-          <img class="mr-3" id="maingenre_movie_poster1" style="position:relative;" src="" alt="Generic placeholder image" >
+         <img class="mr-3" id="maingenre_movie_poster1" style="position:relative; cursor: pointer;" src="" alt="Generic placeholder image" onclick="go_page5($('#maingenre_movie_title1').text())">
           <div class="container" style="text-align:center; position:absolute; left:270px;">
             <div class="wrapper" style="display:inline-block; vertical-align:middle;">
               <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like" style="margin-bottom:20px; margin-left:10px;">
