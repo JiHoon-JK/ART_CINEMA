@@ -563,6 +563,7 @@ def saved_comment():
             'user_comment_movie_poster': user_comment_movie_poster,
             'user_comment': user_comment_movie,
             'edit': False,
+            'gonggam_cnt':0
         }
         print(data)
         print('코멘트를 작성했습니다.')
@@ -772,6 +773,34 @@ def counting_commented_plus(title):
 def counting_commented_minus(title):
     print(title)
     db.ART_movie_list.update_one({'title': title}, {'$inc': {'commented_cnt': -1}})
+
+
+@app.route('/get_comments', methods=['POST'])
+def get_comments():
+    if 'email' in session:
+        email1 = session['email']
+
+    title = request.form['title']
+    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
+    others_comments = list(db.serverside_usercomment.find({'user_comment_movie_title':title},{'_id':0}))
+    others_comments = sorted(others_comments, key=(lambda x: x['gonggam_cnt']), reverse=True)
+
+    # print(others_comments)
+    # print(others_comments[0].get('user_email'))
+    # for i in range(len(others_comments)):
+    #     if others_comments[i].get('user_email') == email1:
+    return jsonify({'result': 'success', 'others_comments': others_comments})
+
+
+@app.route('/comment_like_counting', methods=['POST'])
+def comment_like_counting():
+
+    title = request.form['title']
+    nickname = request.form['nickname']
+
+    db.serverside_usercomment.update_one({'user_comment_movie_title': title, 'user_nickname':nickname}, {'$inc': {'gonggam_cnt': 1}})
+    return jsonify({'result': 'success'})
 
 
 if __name__ == '__main__':
