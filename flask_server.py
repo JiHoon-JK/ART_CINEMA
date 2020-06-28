@@ -65,27 +65,21 @@ def genre_cnt():
                     if selected_second_genre == key:
                         genre_score[key] = genre_score[key] + 3
 
-    
+    print(genre_score)
     score_result = sorted(genre_score.items(), key=lambda x: x[1], reverse=True)
     print(score_result)
+    print('선호장르 점수 결과!')
     global customer_main_genre
     global customer_second_genre
     customer_main_genre = score_result[0][0]
     customer_second_genre = score_result[1][0]
 
-    db.userdb.update_one({'email': b}, {'$set': {'genre_score' : score_result}})
+    db.userdb.update_one({'email': b}, {'$set': {'genre_score' : genre_score}})
     db.userdb.update_one({'email': b}, {'$set': {'genre_1': customer_main_genre}})
     db.userdb.update_one({'email': b}, {'$set': {'genre_2': customer_second_genre}})
 
     return jsonify({'result': 'success'})
 
-# 영화 장르 점수에 점수 더해지는 함수
-def genre_score_plus():
-
-    user_genre_score = db.userdb.find()
-
-
-    return jsonify({'result': 'success'})
 
 
 # 영화 추천 함수
@@ -442,6 +436,8 @@ def like_button():
         db.LDDB.insert_one(like_movie)
         counting_liked_plus(like_movie['title'])
         all_user_liked_movie(like_movie['title'], b)
+
+
         return jsonify({'result': 'success'})
     else:
         if a[0].get('dislike') == True:
@@ -577,6 +573,7 @@ def saved_comment():
             'user_comment_movie_poster': user_comment_movie_poster,
             'user_comment': user_comment_movie,
             'edit': False,
+            'gonggam_cnt': 0
         }
         print(data)
         print('코멘트를 작성했습니다.')
@@ -786,6 +783,120 @@ def counting_commented_plus(title):
 def counting_commented_minus(title):
     print(title)
     db.ART_movie_list.update_one({'title': title}, {'$inc': {'commented_cnt': -1}})
+
+@app.route('/get_movie_genre', methods=['POST'])
+def get_genre():
+    movie_title = request.form['movie_title']
+    nickname = request.form['nickname']
+    check = request.form['check']
+    print(check)
+    print('장르 계산!')
+    movie_title_info = list(db.ART_movie_list.find({'title':movie_title},{'_id':0}))
+    movie_title_genre_1 = movie_title_info[0]['genre_1']
+    movie_title_genre_2 = movie_title_info[0]['genre_2']
+
+    if(check == 'plus'):
+        genre_score_plus(nickname,movie_title_genre_1,movie_title_genre_2)
+    elif (check == 'minus'):
+        genre_score_minus(nickname,movie_title_genre_1,movie_title_genre_2)
+
+    
+    return jsonify({'result':'success'})
+
+# 영화 장르 점수에 점수 더해지는 함수
+def genre_score_plus(nickname,genre_1,genre_2):
+
+    print('장르 계산기 시작!')
+    user_nickname = nickname
+    genre_1_receive = genre_1
+    print(genre_1_receive)
+    genre_2_receive = genre_2
+    print(genre_2_receive)
+
+    user_info= list(db.userdb.find({'nickname':nickname},{'_id':0}));
+    print(user_info)
+
+    if(genre_1_receive != '기타'):
+        user_genre_1_data = user_info[0]['genre_score'][genre_1_receive]
+        print(user_genre_1_data)
+        user_genre_1_data_plus = user_genre_1_data + 2
+        db.userdb.update_one({'nickname': nickname},
+                             {'$set': {'genre_score.' + genre_1_receive + '': user_genre_1_data_plus}})
+
+    else:
+        print('장르1는 기타 입니다.')
+
+    if (genre_2_receive != 'NONE'):
+        user_genre_2_data = user_info[0]['genre_score'][genre_2_receive]
+        print(user_genre_2_data)
+        user_genre_2_data_plus = user_genre_2_data + 1
+        db.userdb.update_one({'nickname': nickname},
+                             {'$set': {'genre_score.' + genre_2_receive + '': user_genre_2_data_plus}})
+
+    else:
+        print('장르2는 존재하지않습니다.')
+
+
+# 영화 장르 점수에 점수 더해지는 함수
+def genre_score_minus(nickname,genre_1,genre_2):
+
+    print('장르 계산기 시작!')
+    user_nickname = nickname
+    genre_1_receive = genre_1
+    print(genre_1_receive)
+    genre_2_receive = genre_2
+    print(genre_2_receive)
+
+    user_info= list(db.userdb.find({'nickname':nickname},{'_id':0}));
+    print(user_info)
+
+    if(genre_1_receive != '기타'):
+        user_genre_1_data = user_info[0]['genre_score'][genre_1_receive]
+        user_genre_1_data_minus = user_genre_1_data - 2
+        db.userdb.update_one({'nickname': nickname},
+                             {'$set': {'genre_score.' + genre_1_receive + '': user_genre_1_data_minus}})
+
+    else:
+        print('장르1는 기타 입니다.')
+
+    if (genre_2_receive != 'NONE'):
+        user_genre_2_data = user_info[0]['genre_score'][genre_2_receive]
+        print(user_genre_2_data)
+        user_genre_2_data_minus = user_genre_2_data - 1
+        db.userdb.update_one({'nickname': nickname},
+                             {'$set': {'genre_score.' + genre_2_receive + '': user_genre_2_data_minus}})
+
+    else:
+        print('장르2는 존재하지않습니다.')
+
+
+
+@app.route('/get_comments', methods=['POST'])
+def get_comments():
+    if 'email' in session:
+        email1 = session['email']
+
+    title = request.form['title']
+    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+
+    others_comments = list(db.serverside_usercomment.find({'user_comment_movie_title':title},{'_id':0}))
+    others_comments = sorted(others_comments, key=(lambda x: x['gonggam_cnt']), reverse=True)
+
+    # print(others_comments)
+    # print(others_comments[0].get('user_email'))
+    # for i in range(len(others_comments)):
+    #     if others_comments[i].get('user_email') == email1:
+    return jsonify({'result': 'success', 'others_comments': others_comments})
+
+
+@app.route('/comment_like_counting', methods=['POST'])
+def comment_like_counting():
+
+    title = request.form['title']
+    nickname = request.form['nickname']
+
+    db.serverside_usercomment.update_one({'user_comment_movie_title': title, 'user_nickname':nickname}, {'$inc': {'gonggam_cnt': 1}})
+    return jsonify({'result': 'success'})
 
 
 if __name__ == '__main__':
