@@ -282,68 +282,68 @@
   function go_page3(nickname){
     location.href="/page3?user="+nickname
   }
-      // 검색 페이지(page5)로 가는 함수
-      function go_page5(data){
-        location.href="/page5?search_data="+data
-      }
-
-      // 검색 결과 보여주는 페이지로 가는 함수
-      function go_search_page(data){
-        location.href="/search_page?search_data="+data
-      }
-
-      
-      // 네이버 클릭 함수
-      function naver_click(){
-       naver_url="https://movie.naver.com/movie/search/result.nhn?query=" + title + "&section=all&ie=utf8"
-       location.href=naver_url
-     }
-
-     // 다음 클릭 함수
-     function daum_click(){
-       daum_url="http://cinefox.com/smart/search?q=" + title
-       location.href=daum_url
-     }
-
-     // 나무 위키 클릭 함수
-     function namu_wiki_click(){
-      namu_wiki_url="https://namu.wiki/w/"+ title
-      location.href=namu_wiki_url
-    }
-
-    // 구글 클릭 함수
-    function google_click(){
-      google_url = "https://play.google.com/store/search?q="+title+"&c=movies&hl=ko"
-      location.href=google_url
-    }
-
-    // 랜덤으로 영화 내용 추가하는 함수
-    function recommend(random_director, all_byDirector){
-
-
-     director = random_director
-     $('#result_main_genre').text('"'+director+'"')
-
-     poster = all_byDirector['poster']
-     $('#maingenre_movie_poster1').attr('src',poster)
-
-     title = all_byDirector['title']
-     $('#maingenre_movie_title1').text(title)
-
-     summary = all_byDirector['summary']
-
-     if (summary.length > 300){
-      summary = summary.substr(0,300)+"..."
-    }
-
-
-    $('#maingenre_movie_summary1').text(summary)
-
-    check_like_db();
-
-
-    return title;
+  // 검색 페이지(page5)로 가는 함수
+  function go_page5(data){
+    location.href="/page5?search_data="+data
   }
+
+  // 검색 결과 보여주는 페이지로 가는 함수
+  function go_search_page(data){
+    location.href="/search_page?search_data="+data
+  }
+
+  
+  // 네이버 클릭 함수
+  function naver_click(){
+   naver_url="https://movie.naver.com/movie/search/result.nhn?query=" + title + "&section=all&ie=utf8"
+   location.href=naver_url
+ }
+
+ // 다음 클릭 함수
+ function daum_click(){
+   daum_url="http://cinefox.com/smart/search?q=" + title
+   location.href=daum_url
+ }
+
+ // 나무 위키 클릭 함수
+ function namu_wiki_click(){
+  namu_wiki_url="https://namu.wiki/w/"+ title
+  location.href=namu_wiki_url
+}
+
+  // 구글 클릭 함수
+  function google_click(){
+    google_url = "https://play.google.com/store/search?q="+title+"&c=movies&hl=ko"
+    location.href=google_url
+  }
+
+  // 랜덤으로 영화 내용 추가하는 함수
+  function recommend(random_director, all_byDirector){
+
+
+   director = random_director
+   $('#result_main_genre').text('"'+director+'"')
+
+   poster = all_byDirector['poster']
+   $('#maingenre_movie_poster1').attr('src',poster)
+
+   title = all_byDirector['title']
+   $('#maingenre_movie_title1').text(title)
+
+   summary = all_byDirector['summary']
+
+   if (summary.length > 300){
+    summary = summary.substr(0,300)+"..."
+  }
+
+
+  $('#maingenre_movie_summary1').text(summary)
+
+  check_like_db();
+
+
+  return title;
+}
 
 
   // 랜덤으로 db 에서 영화 뽑기 함수
@@ -436,6 +436,8 @@ function dislike_movie(){
 
 function DL(title,poster){
  jbResult = confirm("싫어요에 담겨있는 영화입니다. 좋아하는 영화에 담을까요 ?");
+ search_genre();
+ alert('장르 값을 더했습니다.');
  if (jbResult == true){
   $.ajax({
    type: "POST",
@@ -451,6 +453,8 @@ function DL(title,poster){
 
 function LD(title,poster){
  jbResult = confirm("좋아요에 담겨있는 영화입니다. 싫어하는 영화에 담을까요 ?");
+ search_genre();
+ alert('장르 값을 뺏습니다.');
  if (jbResult == true){
   $.ajax({
    type: "POST",
@@ -994,38 +998,38 @@ function LD(title,poster){
       <div class=" main_contents">
         <div class="media">
          <img class="mr-3" id="maingenre_movie_poster1" style="position:relative; cursor: pointer;" src="" alt="Generic placeholder image" onclick="go_page5($('#maingenre_movie_title1').text())">
-          <div class="container" style="text-align:center; position:absolute; left:270px;">
-            <div class="wrapper" style="display:inline-block; vertical-align:middle;">
-              <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like" style="margin-bottom:20px; margin-left:10px;">
-                <i class="material-icons not-liked bouncy">favorite_border</i>
-                <i class="material-icons is-liked bouncy">favorite</i>
-                <span class="like-overlay"></span>
-              </a>
-            </div>
+         <div class="container" style="text-align:center; position:absolute; left:270px;">
+          <div class="wrapper" style="display:inline-block; vertical-align:middle;">
+            <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like" style="margin-bottom:20px; margin-left:10px;">
+              <i class="material-icons not-liked bouncy">favorite_border</i>
+              <i class="material-icons is-liked bouncy">favorite</i>
+              <span class="like-overlay"></span>
+            </a>
           </div>
-          <div class="media-body">
-            <h5 class="mt-0" id="maingenre_movie_title1"></h5><br>
-            <p class="summary-text" id="maingenre_movie_summary1"></p>
-            <div class="link_button" style="padding-top: 10px;">
-              <button id="naver_link" onclick="naver_click()"><img src="static/naver.PNG"
-               style="width:50px; height:50px;"></button>
-               <button id="daum_link" onclick="daum_click()"><img src="static/daum.PNG"
-                 style="width:50px; height:50px"></button>
-                 <button id="namu_wiki_link" onclick="namu_wiki_click()"><img src="static/namu_wiki.jfif"
+        </div>
+        <div class="media-body">
+          <h5 class="mt-0" id="maingenre_movie_title1"></h5><br>
+          <p class="summary-text" id="maingenre_movie_summary1"></p>
+          <div class="link_button" style="padding-top: 10px;">
+            <button id="naver_link" onclick="naver_click()"><img src="static/naver.PNG"
+             style="width:50px; height:50px;"></button>
+             <button id="daum_link" onclick="daum_click()"><img src="static/daum.PNG"
+               style="width:50px; height:50px"></button>
+               <button id="namu_wiki_link" onclick="namu_wiki_click()"><img src="static/namu_wiki.jfif"
+                 style="width:50px; height:50px;"></button>
+                 <button id="google_link" onclick="google_click()" style="margin-right: 3px;"><img src="static/google_logo.webp"
                    style="width:50px; height:50px;"></button>
-                   <button id="google_link" onclick="google_click()" style="margin-right: 3px;"><img src="static/google_logo.webp"
-                     style="width:50px; height:50px;"></button>
-                   </div>
-                   <main role="main" class="button_cover" id="a">
-                   </main>
                  </div>
+                 <main role="main" class="button_cover" id="a">
+                 </main>
                </div>
              </div>
-             <div class="bottom_info">
-               <footer class="mastfoot mt-auto">
-                <p class="copy" style="background-color:#c5adba; color: white; margin-top:200px;">Copyright ⓒ Developer 지훈, 희진, 원행. All Rights Reserved.</p>
-              </footer>
-            </div>
+           </div>
+           <div class="bottom_info">
+             <footer class="mastfoot mt-auto">
+              <p class="copy" style="background-color:#c5adba; color: white; margin-top:200px;">Copyright ⓒ Developer 지훈, 희진, 원행. All Rights Reserved.</p>
+            </footer>
           </div>
-        </body>
-        </html>
+        </div>
+      </body>
+      </html>
