@@ -630,7 +630,7 @@ function divide_comments(others_comments){
 
 function display_comments(a,b,count){
     console.log(count)
-    $('#others_comment').append('<div class="media-body" style="width:33%; float:left; padding:50px"><img src="static/profile_img.jpg" style="width:45px; float:left ; border-radius:50%"><h5 class="mt-0 mb-1" id="comment_titles">' + '&nbsp&nbsp&nbsp<strong>' + a + '</strong><div style="margin-top:30px"><hr width="100%" color="white"></div></h5><div id="comment_comments">' + b + '</div><div style="margin-top:5%"><button id="comment_like" onclick=comment_like(' + count + ')> <img src="static/like.png" class="aaa" style="width:40px"></button></div></div>')
+    $('#others_comment').append('<div class="media-body" style="width:33%; float:left; padding:50px"><img src="static/user_image.jpg" style="width:45px; float:left ; border-radius:50%"><h5 class="mt-0 mb-1" id="comment_titles">' + '&nbsp&nbsp&nbsp<strong>' + a + '</strong><div style="margin-top:30px"><hr width="100%" color="white"></div></h5><div id="comment_comments">' + b + '</div><div style="margin-top:5%"><button id="comment_like" onclick=comment_like(' + count + ')> <img src="static/user_image.jpg" class="aaa" style="width:40px"></button></div></div>')
 }
 
 function comment_like(count){
@@ -1084,7 +1084,7 @@ img{
                     <div id="comment_comments">
                     </div>
                     <div style="margin-top:5%; margin-left:5%">
-                        <button id="comment_like" onclick="comment_like()"><img src="static/like.png" class="aaa"
+                        <button id="comment_like" onclick="comment_like()"><img src="static/user_image.jpg" class="aaa"
                                                                                 style="width:40px"></button>
                     </div>
 
