@@ -18,33 +18,13 @@ global email1
 global session
 
 
-
 def genre_cnt():
     all_selected_movie = list(db.select_movie.find({}))
     print(all_selected_movie)
     all_long_movie = list(db.Long_movie_list.find({}))
 
 
-    # 장르마다 점수 값 배정
-    genre_score = {
-        '드라마': 0,
-        '판타지': 0,
-        '공포': 0,
-        '멜로/로맨스': 0,
-        '모험': 0,
-        '스릴러': 0,
-        '느와르': 0,
-        '다큐멘터리': 0,
-        '코미디': 0,
-        '가족': 0,
-        '미스터리': 0,
-        '전쟁': 0,
-        '에니메이션': 0,
-        '범죄': 0,
-        '뮤지컬': 0,
-        'SF': 0,
-        '액션': 0
-    }
+
 
     # global genre_score
 
@@ -52,6 +32,45 @@ def genre_cnt():
         email1 = session['email']
         a = list(db.userdb.find({'email': email1}, {'_id': 0}))
         b = a[0].get('email')
+        nickname = a[0].get('nickname')
+
+    user_data = list(db.userdb.find({'nickname':nickname},{'_id':0}))
+    print('장르 들어갔는지 확인')
+    print(user_data)
+    user_genre_score = user_data[0]['genre_score']
+    print(user_genre_score)
+    user_genre_score_val = list(user_genre_score.values())
+    print(user_genre_score_val)
+    user_genre_score_vals = 0
+    for i in range(len(user_genre_score_val)):
+        user_genre_score_vals += user_genre_score_val[i]
+        # 처음 로그인해서 진행했다면, 새로운 genre_score 셋을 줘야한다.
+        if(user_genre_score_vals == 0):
+            # 장르마다 점수 값 배정
+            genre_score = {
+                '드라마': 0,
+                '판타지': 0,
+                '공포': 0,
+                '멜로/로맨스': 0,
+                '모험': 0,
+                '스릴러': 0,
+                '느와르': 0,
+                '다큐멘터리': 0,
+                '코미디': 0,
+                '가족': 0,
+                '미스터리': 0,
+                '전쟁': 0,
+                '에니메이션': 0,
+                '범죄/느와르': 0,
+                '뮤지컬': 0,
+                'SF': 0,
+                '액션': 0
+            }
+            print('genre_score 셋을 생성했습니다.')
+        else:
+            genre_score = user_genre_score
+            print('genre_score 가 이미 있습니다.')
+
 
     for i in range(len(all_selected_movie)):
         for j in range(len(all_long_movie)):
@@ -79,6 +98,9 @@ def genre_cnt():
     db.userdb.update_one({'email': b}, {'$set': {'genre_2': customer_second_genre}})
 
     return jsonify({'result': 'success'})
+
+
+  
 
 
 
@@ -462,7 +484,8 @@ def DLupdate_button():
 
     db.LDDB.update_one({'email': b, 'title': title}, {'$set': {'like': True, 'dislike': False}})
     counting_liked_plus(title)
-    db.serverside_dislikeDB.remove({'email': b, 'title': title})
+    db.serverside_dislikeDB.
+    ({'email': b, 'title': title})
     all_user_liked_movie(title, b)
     return jsonify({'result': 'success'})
 
@@ -478,7 +501,7 @@ def LDupdate_button():
 
     db.LDDB.update_one({'email': b, 'title': title}, {'$set': {'like': False, 'dislike': True}})
     counting_liked_minus(title)
-    db.serverside_likeDB.remove({'email': b, 'title': title})
+    db.serverside_likeDB.delete_one({'email': b, 'title': title})
     all_user_disliked_movie(title, b)
     return jsonify({'result': 'success'})
 
@@ -605,7 +628,7 @@ def removed_comment():
     print(find_comment_db)
     if (user_comment_remove == find_comment_db[0]['user_comment']):
         counting_commented_minus(find_comment_db[0]['user_comment_movie_title'])
-        db.serverside_usercomment.remove({'user_comment': user_comment_remove})
+        db.serverside_usercomment.delect_one({'user_comment': user_comment_remove})
         print('코멘트가 삭제되었습니다.')
         return jsonify({'result': 'success'})
     else:
