@@ -60,7 +60,7 @@ def genre_cnt():
                 '가족': 0,
                 '미스터리': 0,
                 '전쟁': 0,
-                '에니메이션': 0,
+                '애니메이션': 0,
                 '범죄/느와르': 0,
                 '뮤지컬': 0,
                 'SF': 0,
@@ -484,7 +484,7 @@ def DLupdate_button():
 
     db.LDDB.update_one({'email': b, 'title': title}, {'$set': {'like': True, 'dislike': False}})
     counting_liked_plus(title)
-    db.serverside_dislikeDB.
+    db.serverside_dislikeDB.delete_one
     ({'email': b, 'title': title})
     all_user_liked_movie(title, b)
     return jsonify({'result': 'success'})
@@ -812,9 +812,13 @@ def get_genre():
     movie_title = request.form['movie_title']
     nickname = request.form['nickname']
     check = request.form['check']
+    print(movie_title)
+    print(nickname)
     print(check)
     print('장르 계산!')
-    movie_title_info = list(db.ART_movie_list.find({'title':movie_title},{'_id':0}))
+    movie_title_info = list(db.ART_movie_list.find({"title":movie_title},{'_id':0}))
+    print(movie_title)
+    print(movie_title_info)
     movie_title_genre_1 = movie_title_info[0]['genre_1']
     movie_title_genre_2 = movie_title_info[0]['genre_2']
 
@@ -875,6 +879,7 @@ def genre_score_minus(nickname,genre_1,genre_2):
 
     if(genre_1_receive != '기타'):
         user_genre_1_data = user_info[0]['genre_score'][genre_1_receive]
+        print(user_genre_1_data)
         user_genre_1_data_minus = user_genre_1_data - 2
         db.userdb.update_one({'nickname': nickname},
                              {'$set': {'genre_score.' + genre_1_receive + '': user_genre_1_data_minus}})
