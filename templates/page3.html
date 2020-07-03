@@ -272,10 +272,10 @@ function btn_main_page(){
 function new_page3(nickname){
   location.href="/page3?user="+nickname
 }
-    
+
 // 영화의 장르를 분석해주는 함수
 
-    function search_genre(class_num){
+function search_genre(class_num){
       // 메인장르의 하트를 눌렀을 때
       if(class_num < 3){
         num = class_num
@@ -315,37 +315,37 @@ function new_page3(nickname){
     }
 
 
-function like_movie(num,check){
-  console.log(movies)
-  console.log(movies2)
-  console.log(num)
-  console.log(check)
-  if(check == 'first'){
-    console.log('윗줄!')
-    $.ajax({
-     type: "POST",
-     url: "/like_movie",
-     data: {
-      nickname:nickname,
-      title:movies[num]['title'],
-      poster:movies[num]['poster']
-    },
-    success: function(response){
-      if (response['result'] == 'success'){
-        alert('성공적으로 영화가 담겼습니다')
-        search_genre(num)
-        alert('장르 값을 추가했습니다.')
+    function like_movie(num,check){
+      console.log(movies)
+      console.log(movies2)
+      console.log(num)
+      console.log(check)
+      if(check == 'first'){
+        console.log('윗줄!')
+        $.ajax({
+         type: "POST",
+         url: "/like_movie",
+         data: {
+          nickname:nickname,
+          title:movies[num]['title'],
+          poster:movies[num]['poster']
+        },
+        success: function(response){
+          if (response['result'] == 'success'){
+            alert('성공적으로 영화가 담겼습니다')
+            search_genre(num)
+            alert('장르 값을 추가했습니다.')
+          }
+          else if (response['result'] == 'fail2'){
+            alert('이미 좋아한다고 누름')
+          }
+          else if (response['result'] == 'fail1'){
+            DL(movies[num]['title'])
+          }
+        }
+      })
       }
-      else if (response['result'] == 'fail2'){
-        alert('이미 좋아한다고 누름')
-      }
-      else if (response['result'] == 'fail1'){
-        DL(movies[num]['title'])
-      }
-    }
-  })
-  }
-  else if(check == 'second'){
+      else if(check == 'second'){
     // id 값이 3 4 5 라서 -3 을 해줘야한다.
     number = num - 3
     console.log('아랫줄!')
@@ -392,7 +392,7 @@ function dislike_movie(num,check){
   },
   success: function(response){
     if (response['result'] == 'success'){
-      alert('성공적으로 영화가 담겼습니다')
+      alert('성공적으로 영화가 빠졌습니다')
       search_genre(num)
       alert('장르 값을 뺏습니다.')
     }
@@ -400,6 +400,7 @@ function dislike_movie(num,check){
       alert('이미 안좋아한다고 누름')
     }
     else if (response['result'] == 'fail2'){
+      alert('좋아요를 취소했습니다.')
       LD(movies[num]['title'])
     }
   }
@@ -420,7 +421,7 @@ else if(check == 'second'){
   },
   success: function(response){
     if (response['result'] == 'success'){
-      alert('성공적으로 영화가 담겼습니다')
+      alert('성공적으로 영화가 빠졌습니다')
       search_genre(num)
       alert('장르 값을 뺏습니다.')
     }
@@ -439,9 +440,19 @@ else if(check == 'second'){
 
 function DL(title){
  jbResult = confirm("싫어요에 담겨있는 영화입니다. 좋아하는 영화에 담을까요 ?");
- search_genre();
- alert('장르 값을 더했습니다.');
- if (jbResult == true){
+ console.log(check)
+
+ if(check == 'first'){
+  number_final = num
+}
+else if(check =='second'){
+  number_final = number
+}
+search_genre(number_final);
+
+alert('장르 값을 더했습니다.');
+
+if (jbResult == true){
   $.ajax({
    type: "POST",
    url: "/DLupdate_movie",
@@ -456,16 +467,28 @@ function DL(title){
 
 function LD(title){
  jbResult = confirm("좋아요에 담겨있는 영화입니다. 싫어하는 영화에 담을까요 ?");
- search_genre(); 
- alert('장르 값을 뺏습니다.');
- if (jbResult == true){
+
+ if(check == 'first'){
+  number_final = num
+}
+else if(check =='second'){
+  number_final = number
+}
+
+
+if (jbResult == true){
   $.ajax({
    type: "POST",
    url: "/LDupdate_movie",
    data: {title:title},
    success: function(response){
-     if (response['result'] == 'success')
-      alert('좋아요 -> 싫어요에 성공적으로 영화가 담겼습니다')
+     if (response['result'] == 'success'){
+      alert('좋아요 -> 싫어요에 성공적으로 영화가 담겼습니다');
+      alert('장르 값을 뺏습니다.');
+
+      // 점수를 뺸다
+      search_genre(number_final);
+    }
   }
 })
 }
@@ -480,7 +503,7 @@ function go_my_page(nickname){
 }
 
 function go_page5(data){
-  location.href="/page5?movie_title="+data
+  location.href="/page5?search_data="+data
 }
 
 </script>
@@ -1009,8 +1032,11 @@ function go_page5(data){
    </div>
    <br><br>
    <h1 id="main_genre_title"></h1>
+   <div>
+    <hr width="150" color="white">
+  </div>
 
-   <div class="card-deck" id="movies1">
+  <div class="card-deck" id="movies1">
     <!--첫번째장르 첫번쨰추천영화-->
 
   </div>
@@ -1020,6 +1046,9 @@ function go_page5(data){
 <br><br><br><br>
 <div class="genre_contents" style="margin-bottom:5%">
   <h1 id="second_genre_title"></h1>
+  <div>
+    <hr width="150" color="white">
+  </div>
   <div class="card-deck" id="movies2">
 
 

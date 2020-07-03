@@ -40,7 +40,6 @@ def genre_cnt():
     user_genre_score = user_data[0]['genre_score']
     print(user_genre_score)
     user_genre_score_val = list(user_genre_score.values())
-    print(user_genre_score_val)
     user_genre_score_vals = 0
     for i in range(len(user_genre_score_val)):
         user_genre_score_vals += user_genre_score_val[i]
@@ -69,7 +68,6 @@ def genre_cnt():
             print('genre_score 셋을 생성했습니다.')
         else:
             genre_score = user_genre_score
-            print('genre_score 가 이미 있습니다.')
 
 
     for i in range(len(all_selected_movie)):
@@ -809,18 +807,28 @@ def counting_commented_minus(title):
 
 @app.route('/get_movie_genre', methods=['POST'])
 def get_genre():
-    movie_title = request.form['movie_title']
+
+    test = request.form['movie_title']
     nickname = request.form['nickname']
     check = request.form['check']
+
+    # test 변수가 띄어쓰기가 굉장히 많은 변수였다...
+    movie_title = test.strip()
+
     print(movie_title)
     print(nickname)
     print(check)
+
     print('장르 계산!')
-    movie_title_info = list(db.ART_movie_list.find({"title":movie_title},{'_id':0}))
-    print(movie_title)
+
+    movie_title_info = list(db.ART_movie_list.find({ 'title' : movie_title},{'_id':0}));
     print(movie_title_info)
-    movie_title_genre_1 = movie_title_info[0]['genre_1']
-    movie_title_genre_2 = movie_title_info[0]['genre_2']
+
+    if(movie_title_info != []):
+        movie_title_genre_1 = movie_title_info[0]['genre_1']
+        movie_title_genre_2 = movie_title_info[0]['genre_2']
+    else:
+        return jsonify({'result':'fail'})
 
     if(check == 'plus'):
         genre_score_plus(nickname,movie_title_genre_1,movie_title_genre_2)
