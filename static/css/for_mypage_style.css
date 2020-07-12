@@ -1,0 +1,334 @@
+@charset "utf-8";
+
+  html, body {
+    font-weight: 400;
+    color: white;
+    height: 100%;
+    background: rgb(20, 21, 23);
+    padding: 0px;
+    margin: 0px;
+  }
+
+  ul {
+    list-style-type: none;
+    margin-block-end: 0px;
+    margin-block-start: 0px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+    padding: 0px;
+    margin: 0px;  
+  }
+
+
+  #root {
+    width: 100%;
+    height: 100%;
+  }
+
+  .self {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 72px 0px 0px;
+  }
+
+  .top_sidebar {
+    position: fixed;
+    top: 0px;
+    z-index: 500;
+    font-size: 14px;
+    letter-spacing: -0.4px;
+    width: 100%;
+    height: 72px;
+    background-color: rgb(3, 7, 8);
+    padding: 0px 4%;
+  }
+
+  .ART_cinema_logo {
+    position: relative;
+    z-index: 10001;
+    float: left;
+    background-size: 173px 26px;
+    width: 173px;
+    height: 72px;
+  }
+
+
+  /* nav */
+
+  .left_nav {
+    float: center;
+    padding-left: 33px;
+  }
+
+  .right_nav {
+    display: flex;
+    position: relative;
+    right: -11px;
+    float: right;
+  }
+  
+  .user_profile {
+    margin-top: 100px;
+    display: flex;
+  }
+
+  .user_profile {
+
+  }
+
+  .user_img {
+
+  }
+  
+
+  /* main - div*/
+
+  .mypage_main {
+    flex: 1;
+    background: #141517;
+  }
+
+  .mypage_main_container {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .header {
+    margin-top: 3.2vw;
+    padding: 0px 4%;
+  }
+
+  .header_title {
+    color: rgb(255, 255, 255);
+    font-size: 3vw;
+    letter-spacing: -0.03125vw;
+    line-height: 2.03125vw;
+  }
+
+  /* main - section */
+  .mypage_list_section {
+    position: relative;
+    background-color: rgb(20, 21, 23);
+    overflow-x: visible;
+  }
+
+  .row_list {
+    padding-top: 1.01562vw;
+    padding-bottom: 2.34375vw;
+  }
+
+  .unit_row {
+    margin-bottom: 0.546875vw;
+  }
+
+  .row_title {
+    /*color: #FFFFFF;*/
+    color: orange;
+    font-size: 2vw;
+    -webkit-letter-spacing: -0.03125vw;
+    letter-spacing: -0.03125vw;
+    line-height: 2.03125vw;
+    padding: 0 4%;
+    margin-bottom: 0.703125vw;
+    font-family: sans-serif;
+  }
+
+  .row_section {
+    position: relative;
+    white-space: nowrap;
+    padding-right: 4%;
+    padding-left: 4%;
+    overflow-x: visible;
+  }
+
+  .fixed_row {
+    margin-bottom: 0vw;
+  }
+
+  .slide_row {
+    position: relative;
+  }
+
+  .movie_list_row {
+    /* scroll-bar 제어*/
+    white-space:nowrap; 
+    overflow:auto;
+    width:100%; 
+    height:auto;
+    /*               */
+    position: relative;
+    white-space: nowrap;
+    padding-right: 4%;
+    padding-left: 4%;
+    overflow-x: visible;
+  }
+
+  .movie_list_row_set {
+    margin-right: -0.15625vw;
+    margin-left: -0.15625vw;
+  }
+
+  .movie_ifno_container {
+    padding-left: 0;
+    display: inline-block;
+  }
+
+  .img_and_title {
+    z-index: 1;
+    padding: 0.15625vw;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 1.5625vw;
+    -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
+    -webkit-transition: transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
+    transition: transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
+  }
+
+
+
+
+  /* 이미지만*/
+  .movie_still_cut_container {
+    position: relative;
+  }
+
+  .movie_img_wrapper {
+    position: relative;
+    z-index: 3;
+  }
+
+ .movie_img_poster {
+    position: relative;
+    overflow: hidden;
+    background-color: #0f1112;
+    width: 100%;
+    padding: 28.125% 0;position: relative;
+    overflow: hidden;
+    background-color: #0f1112;
+    width: 100%;
+    padding: 0;
+    margin: 15pt;
+
+ }
+
+ .content_img {
+  display: block;
+  width: 100%;
+  height: auto;
+ }
+
+  .movie_img_poster_first {
+    position: relative;
+    overflow: hidden;
+    background-color: #0f1112;
+    width: 100%;
+    padding: 28.125% 0;position: relative;
+    overflow: hidden;
+    background-color: #0f1112;
+    padding: 0;
+    margin: 15pt;
+
+ }
+
+ .director_name_in_img {
+   
+  color: white;
+  font-size: 26px;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: left;
+}
+
+.comment_in_img {
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  /*-webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);*/
+  transform: translate(0%, -50%);
+  text-align: left;
+}
+
+ .movie_img_poster_first:hover .overlay {
+  opacity: 1;
+}
+
+  .movie_img_poster_second {
+    display: none;
+    position: relative;
+    overflow: hidden;
+    background-color: #0f1112;
+    width: 100%;
+    padding: 28.125% 0;position: relative;
+    overflow: hidden;
+    background-color: #0f1112;
+    width: 100%;
+    padding: 0;
+    margin: 15pt;
+
+ }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background: rgba(3, 3, 8, 0.7);
+  }
+
+   .movie_img_poster:hover img {
+      -webkit-transform:scale(1.2);
+      -moz-transform:scale(1.2);
+      -ms-transform:scale(1.2);   
+      -o-transform:scale(1.2);
+      transform:scale(.95);
+  }
+  /*타이틀만*/
+
+  .movie_title_wrapper {
+    height: 3.125vw;
+    margin-top: 0.234375vw;
+    opacity: 1;
+    -webkit-transition: opacity 0.2s linear 0s;
+    transition: opacity 0.2s linear 0s;    
+  }
+
+  .movie_title {
+    display: block;
+    color: rgba(255,255,255,0.95);
+    font-size: 1.46484375vw;
+    font-weight: 400;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: break-word;
+    padding: 0 1.015625vw 0 0;
+    opacity: 1;
+    -webkit-transition: opacity 0.25s cubic-bezier(0.5,0,0.1,1) 0.2s;
+    transition: opacity 0.25s cubic-bezier(0.5,0,0.1,1) 0.2s;
+  }
+
+  .text {
+   
+  color: white;
+  font-size: 16px;
+  position: absolute;
+  top: 20%;
+  left: 40%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: left;
+}

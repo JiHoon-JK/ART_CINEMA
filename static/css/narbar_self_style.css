@@ -1,0 +1,25 @@
+.navbar_artCinema {
+	display: flex;
+}
+
+.navbar_artCinema ul{
+	background-color: aqua;
+	align-items: center;
+}
+
+.navbar_logo li {
+	list-style: none;
+}
+
+.navbar_artCinema {
+	width: 100%
+	height: auto;
+}
+
+.navbar_menu {
+	list-style: none;
+}
+
+.navbar_icons {
+	list-style: none;
+}
