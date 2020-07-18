@@ -53,6 +53,16 @@
    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
    </svg>`
 
+   let speaker_image = `<svg width="3em" height="3em" style="margin-left:3px; margin-right:3px;" viewBox="0 0 16 16" class="bi bi-speaker" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+   <path d="M9 4a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-2.5 6.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0z"/>
+   <path fill-rule="evenodd" d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm6 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 7a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/>
+   </svg>`
+
+   let tv_image = `<svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-display" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5.75 13.5c.167-.333.25-.833.25-1.5h4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75z"/>
+  <path fill-rule="evenodd" d="M13.991 3H2c-.325 0-.502.078-.602.145a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2z"/>
+</svg>`
+
    $(document).ready(function(){
     search_movie = $('#movie_input').val();
 
@@ -68,8 +78,6 @@
   });
 
    function like_animation(){
-
-    console.log('좋아요 실행됐니?')
     $('.like-button').toggleClass('is-active');
     check_like();
   };
@@ -77,11 +85,9 @@
   // 좋아요를 누른 영화와 누르지 않은 영화를 나눠서 like/dislike 나누는 함수
   function check_like(){
     if($('#like').hasClass('is-active')){
-      console.log('좋아요를 눌렀습니다!');
       like_movie();
 
     }else{
-      console.log('좋아요를 누르지않았습니다!');
       dislike_movie();
     }
   }
@@ -97,11 +103,9 @@
     },
     success: function(response){
       if(response['result']=='like_success'){
-        console.log('이미 좋아요를 눌렀습니다.');
         alert('좋아요를 눌렀던 영화입니다.')
         $('.like-button').toggleClass('is-active');
       }else{
-        console.log('아직 좋아요를 누르지 않았습니다.')
       }
     }
   })
@@ -109,8 +113,6 @@
   }
 
   function movie_card(poster,title,summary,director){
-      // let receive_title = title
-      // console.log(receive_title)
       let temp_html_1 = '<div class="card mb-3">\
       <div class="row no-gutters" id="card_size">\
       <div class="col-md-4">\
@@ -134,11 +136,18 @@
       <h3 class="card-text" style="text-align:right;"><small class="text-muted">'+director+'</small></h3><br>\
       <p class="card-text">'+summary+'</p>\
       <button id="namu_wiki_link" onclick="namu_wiki_click()"><img src="static/namu_wiki.jfif"\
-      style="width:50px; height:50px;"></button>\
-      <button id="google_link" onclick="google_click()" style="margin-right: 3px;"><img src="static/google_logo.webp"\
+      style="width:50px; height:50px; cursor:pointer;"></button>\
+      <button id="google_link" onclick="google_click()" style="margin-right: 3px; cursor:pointer;"><img src="static/google_logo.webp"\
       style="width:50px; height:50px;"></button>\
       <button id="comment_button" onclick="btn_comment()">코멘트 남기기'+pencil_image+'</button>\
       </div>\
+      </div>\
+      <div class="watching_site" style="text-align: center; margin-top: 50px; margin-right: auto; margin-left: auto; margin-bottom:50px;border:1px solid black; padding : 20px 10px">\
+      '+speaker_image+'\
+      '+tv_image+'\
+      '+speaker_image+'\
+      <h4 style="font-weight: bold; margin-top:10px;">이 영화를 보고 싶다면, <a style="color:blue">버튼</a>을 눌러주세요.</h4>\
+      <button style="margin-top:20px;margin-bottom:10px;" onclick="google_click()">영화보러가기</button>\
       </div>\
       </div>\
       </div>'
@@ -192,7 +201,6 @@
           // 이미 작성한 코멘트가 있는 영화일 경우
           else{
             test_comment = response['comment']
-            console.log(test_comment)
             $('#user_comment').hide()
             comment_box_html = '<div id="db_comment_box">\
             <h3 id="db_comment">'+comment+'</h3>\
@@ -211,28 +219,22 @@
 
     function comment_info(){
       let user_comment = $('#user_comment').val()
-      console.log(user_comment)
       let user_comment_movie = $('#comment_movie_title').text()
-      console.log(user_comment_movie)
       let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
-      console.log(user_comment_movie_poster)
       comment_save(user_comment_movie,user_comment_movie_poster,user_comment)
       
     }
 
     function edit_comment_info(){
       let edit_user_comment = $('#edit_user_comment').val()
-      console.log(edit_user_comment)
       let user_comment_movie = $('#comment_movie_title').text()
       let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
-      console.log(user_comment_movie_poster)
       comment_save(user_comment_movie, user_comment_movie_poster, edit_user_comment)
     }
 
     function edit_card(){
 
       db_comment = $('#db_comment').text()
-      console.log(db_comment)
 
       alert('코멘트를 수정해주세요. (최소 30자 ,최대 500자)')
       edit_comment_html ='<div id="edit_comment_box">\
@@ -248,13 +250,11 @@
 
     function edit_user_comment(){
       let user_edit_comment = $('#edit_user_comment').val()
-      console.log(user_edit_comment)
       $.ajax({
         type:"POST",
         url:"/comment_edit",
         data:{nickname:$('#customer_email').text(),edit_movie:$('#comment_movie_title').text(),edit_comment:user_edit_comment},
         success: function(response){
-          console.log('edit 접속')
           $('#edit_comment_box').hide()
           edit_comment_info()
         }
@@ -265,7 +265,6 @@
     function comment_remove(){
       alert('정말 코멘트를 삭제하시겠습니까?')
       let db_comment = $('#db_comment').text()
-      console.log(db_comment)
       $.ajax({
         type:"POST",
         url:"/comment_remove",
@@ -302,7 +301,6 @@
       nickname = "{{sessionemail2}}"
       non_login = '<a class="nav-link" href="/" id="btn_main" onclick="btn_main()">로그인을 해야 사용가능합니다.</a>'
       html_logout = '<a class="nav-link" style="cursor:pointer;"id="btn_logout" onclick="btn_logout()">로그아웃</a>'
-      console.log("{{sessionemail2}}")
       if("{{sessionemail2}}" == ""){
         $('#menubar').append(non_login)
       }else{
@@ -313,13 +311,9 @@
     }
 
     function get_parameter(){
-      console.log("{{para_data}}")
       if("{{para_data}}" == ""){
-        console.log("파라미터가 없습니다.")
       }else{
-        console.log("파라미터가 있습니다.")
         search_result = "{{para_data}}"
-        console.log("검색 결과 : "+search_result)
         bring_DB(search_result)
       }
     }
@@ -329,6 +323,7 @@
      $('#customer_email').append(temp_html);
    }
 
+   // 로그아웃 함수
    function btn_logout(){
     jbResult = confirm( "정말 로그아웃을 하시겠습니까?" );
     if(jbResult == true){
@@ -337,10 +332,9 @@
        url: "/test2",
        data: {},
        success: function(response){
-
-       }
-     })
-      $('#btn_logout').hide();
+        location.href="/"
+      }
+    })
     }
     else{
     }
@@ -356,9 +350,7 @@
     $('#db_comment_box').remove()
 
     let search_data = $('#movie_input').val();
-    console.log(search_data)
     let nickname = $('#customer_email').text();
-    console.log(nickname)
     if( search_data != ""){
       alert(search_data+'에 대한 정보입니다.');
       $.ajax({
@@ -369,7 +361,6 @@
           nickname : nickname
         },
         success: function(response){
-          console.log('성공!!!')
         }
       })
       go_search_page(search_data);
@@ -386,14 +377,11 @@
       url:"/lastest_searching_listing",
       data:{nickname:$('#customer_email').text()},
       success:function(response){
-        console.log('최근 검색어 리스팅 성공!')
         // 로그인이 되어있을 때
         if(response['result']=='success'){
           search_list = response['list']
-          console.log(search_list)
           // 최신 순으로 나오기 위해서, reverse() 사용
           search_list.reverse()
-          console.log(search_list)
           if(search_list.length > 9 ){
             search_list_bar = '최근 검색어'
             search_list_1 = search_list[0]['search_movie']
@@ -412,7 +400,6 @@
             $('.lastest_searching_movie').append('<ul id="search_list_contents" style="padding-left:0px;margin-top:250px; margin-bottom:50%;">\
               <p style="font-weight:bold;font-size:large;">10개 이상 검색해야 해당 기능을 사용할 수 있습니다.</p>');
             for(let i = 0; i < search_list.length ;i++){
-              console.log(search_list[i])
 
             }
           }
@@ -448,7 +435,6 @@
 
 
   function bring_DB(data){
-    console.log(data)
     $.ajax({
       type: "GET",
       url: "/search_DB",
@@ -457,15 +443,9 @@
         if(response['result'] == 'success' && response['check_comment'] == 'success'){
           movie_infos = response['Movie_info'];
           let movie_comment = response['Movie_comment'];
-          console.log(movie_infos);
-          console.log(movie_comment);
           $('#movie_temp_html').html('');
 
-          
-          console.log('코멘트가 있다!')
-
           let title = movie_infos[0]['title']
-          console.log(title)
           let poster = movie_infos[0]['poster']
 
           for(let i=0; i<movie_infos.length-(movie_infos.length-1); i++){movie_card(movie_infos[i]['poster'],movie_infos[i]['title'],movie_infos[i]['summary'],movie_infos[i]['director']);
@@ -475,26 +455,21 @@
           comment_save(title,poster,movie_comment)
           $('#comment_box').show();
         }
-        console.log(movie_infos)
         check_like_db();
         // return (title , movie_infos)
       }
       else if(response['result'] == 'success' && response['check_comment'] == 'fail'){
         movie_infos = response['Movie_info'];
-        console.log(movie_infos);
-        let title = movie_infos[0]['title']
-        console.log(title)
+        let title = movie_infos[0]['title'];
 
         $('#movie_temp_html').html('');
 
-        console.log('코멘트가 없다.')
         for(let i=0; i<movie_infos.length-(movie_infos.length-1); i++){
           movie_card(movie_infos[i]['poster'],movie_infos[i]['title'],movie_infos[i]['summary'],movie_infos[i]['director']);
           $('#search_movie_title').text("<"+movie_infos[i]['title']+">");
           $('#comment_movie_title').text(movie_infos[i]['title']);
         }
 
-        console.log(movie_infos)
         check_like_db();
         // return (title , movie_infos)   
       }
@@ -502,7 +477,6 @@
       else{
         alert('영화를 검색해주세요.')
       }
-      console.log(movie_infos)
       return movie_infos;
     }
   })
@@ -513,9 +487,7 @@
 
   function search_genre(){
     title = $('#card_movie_title').text()
-    console.log(title)
     nickname = nickname
-    console.log(nickname)
 
       // 점수를 추가할지 뺄지 나누기 위해서, if 구문 작성
 
@@ -535,10 +507,8 @@
         },
         success:function(response){
           if(response['result'] == 'success'){
-            console.log('성공')
           }
           else if(response['result'] == 'fail'){
-            console.log('해당 영화의 정보를 가져오지 못했습니다.')
           }
         }
       })
@@ -637,7 +607,6 @@
 // 나무 위키 클릭 함수
 function namu_wiki_click(){
   movie_title = $('#search_movie_title').text()
-  console.log(movie_title)
   namu_wiki_url="https://namu.wiki/w/"+ movie_title
   location.href=namu_wiki_url
 }
@@ -645,10 +614,7 @@ function namu_wiki_click(){
 // 구글 클릭 함수
 function google_click(){
   movie_title = $('#search_movie_title').text()
-  console.log(movie_title)
   google_url = "https://play.google.com/store/search?q="+movie_title+"&c=movies&hl=ko"
-
-  // google_url="https://www.google.com/search?q="+movie_title
   location.href=google_url
 }
 
@@ -660,8 +626,6 @@ function get_others_comment(title){
    success: function(response){
      if (response['result'] == 'success'){
       others_comments = response['others_comments'];
-      console.log(others_comments)
-      console.log("sdfgfh")
       divide_comments(others_comments)
     }
   }
@@ -673,8 +637,6 @@ function divide_comments(others_comments){
   $('#others_comment').html('')
 
   for(let i=0 ; i < others_comments.length ; i++){
-    console.log(others_comments[i]['user_nickname'])
-    console.log(others_comments[i]['user_comment'])
     a= others_comments[i]['user_nickname']
     b= others_comments[i]['user_comment']
     display_comments(a,b,i)
@@ -682,7 +644,6 @@ function divide_comments(others_comments){
 }
 
 function display_comments(a,b,count){
-  console.log(count)
   $('#others_comment').append('<div class="media-body" style="width:33%; float:left; padding:50px"><img src="static/user_image.jpg" style="width:45px; float:left ; border-radius:50%"><h5 class="mt-0 mb-1" id="comment_titles">' + '&nbsp&nbsp&nbsp<strong>' + a + '</strong><div style="margin-top:30px"><hr width="100%" color="white"></div></h5><div id="comment_comments">' + b + '</div><div style="margin-top:5%"><button id="comment_like" onclick=comment_like(' + count + ')> <img src="static/user_image.jpg" class="aaa" style="width:40px"></button></div></div>')
 }
 

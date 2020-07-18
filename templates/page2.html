@@ -46,7 +46,6 @@
 
     function movie_click1(){
       let m_title1 = $('#movie_title1').text();
-      console.log(m_title1)
       $.ajax({
               type: "POST", // POST 방식으로 요청하겠다.
               url: "/selected_movie", // /post라는 url에 요청하겠다.
@@ -57,7 +56,6 @@
 
     function movie_click2(){
       let m_title2 = $('#movie_title2').text();
-      console.log(m_title2)
       $.ajax({
               type: "POST", // POST 방식으로 요청하겠다.
               url: "/selected_movie", // /post라는 url에 요청하겠다.
@@ -80,7 +78,6 @@
 
 
      number = 5 * next
-     console.log(number)
 
      all_number.push(number)
      $('#progress-bar').text(number+'%')
@@ -231,7 +228,6 @@ function update_user(genre_1,genre_2){
      genre_2:genre_2
    },
    success: function(response){
-     console.log(response)
    }
  })
 }
@@ -258,7 +254,6 @@ function skip(){
     }
 
      number = 5 * next
-     console.log(number)
 
      all_number.push(number)
      $('#progress-bar').text(number+'%')

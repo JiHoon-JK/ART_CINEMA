@@ -309,7 +309,9 @@ def login():
             if a[i].get('pwd') == pw_hash:
                 user_nickname = a[i].get('nickname')
                 print(user_nickname)
-                return jsonify({'result': 'success', 'userdb': user_nickname})
+                first_login_check = a[i].get('genre_1')
+                print(first_login_check)
+                return jsonify({'result': 'success', 'userdb': user_nickname, 'login_check':first_login_check})
             else:
                 return jsonify({'result': 'fail', 'userdb': 'failed'})
     else:
@@ -331,12 +333,32 @@ def register():
     nickname = request.form['nickname']
     introduce = request.form['introduce']
 
+    genre_score_set = {
+                '드라마': 0,
+                '판타지': 0,
+                '공포': 0,
+                '멜로/로맨스': 0,
+                '모험': 0,
+                '스릴러': 0,
+                '느와르': 0,
+                '다큐멘터리': 0,
+                '코미디': 0,
+                '가족': 0,
+                '미스터리': 0,
+                '전쟁': 0,
+                '애니메이션': 0,
+                '범죄/느와르': 0,
+                '뮤지컬': 0,
+                'SF': 0,
+                '액션': 0
+            }
+
     pw_hash = hashlib.sha256(pwd.encode('utf-8')).hexdigest()
 
     a = list(db.userdb.find({}))
 
     if len(a) == 0:
-        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname, 'genre_1': "", 'genre_2': "", 'profile_photo':"", "introduce":introduce})
+        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname, 'genre_1': "", 'genre_2': "", 'profile_photo':"", "introduce":introduce, "genre_score":genre_score_set})
         return jsonify({'result': 'success'})
 
     else:
@@ -346,13 +368,10 @@ def register():
             elif a[i].get('nickname') == nickname:
                 return jsonify({'result': 'fail2'})
 
-        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname ,'genre_1': "", 'genre_2': "", 'profile_photo':"", "introduce":introduce})
+        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname ,'genre_1': "", 'genre_2': "", 'profile_photo':"", "introduce":introduce, "genre_score":genre_score_set})
         return jsonify({'result': 'success', 'userdb': email})
 
-# @app.route('/customer2', methods=['GET'])
-# def register():
-#
-#     return jsonify({'result': 'success', 'userdb': email})
+
 
 # mypage연결 api
 @app.route('/info_my_like_movie', methods=['GET'])

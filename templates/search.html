@@ -62,7 +62,6 @@
 		nickname = "{{sessionemail2}}"
 		non_login = '<a class="nav-link" href="/" id="btn_main" onclick="btn_main()">로그인을 해야 사용가능합니다.</a>'
 		html_logout = '<a class="nav-link" style="cursor:pointer;"id="btn_logout" onclick="btn_logout()">로그아웃</a>'
-		console.log("{{sessionemail2}}")
 		if("{{sessionemail2}}" == ""){
 			$('#menubar').append(non_login)
 		}else{
@@ -79,8 +78,7 @@
 		$('#customer_email').append(temp_html);
 	}
 
-   // 로그아웃 하는 함수
-
+   // 로그아웃 함수
    function btn_logout(){
    	jbResult = confirm( "정말 로그아웃을 하시겠습니까?" );
    	if(jbResult == true){
@@ -89,10 +87,9 @@
    			url: "/test2",
    			data: {},
    			success: function(response){
-
+   				location.href="/"
    			}
    		})
-   		$('#btn_logout').hide();
    	}
    	else{
    	}
@@ -100,18 +97,15 @@
 
    // 검색한 parameter를 받아오는 함수
    function get_parameter(){
-   	console.log("{{para_data}}")
    	if("{{para_data}}" == ""){
-   		console.log("파라미터가 없습니다.")
-   	}else{
-   		console.log("파라미터가 있습니다.")
+   	}
+   	else{
    		search_result = "{{para_data}}"
-   		console.log("검색 결과 : "+search_result)
    		title_listing();
    		director_listing();
    		user_listing();
-		insert_search_listing(search_result);
-		alert(search_result+'를 최근검색어에 넣었습니다.')
+   		insert_search_listing(search_result);
+   		alert(search_result+'를 최근검색어에 넣었습니다.')
    	}
    }
 
@@ -137,7 +131,6 @@
 				nickname : nickname
 			},
 			success: function(response){
-				console.log('최근 검색 db에 넣었습니다.')
 			}
 		})
 	}
@@ -177,23 +170,18 @@
 
 	function title_listing(){
 		para = "{{para_data}}"
-		console.log(para)
 		$.ajax({
 			type: "GET",
 			url: "/search_title",
 			data: {search_data:para},
 			success: function(response){
 				if(response['result'] == 'success'){
-					console.log('영화제목은 존재합니다.')
 					title_infos = response['title_info']
-					console.log(title_infos)
 
 					for(let i=0; i<title_infos.length; i++){
-						console.log('for문 돌아가냐?')
 						title_listing_card(i,title_infos[i]['poster'],title_infos[i]['title'],title_infos[i]['director']);
 					}
 				}else{
-					console.log('영화제목으로 된 정보는 없습니다.')
 				}
 
 			}
@@ -220,23 +208,18 @@
 
 	function director_listing(){
 		para = "{{para_data}}"
-		console.log(para)
 		$.ajax({
 			type: "GET",
 			url: "/search_director",
 			data: {search_data:para},
 			success: function(response){
 				if(response['result'] == 'success'){
-					console.log('감독은 존재합니다.')
 					director_infos = response['director_info']
-					console.log(director_infos)
 
 					for(let j=0; j<director_infos.length; j++){
-						console.log('for문 돌아가냐?')
 						director_listing_card(j,director_infos[j]['poster'],director_infos[j]['title'],director_infos[j]['director']);
 					}
 				}else{
-					console.log('감독은 없습니다.')
 				}
 
 			}
@@ -268,25 +251,19 @@
 	// 사용자로 DB검색
 	function user_listing(){
 		para = "{{para_data}}"
-		console.log(para)
 		$.ajax({
 			type: "GET",
 			url: "/search_user",
 			data: {search_data:para},
 			success: function(response){
 				if(response['result'] == 'success'){
-					console.log('사용자가 존재합니다.')
 					user_infos = response['user_info']
-					console.log(user_infos)
 					user_comment_counts = response['user_comment_count']
-					console.log(user_comment_counts)
 
 					for(let k=0; k<user_infos.length; k++){
-						console.log('for문 돌아가고 있니?')
 						user_listing_card(k,user_infos[k]['nickname'],user_comment_counts,user_infos[k]['introduce']);
 					}
 				}else{
-					console.log('사용자는 없습니다.')
 				}
 			}
 		})
