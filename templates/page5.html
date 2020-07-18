@@ -13,12 +13,10 @@
     <link href="https://fonts.googleapis.com/css?family=Gamja+Flower&display=swap&subset=korean" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poor+Story&display=swap&subset=korean" rel="stylesheet">
-
     <!-- 추가한 부분 -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
           rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
-
     <!-- JS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
@@ -68,25 +66,19 @@
   });
 
    function like_animation(){
-
-    console.log('좋아요 실행됐니?')
     $('.like-button').toggleClass('is-active');
     check_like();
   };
 
-  // 좋아요를 누른 영화와 누르지 않은 영화를 나눠서 like/dislike 나누는 함수
   function check_like(){
     if($('#like').hasClass('is-active')){
-      console.log('좋아요를 눌렀습니다!');
       like_movie();
 
     }else{
-      console.log('좋아요를 누르지않았습니다!');
       dislike_movie();
     }
   }
 
-  //영화에 들어왔는데, 좋아요를 누른 영화라면 
   function check_like_db(){
     $.ajax({
      type: "POST",
@@ -97,15 +89,12 @@
     },
     success: function(response){
       if(response['result']=='like_success'){
-        console.log('이미 좋아요를 눌렀습니다.');
-        alert('좋아요를 눌렀던 영화입니다.')
         $('.like-button').toggleClass('is-active');
       }else{
-        console.log('아직 좋아요를 누르지 않았습니다.')
       }
     }
   })
-    
+
   }
 
   function movie_card(poster,title,summary,director){
@@ -184,6 +173,8 @@
               </div>'
               $('#user_comment_box').append(comment_box_html)
               alert('코멘트를 작성했습니다.')
+                      location.reload()
+
             }
           }
           // 이미 작성한 코멘트가 있는 영화일 경우
@@ -198,9 +189,9 @@
             <button id="comment_remove" onclick="comment_remove()">삭제'+trash_can_image+'</button>\
             </div>'
             $('#user_comment_box').append(comment_box_html)
-            alert('코멘트가 이미 있습니다.')
           }
         }
+
       })
     }
 
@@ -212,7 +203,8 @@
       let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
       console.log(user_comment_movie_poster)
       comment_save(user_comment_movie,user_comment_movie_poster,user_comment)
-      
+
+
     }
 
     function edit_comment_info(){
@@ -270,6 +262,8 @@
           $('#user_comment').show()
           $('#save_button').show()
           $('#db_comment_box').remove()
+          location.reload()
+
         }
       })
     }
@@ -456,7 +450,7 @@
           console.log(movie_comment);
           $('#movie_temp_html').html('');
 
-          
+
           console.log('코멘트가 있다!')
 
           let title = movie_infos[0]['title']
@@ -472,6 +466,8 @@
         }
         console.log(movie_infos)
         check_like_db();
+<!--        check_like_db2();-->
+
         // return (title , movie_infos)
       }
       else if(response['result'] == 'success' && response['check_comment'] == 'fail'){
@@ -491,7 +487,9 @@
 
         console.log(movie_infos)
         check_like_db();
-        // return (title , movie_infos)   
+<!--        check_like_db2();-->
+
+        // return (title , movie_infos)
       }
 
       else{
@@ -501,7 +499,7 @@
       return movie_infos;
     }
   })
-    
+
   }
 
   function like_movie(){
@@ -624,29 +622,105 @@ function divide_comments(others_comments){
         console.log(others_comments[i]['user_comment'])
         a= others_comments[i]['user_nickname']
         b= others_comments[i]['user_comment']
-        display_comments(a,b,i)
+        c= others_comments[i]['gonggam_cnt']
+        display_comments(a,b,i,c)
+        console.log("희진")
+        console.log(i)
+        check_like_db2(i);
+
     }
 }
 
-function display_comments(a,b,count){
+function display_comments(a,b,count,c){
     console.log(count)
-    $('#others_comment').append('<div class="media-body" style="width:33%; float:left; padding:50px"><img src="static/profile_img.jpg" style="width:45px; float:left ; border-radius:50%"><h5 class="mt-0 mb-1" id="comment_titles">' + '&nbsp&nbsp&nbsp<strong>' + a + '</strong><div style="margin-top:30px"><hr width="100%" color="white"></div></h5><div id="comment_comments">' + b + '</div><div style="margin-top:5%"><button id="comment_like" onclick=comment_like(' + count + ')> <img src="static/like.png" class="aaa" style="width:40px"></button></div></div>')
+    $('#others_comment').append('<div class="media-body" style="width:33%; float:left; padding:50px"><img src="static/user_image.jpg" style="width:45px; float:left ; border-radius:50%"><h5 class="mt-0 mb-1" id="comment_titles">' + '&nbsp&nbsp&nbsp<strong>' + a + '</strong><div style="margin-top:30px"><hr width="100%" color="white"></div></h5><div id="comment_comments" style="padding:10% ; word-break:break-all;">' + b + '</div><div style="margin-top:15%">\
+      <div class="container">\
+      좋아요 수 : '+c+'\
+      <div class="wrapper" style="display:inline-block; vertical-align:middle;">\
+      <a href="javascript:void(0);" onclick="like_animation1('+count+')" class="like-button" id="like'+count+'" style=" margin-left:100px;">\
+      <i class="material-icons not-liked bouncy">favorite_border</i>\
+      <i class="material-icons is-liked bouncy">favorite</i>\
+      <span class="like-overlay"></span>\
+      </a>\
+      </div>\
+      </div>\
+      </div></div>')
+<!--      <button id="comment_like" onclick=comment_like(' + count + ')> <img src="static/like.png" class="aaa" style="width:40px"></button>&nbsp&nbsp&nbsp좋아요 수:'+c+'</div></div>')-->
 }
 
-function comment_like(count){
 
+<!--체크코멘트함수와 연결된 서버의 함수는 코멘트디비에 좋아요 누른사람 검색해서 판단해야함-->
+  function check_like_db2(num){
+    console.log("++++++++++++++++++++")
+    console.log(num)
+    console.log("---------------------")
+    $.ajax({
+     type: "POST",
+     url: "/check_comment",
+     data: {
+      title:movie_infos[0]['title'],
+      num:num
+    },
+    success: function(response){
+      if(response['result']=='like_success'){
+
+        $('#like'+num).toggleClass('is-active');
+      }else if (response['result']=='like_fail'){
+
+      }else{
+        }
+          }
+  })
+
+  }
+
+
+   function like_animation1(num){
+
+    console.log('!!!!!!!!!!!!!')
+    console.log(num)
+    $('#like'+num).toggleClass('is-active');
+    check_like1(num);
+  };
+
+  function check_like1(num){
+    if($('#like'+num).hasClass('is-active')){
+      comment_like(num)
+    }else{
+      comment_like2(num)
+    }
+  }
+
+
+<!--좋아요한사람 INSERT 하기, counting++-->
+function comment_like(count){
     $.ajax({
        type: "POST",
        url: "/comment_like_counting",
        data: {nickname:others_comments[count]['user_nickname'], title:others_comments[count]['user_comment_movie_title']},
        success: function(response){
           if (response['result'] == 'success'){
-            alert('좋아요가 반영되었습니다')
+             alert('좋아요가 반영되었습니다')
+             location.reload()
           }
        }
    })
 }
 
+<!--좋아요한사람 Delete 하기, counting-- -->
+function comment_like2(count){
+    $.ajax({
+       type: "POST",
+       url: "/comment_dislike_counting",
+       data: {nickname:others_comments[count]['user_nickname'], title:others_comments[count]['user_comment_movie_title']},
+       success: function(response){
+          if (response['result'] == 'success'){
+             alert('좋아요가 취소되었습니다')
+             location.reload()
+          }
+       }
+   })
+}
 
 
 
@@ -658,7 +732,7 @@ function comment_like(count){
   *{
     font-family: 'Noto Serif KR', serif;
   }
-  
+
   #menubar{
     color: black;
     font-weight: bold;
@@ -734,9 +808,9 @@ function comment_like(count){
   font-weight:bold;
   border-radius: 5px;
 
-  border: 1px solid #d2f7e1; 
+  border: 1px solid #d2f7e1;
   background-color: rgba(0,0,0,0);
-  color: #d2f7e1; 
+  color: #d2f7e1;
   padding: 3px;
 
 }
@@ -755,12 +829,6 @@ function comment_like(count){
 
 .prefer_button{
   float: right;
-}
-
-.movie_info{
-  /*  position: absolute;*/
-/*  margin-left:auto;
-margin-right:auto;*/
 }
 
 #movie_input{
@@ -843,9 +911,9 @@ img{
 
 #like_button{
   margin-right: 20px;
-  cursor: pointer; 
+  cursor: pointer;
   background: rgba(255,255,255,0.3);
-  background-size: 50%;       
+  background-size: 50%;
   border-radius: 50%;
   text-align: center;
   line-height: 75px;
@@ -855,8 +923,8 @@ img{
 
 #dislike_button{
   margin-right: 20px;
-  cursor: pointer; 
-  background: rgba(255,255,255,0.3);       
+  cursor: pointer;
+  background: rgba(255,255,255,0.3);
   border-radius: 50%;
   text-align: center;
   line-height: 75px;
@@ -868,21 +936,6 @@ img{
 .container {
   width: 600px;
   height: auto;
-}
-.container h1 {
-  font-family: 'Lato';
-  font-size: 3rem;
-  font-weight: 300;
-}
-.container h4 {
-  font-family: 'Lato';
-  font-soze: 1.2rem;
-  padding-top: 40px;
-  color: #999;
-}
-.container .love {
-  font-size: 0.9rem;
-  color: #ff4f8f;
 }
 .container .wrapper .like-button {
   /*누르면 나오는 애니메이션 크기*/
@@ -980,37 +1033,9 @@ img{
   animation-fill-mode: both;
 }
 
-.link-button {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: #6dacff;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  display: -webkit-box;
-  display: flex;
-  -webkit-box-pack: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  align-items: center;
-  -webkit-transition: all .4s;
-  transition: all .4s;
-}
-.link-button img {
-  width: 32px;
-  height: 32px;
-  display: block;
-}
-.link-button:hover {
-  -webkit-transform: scale(1.1) rotate(180deg);
-  transform: scale(1.1) rotate(180deg);
-  background: #ff4f8f;
-}
 
 
-
-    </style>
+</style>
 
 
 </head>
@@ -1021,9 +1046,9 @@ img{
             <img src="static/logo.png" style="width:100px; height:80px; cursor: pointer;" onclick="btn_home()">
             <input class="keyword" id="movie_input" width="2em" height="2em"
                    style="margin-right: 7px; margin-left: 10px;" type="text" name="movie_info_give" maxlength=255
-                   value="" autocomplete="off" placeholder="'영화제목'  / '감독' / '사용자' 를 입력해주세요.ㄴㅇㅀㅎㅇㅀㅇㅀㅇㅀ"
+                   value="" autocomplete="off" placeholder="'영화제목'  / '감독' / '사용자' 를 입력해주세요."
                    onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
-            <svg class="bi bi-search" onclick="" width="2em" height="2em"
+            <svg class="bi bi-search" width="2em" height="2em"
                  style="margin-top:13px;margin-right: 7px; margin-left: 10px; cursor: pointer;" viewBox="0 0 16 16"
                  fill="currentColor" onclick="search_listing()" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"
@@ -1084,8 +1109,8 @@ img{
                     <div id="comment_comments">
                     </div>
                     <div style="margin-top:5%; margin-left:5%">
-                        <button id="comment_like" onclick="comment_like()"><img src="static/like.png" class="aaa"
-                                                                                style="width:40px"></button>
+<!--                        <button id="comment_like" onclick="comment_like()"><img src="static/like.png" class="aaa"-->
+<!--                                                                                style="width:40px"></button>-->
                     </div>
 
                 </div>
