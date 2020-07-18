@@ -59,9 +59,9 @@
    </svg>`
 
    let tv_image = `<svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-display" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path d="M5.75 13.5c.167-.333.25-.833.25-1.5h4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75z"/>
-  <path fill-rule="evenodd" d="M13.991 3H2c-.325 0-.502.078-.602.145a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2z"/>
-</svg>`
+   <path d="M5.75 13.5c.167-.333.25-.833.25-1.5h4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75z"/>
+   <path fill-rule="evenodd" d="M13.991 3H2c-.325 0-.502.078-.602.145a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2z"/>
+   </svg>`
 
    $(document).ready(function(){
     search_movie = $('#movie_input').val();
@@ -78,7 +78,7 @@
   });
 
    function like_animation(){
-    $('.like-button').toggleClass('is-active');
+    $('#like').toggleClass('is-active');
     check_like();
   };
 
@@ -103,8 +103,7 @@
     },
     success: function(response){
       if(response['result']=='like_success'){
-        alert('좋아요를 눌렀던 영화입니다.')
-        $('.like-button').toggleClass('is-active');
+        $('#like').toggleClass('is-active');
       }else{
       }
     }
@@ -113,63 +112,63 @@
   }
 
   function movie_card(poster,title,summary,director){
-      let temp_html_1 = '<div class="card mb-3">\
-      <div class="row no-gutters" id="card_size">\
-      <div class="col-md-4">\
-      <img src="'+poster+'" class="card-img" id="movie_poster" style="position:relative;"alt="...">\
-      <div class="container" style="text-align:center; position:absolute; top:10px; right:-265px;">\
-      <div class="wrapper" style="display:inline-block; vertical-align:middle;">\
-      <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like" style="margin-bottom:20px; margin-left:10px;">\
-      <i class="material-icons not-liked bouncy">favorite_border</i>\
-      <i class="material-icons is-liked bouncy">favorite</i>\
-      <span class="like-overlay"></span>\
-      </a>\
-      </div>\
-      </div>\
-      </div>\
-      <div class="col-md-8">\
-      <div class="card-body">\
-      <div class="card-title" style="">\
-      <h1 class="card_title" id="card_movie_title" style="font-weight:bold;">'+title+'\
-      </h1>\
-      </div>\
-      <h3 class="card-text" style="text-align:right;"><small class="text-muted">'+director+'</small></h3><br>\
-      <p class="card-text">'+summary+'</p>\
-      <button id="namu_wiki_link" onclick="namu_wiki_click()"><img src="static/namu_wiki.jfif"\
-      style="width:50px; height:50px; cursor:pointer;"></button>\
-      <button id="google_link" onclick="google_click()" style="margin-right: 3px; cursor:pointer;"><img src="static/google_logo.webp"\
-      style="width:50px; height:50px;"></button>\
-      <button id="comment_button" onclick="btn_comment()">코멘트 남기기'+pencil_image+'</button>\
-      </div>\
-      </div>\
-      <div class="watching_site" style="text-align: center; margin-top: 50px; margin-right: auto; margin-left: auto; margin-bottom:50px;border:1px solid black; padding : 20px 10px">\
-      '+speaker_image+'\
-      '+tv_image+'\
-      '+speaker_image+'\
-      <h4 style="font-weight: bold; margin-top:10px;">이 영화를 보고 싶다면, <a style="color:blue">버튼</a>을 눌러주세요.</h4>\
-      <button style="margin-top:20px;margin-bottom:10px;" onclick="google_click()">영화보러가기</button>\
-      </div>\
-      </div>\
-      </div>'
-      $('#movie_temp_html').append(temp_html_1);
-      get_others_comment(title)
-    }
+    let temp_html_1 = '<div class="card mb-3">\
+    <div class="row no-gutters" id="card_size">\
+    <div class="col-md-4">\
+    <img src="'+poster+'" class="card-img" id="movie_poster" style="position:relative;"alt="...">\
+    <div class="container" style="text-align:center; position:absolute; top:10px; right:-265px;">\
+    <div class="wrapper" style="display:inline-block; vertical-align:middle;">\
+    <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like" style="margin-bottom:20px; margin-left:10px;">\
+    <i class="material-icons not-liked bouncy">favorite_border</i>\
+    <i class="material-icons is-liked bouncy">favorite</i>\
+    <span class="like-overlay"></span>\
+    </a>\
+    </div>\
+    </div>\
+    </div>\
+    <div class="col-md-8">\
+    <div class="card-body">\
+    <div class="card-title" style="">\
+    <h1 class="card_title" id="card_movie_title" style="font-weight:bold;">'+title+'\
+    </h1>\
+    </div>\
+    <h3 class="card-text" style="text-align:right;"><small class="text-muted">'+director+'</small></h3><br>\
+    <p class="card-text">'+summary+'</p>\
+    <button id="namu_wiki_link" onclick="namu_wiki_click()"><img src="static/namu_wiki.jfif"\
+    style="width:50px; height:50px; cursor:pointer;"></button>\
+    <button id="google_link" onclick="google_click()" style="margin-right: 3px; cursor:pointer;"><img src="static/google_logo.webp"\
+    style="width:50px; height:50px;"></button>\
+    <button id="comment_button" onclick="btn_comment()">코멘트 남기기'+pencil_image+'</button>\
+    </div>\
+    </div>\
+    <div class="watching_site" style="text-align: center; margin-top: 50px; margin-right: auto; margin-left: auto; margin-bottom:50px;border:1px solid black; padding : 20px 10px">\
+    '+speaker_image+'\
+    '+tv_image+'\
+    '+speaker_image+'\
+    <h4 style="font-weight: bold; margin-top:10px;">이 영화를 보고 싶다면, <a style="color:blue">버튼</a>을 눌러주세요.</h4>\
+    <button style="margin-top:20px;margin-bottom:10px;" onclick="google_click()">영화보러가기</button>\
+    </div>\
+    </div>\
+    </div>'
+    $('#movie_temp_html').append(temp_html_1);
+    get_others_comment(title)
+  }
 
-    function btn_comment(){
-      if ( $('#comment_box').css('display') == 'block' ) {
-        $('#comment_box').hide();
-      } else {
-        $('#comment_box').show();
-      }
+  function btn_comment(){
+    if ( $('#comment_box').css('display') == 'block' ) {
+      $('#comment_box').hide();
+    } else {
+      $('#comment_box').show();
     }
+  }
 
-    function comment_save(title,poster,comment){
-      $('#save_button').hide()
-      $.ajax({
-        type: "POST",
-        url: "/comment_save",
-        data: { nickname :$('#customer_email').text(),user_comment_movie_title : title ,user_comment_movie_poster: poster ,user_comment_give : comment},
-        success: function(response){
+  function comment_save(title,poster,comment){
+    $('#save_button').hide()
+    $.ajax({
+      type: "POST",
+      url: "/comment_save",
+      data: { nickname :$('#customer_email').text(),user_comment_movie_title : title ,user_comment_movie_poster: poster ,user_comment_give : comment},
+      success: function(response){
           // 처음 저장하는 코멘트일 경우
           if (response['result']== 'success'){
             if(response['edit'] == true){
@@ -192,10 +191,9 @@
               <button id="comment_remove" onclick="comment_remove()">삭제'+trash_can_image+'</button>\
               </div>'
               $('#user_comment_box').append(comment_box_html)
-              alert('코멘트를 작성했습니다.')
 
               // 새로고침
-              window.location.reload();
+              location.reload();
             }
           }
           // 이미 작성한 코멘트가 있는 영화일 경우
@@ -209,119 +207,118 @@
             <button id="comment_remove" onclick="comment_remove()">삭제'+trash_can_image+'</button>\
             </div>'
             $('#user_comment_box').append(comment_box_html)
-            alert('코멘트가 이미 있습니다.')
           }
         }
       })
 
 
-    }
+  }
 
-    function comment_info(){
-      let user_comment = $('#user_comment').val()
-      let user_comment_movie = $('#comment_movie_title').text()
-      let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
-      comment_save(user_comment_movie,user_comment_movie_poster,user_comment)
-      
-    }
+  function comment_info(){
+    let user_comment = $('#user_comment').val()
+    let user_comment_movie = $('#comment_movie_title').text()
+    let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
+    comment_save(user_comment_movie,user_comment_movie_poster,user_comment)
 
-    function edit_comment_info(){
-      let edit_user_comment = $('#edit_user_comment').val()
-      let user_comment_movie = $('#comment_movie_title').text()
-      let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
-      comment_save(user_comment_movie, user_comment_movie_poster, edit_user_comment)
-    }
+  }
 
-    function edit_card(){
+  function edit_comment_info(){
+    let edit_user_comment = $('#edit_user_comment').val()
+    let user_comment_movie = $('#comment_movie_title').text()
+    let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
+    comment_save(user_comment_movie, user_comment_movie_poster, edit_user_comment)
+  }
 
-      db_comment = $('#db_comment').text()
+  function edit_card(){
 
-      alert('코멘트를 수정해주세요. (최소 30자 ,최대 500자)')
-      edit_comment_html ='<div id="edit_comment_box">\
-      <p id="edit_user_comment_box">\
-      <textarea name="txtarea" class="comment_area" id="edit_user_comment">'+db_comment+'</textarea>\
-      </p><br>\
-      <a class="btn btn-primary btn-lg" href="#" role="button" onclick="edit_user_comment()">저장하기</a>\
-      </div>'
-      $('#user_comment_box').append(edit_comment_html)
-      $('#save_button').hide()
-      $('#db_comment_box').remove()
-    }
+    db_comment = $('#db_comment').text()
 
-    function edit_user_comment(){
-      let user_edit_comment = $('#edit_user_comment').val()
-      $.ajax({
-        type:"POST",
-        url:"/comment_edit",
-        data:{nickname:$('#customer_email').text(),edit_movie:$('#comment_movie_title').text(),edit_comment:user_edit_comment},
-        success: function(response){
-          $('#edit_comment_box').hide()
-          edit_comment_info()
-        }
-      })
-    }
+    alert('코멘트를 수정해주세요. (최소 30자 ,최대 500자)')
+    edit_comment_html ='<div id="edit_comment_box">\
+    <p id="edit_user_comment_box">\
+    <textarea name="txtarea" class="comment_area" id="edit_user_comment">'+db_comment+'</textarea>\
+    </p><br>\
+    <a class="btn btn-primary btn-lg" href="#" role="button" onclick="edit_user_comment()">저장하기</a>\
+    </div>'
+    $('#user_comment_box').append(edit_comment_html)
+    $('#save_button').hide()
+    $('#db_comment_box').remove()
+  }
 
-
-    function comment_remove(){
-      alert('정말 코멘트를 삭제하시겠습니까?')
-      let db_comment = $('#db_comment').text()
-      $.ajax({
-        type:"POST",
-        url:"/comment_remove",
-        data:{user_comment: db_comment},
-        success: function(response){
-          $('#user_comment').val('')
-          $('#user_comment').show()
-          $('#save_button').show()
-          $('#db_comment_box').remove()
-        }
-      })
-    }
-    function btn_main(){
-      location.href="/"
-    }
-
-    function btn_home(){
-      location.href="/temp"
-    }
-
-    function btn_mypage(nickname){
-      location.href="/mypage?user="+nickname
-    }
-
-    function go_search_page(data){
-      location.href="/search_page?search_data="+data
-    }
-
-    function go_page5(data){
-      location.href="/page5?search_data="+data
-    }
-
-    function get_session(){
-      nickname = "{{sessionemail2}}"
-      non_login = '<a class="nav-link" href="/" id="btn_main" onclick="btn_main()">로그인을 해야 사용가능합니다.</a>'
-      html_logout = '<a class="nav-link" style="cursor:pointer;"id="btn_logout" onclick="btn_logout()">로그아웃</a>'
-      if("{{sessionemail2}}" == ""){
-        $('#menubar').append(non_login)
-      }else{
-        $('#menubar').append(html_logout)
-        email_head("{{sessionemail2}}")
+  function edit_user_comment(){
+    let user_edit_comment = $('#edit_user_comment').val()
+    $.ajax({
+      type:"POST",
+      url:"/comment_edit",
+      data:{nickname:$('#customer_email').text(),edit_movie:$('#comment_movie_title').text(),edit_comment:user_edit_comment},
+      success: function(response){
+        $('#edit_comment_box').hide()
+        edit_comment_info()
       }
+    })
+  }
 
-    }
 
-    function get_parameter(){
-      if("{{para_data}}" == ""){
-      }else{
-        search_result = "{{para_data}}"
-        bring_DB(search_result)
+  function comment_remove(){
+    alert('정말 코멘트를 삭제하시겠습니까?')
+    let db_comment = $('#db_comment').text()
+    $.ajax({
+      type:"POST",
+      url:"/comment_remove",
+      data:{user_comment: db_comment},
+      success: function(response){
+        $('#user_comment').val('')
+        $('#user_comment').show()
+        $('#save_button').show()
+        $('#db_comment_box').remove()
       }
+    })
+  }
+  function btn_main(){
+    location.href="/"
+  }
+
+  function btn_home(){
+    location.href="/temp"
+  }
+
+  function btn_mypage(nickname){
+    location.href="/mypage?user="+nickname
+  }
+
+  function go_search_page(data){
+    location.href="/search_page?search_data="+data
+  }
+
+  function go_page5(data){
+    location.href="/page5?search_data="+data
+  }
+
+  function get_session(){
+    nickname = "{{sessionemail2}}"
+    non_login = '<a class="nav-link" href="/" id="btn_main" onclick="btn_main()">로그인을 해야 사용가능합니다.</a>'
+    html_logout = '<a class="nav-link" style="cursor:pointer;"id="btn_logout" onclick="btn_logout()">로그아웃</a>'
+    if("{{sessionemail2}}" == ""){
+      $('#menubar').append(non_login)
+    }else{
+      $('#menubar').append(html_logout)
+      email_head("{{sessionemail2}}")
     }
 
-    function email_head(email){
-     let temp_html = email;
-     $('#customer_email').append(temp_html);
-   }
+  }
+
+  function get_parameter(){
+    if("{{para_data}}" == ""){
+    }else{
+      search_result = "{{para_data}}"
+      bring_DB(search_result)
+    }
+  }
+
+  function email_head(email){
+   let temp_html = email;
+   $('#customer_email').append(temp_html);
+ }
 
    // 로그아웃 함수
    function btn_logout(){
@@ -576,7 +573,6 @@
        data: {title:title, poster:poster},
        success: function(response){
          if (response['result'] == 'success'){
-          alert('싫어요 -> 좋아요에 성공적으로 영화가 담겼습니다')
           return true
         }
       }
@@ -595,7 +591,6 @@
      data: {title:title, poster:poster},
      success: function(response){
        if (response['result'] == 'success'){
-        alert('좋아요 -> 싫어요에 성공적으로 영화가 담겼습니다')
         return true
       }
     }
@@ -626,7 +621,9 @@ function get_others_comment(title){
    success: function(response){
      if (response['result'] == 'success'){
       others_comments = response['others_comments'];
+      console.log(others_comments)
       divide_comments(others_comments)
+
     }
   }
 })
@@ -636,28 +633,103 @@ function divide_comments(others_comments){
 
   $('#others_comment').html('')
 
+  console.log(others_comments)
+
   for(let i=0 ; i < others_comments.length ; i++){
+    console.log(others_comments[i]['user_nickname'])
+    console.log(others_comments[i]['user_comment'])
     a= others_comments[i]['user_nickname']
     b= others_comments[i]['user_comment']
-    display_comments(a,b,i)
+    c= others_comments[i]['gonggam_cnt']
+    display_comments(a,b,i,c)
+    console.log("희진")
+    console.log(i)
+    check_like_db2(i);
+
   }
 }
 
-function display_comments(a,b,count){
-  $('#others_comment').append('<div class="media-body" style="width:33%; float:left; padding:50px"><img src="static/user_image.jpg" style="width:45px; float:left ; border-radius:50%"><h5 class="mt-0 mb-1" id="comment_titles">' + '&nbsp&nbsp&nbsp<strong>' + a + '</strong><div style="margin-top:30px"><hr width="100%" color="white"></div></h5><div id="comment_comments">' + b + '</div><div style="margin-top:5%"><button id="comment_like" onclick=comment_like(' + count + ')> <img src="static/user_image.jpg" class="aaa" style="width:40px"></button></div></div>')
+function display_comments(a,b,count,c){
+  console.log(count)
+  $('#others_comment').append('<div class="media-body" style="width:33%; float:left; padding:50px"><img src="static/user_image.jpg" style="width:45px; float:left ; border-radius:50%"><h5 class="mt-0 mb-1" id="comment_titles">' + '&nbsp&nbsp&nbsp<strong>' + a + '</strong><div style="margin-top:30px"><hr width="100%" color="white"></div></h5><div id="comment_comments" style="padding:10% ; word-break:break-all;">' + b + '</div><div style="margin-top:15%">\
+    <div class="container">\
+    좋아요 수 : '+c+'\
+    <div class="wrapper" style="display:inline-block; vertical-align:middle;">\
+    <a href="javascript:void(0);" onclick="like_animation1('+count+')"class="like-button" id="like'+count+'" style=" margin-left:100px;">\
+    <i class="material-icons not-liked bouncy">favorite_border</i>\
+    <i class="material-icons is-liked bouncy">favorite</i>\
+    <span class="like-overlay"></span>\
+    </a>\
+    </div>\
+    </div>\
+    </div></div>')
+
 }
 
-function comment_like(count){
 
+function check_like_db2(num){
+  $.ajax({
+   type: "POST",
+   url: "/check_comment",
+   data: {
+    title:movie_infos[0]['title'],
+    num:num
+  },
+  success: function(response){
+    if(response['result']=='like_success'){
+      $('#like'+num).toggleClass('is-active');
+    }else if (response['result']=='like_fail'){
+
+    }else{
+    }
+  }
+})
+
+}
+
+function like_animation1(num){
+
+  console.log('!!!!!!!!!!!!!')
+  console.log(num)
+  $('#like'+num).toggleClass('is-active');
+  check_like1(num);
+};
+
+function check_like1(num){
+  if($('#like'+num).hasClass('is-active')){
+    comment_like(num)
+  }else{
+    comment_like2(num)
+  }
+}
+
+
+
+function comment_like(count){
   $.ajax({
    type: "POST",
    url: "/comment_like_counting",
    data: {nickname:others_comments[count]['user_nickname'], title:others_comments[count]['user_comment_movie_title']},
    success: function(response){
     if (response['result'] == 'success'){
-      alert('좋아요가 반영되었습니다')
-    }
-  }
+     alert('좋아요가 반영되었습니다')
+     location.reload()
+   }
+ }
+})
+}
+
+function comment_like2(count){
+  $.ajax({
+   type: "POST",
+   url: "/comment_dislike_counting",
+   data: {nickname:others_comments[count]['user_nickname'], title:others_comments[count]['user_comment_movie_title']},
+   success: function(response){
+    if (response['result'] == 'success'){
+     alert('좋아요가 취소되었습니다')
+     location.reload()
+   }
+ }
 })
 }
 
@@ -1100,6 +1172,16 @@ img{
           <div style="margin-top:5%; margin-left:5%">
             <button id="comment_like" onclick="comment_like()"><img src="static/user_image.jpg" class="aaa"
               style="width:40px"></button>
+            </div>
+            <div class="others_comment" id="others_comment" style="margin-top:5%; margin-left:20% ; margin-right:20%">
+              <div class="media-body" id="test" style="width:100px">
+                <h5 class="mt-0 mb-1" id="comment_titles">Media object</h5>
+                <div id="comment_comments">
+                </div>
+                <div style="margin-top:5%; margin-left:5%">
+                </div>
+
+              </div>
             </div>
 
           </div>

@@ -613,7 +613,8 @@ def saved_comment():
             'user_comment_movie_poster': user_comment_movie_poster,
             'user_comment': user_comment_movie,
             'edit': False,
-            'gonggam_cnt': 0
+            'gonggam_cnt': 0,
+            'gongmag_people': []
         }
         print(data)
         print('코멘트를 작성했습니다.')
@@ -936,7 +937,7 @@ def get_comments():
 
     others_comments = list(db.serverside_usercomment.find({'user_comment_movie_title':title},{'_id':0}))
     others_comments = sorted(others_comments, key=(lambda x: x['gonggam_cnt']), reverse=True)
-
+    print(others_comments)
     # print(others_comments)
     # print(others_comments[0].get('user_email'))
     # for i in range(len(others_comments)):
@@ -946,12 +947,68 @@ def get_comments():
 
 @app.route('/comment_like_counting', methods=['POST'])
 def comment_like_counting():
+    if 'email' in session:
+        email1 = session['email']
+        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
+        b = a[0].get('nickname')
 
     title = request.form['title']
     nickname = request.form['nickname']
 
-    db.serverside_usercomment.update_one({'user_comment_movie_title': title, 'user_nickname':nickname}, {'$inc': {'gonggam_cnt': 1}})
+    db.serverside_usercomment.update_one({'user_comment_movie_title': title, 'user_nickname': nickname},
+                                         {'$inc': {'gonggam_cnt': 1}})
+    db.serverside_usercomment.update({'user_nickname': nickname, 'user_comment_movie_title': title},
+                                     {'$push': {'gongmag_people': b}})
+
     return jsonify({'result': 'success'})
+
+
+@app.route('/comment_dislike_counting', methods=['POST'])
+def comment_dislike_counting():
+    if 'email' in session:
+        email1 = session['email']
+        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
+        b = a[0].get('nickname')
+
+    title = request.form['title']
+    nickname = request.form['nickname']
+
+    db.serverside_usercomment.update_one({'user_comment_movie_title': title, 'user_nickname': nickname},
+                                         {'$inc': {'gonggam_cnt': -1}})
+    db.serverside_usercomment.update_one({'user_nickname': nickname, 'user_comment_movie_title': title},
+                                         {'$pull': {'gongmag_people': b}})
+
+    return jsonify({'result': 'success'})
+
+
+@app.route('/check_comment', methods=['POST'])
+def comment_check():
+    gg = []
+    if 'email' in session:
+        email1 = session['email']
+        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
+        b = a[0].get('nickname')
+        print(b)
+
+    title = request.form['title']
+    num = int(request.form['num'])
+
+    p = db.serverside_usercomment.find({'user_comment_movie_title': title})
+    pp = list(p)
+    print(pp)
+    if len(pp) > 0:
+        jj = pp[num].get('gongmag_people')
+        if b in jj:
+            print('좋아요를 누른 댓글')
+            return jsonify({'result': 'like_success'})
+        else:
+            print('좋아요를 누르지 않았던 댓글')
+            return jsonify({'result': 'like_fail'})
+
+    else:
+        print("길이 0")
+        print('좋아요를 누르지 않았던 댓글')
+        return jsonify({'result': 'nolike'})
 
 
 if __name__ == '__main__':
