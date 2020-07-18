@@ -37,6 +37,26 @@
     <path fill-rule="evenodd" d="M12.146 6.354l-2.5-2.5.708-.708 2.5 2.5-.707.708zM3 10v.5a.5.5 0 0 0 .5.5H4v.5a.5.5 0 0 0 .5.5H5v.5a.5.5 0 0 0 .5.5H6v-1.5a.5.5 0 0 0-.5-.5H5v-.5a.5.5 0 0 0-.5-.5H3z"/>
     </svg>`
 
+    let speaker_image = `<svg width="3em" height="3em" style="margin-left:3px; margin-right:3px;" viewBox="0 0 16 16" class="bi bi-speaker" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M9 4a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm-2.5 6.5a1.5 1.5 0 1 1 3 0 1.5 1.5 0 0 1-3 0z"/>
+    <path fill-rule="evenodd" d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4zm6 4a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM8 7a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"/>
+    </svg>`
+
+    let tv_image = `<svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-display" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M5.75 13.5c.167-.333.25-.833.25-1.5h4c0 .667.083 1.167.25 1.5H11a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1h.75z"/>
+    <path fill-rule="evenodd" d="M13.991 3H2c-.325 0-.502.078-.602.145a.758.758 0 0 0-.254.302A1.46 1.46 0 0 0 1 4.01V10c0 .325.078.502.145.602.07.105.17.188.302.254a1.464 1.464 0 0 0 .538.143L2.01 11H14c.325 0 .502-.078.602-.145a.758.758 0 0 0 .254-.302 1.464 1.464 0 0 0 .143-.538L15 9.99V4c0-.325-.078-.502-.145-.602a.757.757 0 0 0-.302-.254A1.46 1.46 0 0 0 13.99 3zM14 2H2C0 2 0 4 0 4v6c0 2 2 2 2 2h12c2 0 2-2 2-2V4c0-2-2-2-2-2z"/>
+    </svg>`
+
+    let bottom_arrow = `<svg width="1.5em" height="1.5em" style="margin-left:10px;" viewBox="0 0 16 16" class="bi bi-arrow-down-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path fill-rule="evenodd" d="M4.646 7.646a.5.5 0 0 1 .708 0L8 10.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+    <path fill-rule="evenodd" d="M8 4.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5z"/>
+    </svg>`
+
+    let append_image = speaker_image + tv_image + speaker_image
+
+
+
     // 처음에 실행되는 함수
     $(document).ready(function(){
       get_session();
@@ -44,6 +64,9 @@
 
       var title="";
       listing2();
+
+      $("#watching_site").prepend(append_image);
+      $(".tip_title").append(bottom_arrow);
 
     });
 
@@ -63,9 +86,7 @@
 
     function search_genre(){
       title = $('#maingenre_movie_title1').text()
-      console.log(title)
       nickname = nickname
-      console.log(nickname)
 
       // 점수를 추가할지 뺄지 나누기 위해서, if 구문 작성
 
@@ -85,7 +106,6 @@
         },
         success:function(response){
           if(response['result'] == 'success'){
-            console.log('성공')
           }
         }
       })
@@ -94,7 +114,6 @@
     //버튼 애니메이션 실행 함수
     function like_animation(){
 
-      console.log('좋아요 실행됐니?')
       $('.like-button').toggleClass('is-active');
       check_like();
     };
@@ -102,11 +121,9 @@
   // 좋아요를 누른 영화와 누르지 않은 영화를 나눠서 like/dislike 나누는 함수
   function check_like(){
     if($('#like').hasClass('is-active')){
-      console.log('좋아요를 눌렀습니다!');
       like_movie();
 
     }else{
-      console.log('좋아요를 누르지않았습니다!');
       dislike_movie();
     }
   }
@@ -122,11 +139,9 @@
     },
     success: function(response){
       if(response['result']=='like_success'){
-        console.log('이미 좋아요를 눌렀습니다.');
         alert('좋아요를 눌렀던 영화입니다.')
         $('.like-button').toggleClass('is-active');
       }else{
-        console.log('아직 좋아요를 누르지 않았습니다.')
       }
     }
   })
@@ -164,7 +179,6 @@
 
     // 좋아요 순위 나열 함수
     function sort_like_db(){
-      console.log('test')
       $.ajax({
         type:"POST",
         url:"/sort/like",
@@ -173,7 +187,6 @@
           if(response['result'] == 'success'){
             sort_liked_db = response['sort_like']
             like_menu_bar= '실시간 좋아요 순위'
-            console.log(sort_liked_db)
             like_rank_1 = sort_liked_db[0]['title']
             like_rank_2 = sort_liked_db[1]['title']
             like_rank_3 = sort_liked_db[2]['title']
@@ -195,7 +208,6 @@
 
     //  커멘트 순위 나열 함수
     function sort_comment_db(){
-      console.log('test')
       $.ajax({
         type:"POST",
         url:"/sort/comment",
@@ -204,7 +216,6 @@
           if(response['result'] == 'success'){
             sort_commented_db = response['sort_comment']
             comment_menu_bar= '실시간 코멘트 순위'
-            console.log(sort_commented_db)
             comment_rank_1 = sort_commented_db[0]['title']
             comment_rank_2 = sort_commented_db[1]['title']
             comment_rank_3 = sort_commented_db[2]['title']
@@ -230,16 +241,16 @@
       $('#rank_menu_contents').remove()
       rank_box_html = '<ul id="rank_menu_contents">\
       <p><a id="rank_bar" style="font-weight:bold;font-size:20pt;">'+'<'+rank_bar+'>'+'</a></p><br>\
-      <p><a href="/page5?movie_title='+rank_1+'" id="rank_1st">'+'1위 '+rank_1+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_2+'" id="rank_2nd">'+'2위 '+rank_2+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_3+'" id="rank_3rd">'+'3위 '+rank_3+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_4+'" id="rank_4th">'+'4위 '+rank_4+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_5+'" id="rank_5th">'+'5위 '+rank_5+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_6+'" id="rank_6th">'+'6위 '+rank_6+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_7+'" id="rank_7th">'+'7위 '+rank_7+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_8+'" id="rank_8th">'+'8위 '+rank_8+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_9+'" id="rank_9th">'+'9위 '+rank_9+'</a></p>\
-      <p><a href="/page5?movie_title='+rank_10+'" id="rank_10th">'+'10위 '+rank_10+'</a></p>\
+      <p><a href="/page5?search_data='+rank_1+'" id="rank_1st">'+'1위 '+rank_1+'</a></p>\
+      <p><a href="/page5?search_data='+rank_2+'" id="rank_2nd">'+'2위 '+rank_2+'</a></p>\
+      <p><a href="/page5?search_data='+rank_3+'" id="rank_3rd">'+'3위 '+rank_3+'</a></p>\
+      <p><a href="/page5?search_data='+rank_4+'" id="rank_4th">'+'4위 '+rank_4+'</a></p>\
+      <p><a href="/page5?search_data='+rank_5+'" id="rank_5th">'+'5위 '+rank_5+'</a></p>\
+      <p><a href="/page5?search_data='+rank_6+'" id="rank_6th">'+'6위 '+rank_6+'</a></p>\
+      <p><a href="/page5?search_data='+rank_7+'" id="rank_7th">'+'7위 '+rank_7+'</a></p>\
+      <p><a href="/page5?search_data='+rank_8+'" id="rank_8th">'+'8위 '+rank_8+'</a></p>\
+      <p><a href="/page5?search_data='+rank_9+'" id="rank_9th">'+'9위 '+rank_9+'</a></p>\
+      <p><a href="/page5?search_data='+rank_10+'" id="rank_10th">'+'10위 '+rank_10+'</a></p>\
       </ul>'
 
       $('#rank_box').append(rank_box_html);
@@ -282,7 +293,7 @@
   function go_page3(nickname){
     location.href="/page3?user="+nickname
   }
-    
+
   // 검색 페이지(page5)로 가는 함수
   function go_page5(data){
     location.href="/page5?search_data="+data
@@ -293,7 +304,7 @@
     location.href="/search_page?search_data="+data
   }
 
-      
+
   // 네이버 클릭 함수
   function naver_click(){
    naver_url="https://movie.naver.com/movie/search/result.nhn?query=" + title + "&section=all&ie=utf8"
@@ -360,8 +371,6 @@ function google_click(){
       random = Math.floor(Math.random() * ART_movie_list.length)
       random_director = ART_movie_list[random]['director']
       random_director_len = random_director.length
-      console.log(random_director)
-      console.log(random_director_len)
     }while(random_director_len > 25 && random_director != 'NONE')
     // 길이가 30보다 작고 감독이 존재해야 반복문 종료
     all_byDirector = ART_movie_list[random]
@@ -999,38 +1008,40 @@ function LD(title,poster){
       <div class=" main_contents">
         <div class="media">
          <img class="mr-3" id="maingenre_movie_poster1" style="position:relative; cursor: pointer;" src="" alt="Generic placeholder image" onclick="go_page5($('#maingenre_movie_title1').text())">
-          <div class="container" style="text-align:center; position:absolute; left:270px;">
-            <div class="wrapper" style="display:inline-block; vertical-align:middle;">
-              <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like" style="margin-bottom:20px; margin-left:10px;">
-                <i class="material-icons not-liked bouncy">favorite_border</i>
-                <i class="material-icons is-liked bouncy">favorite</i>
-                <span class="like-overlay"></span>
-              </a>
-            </div>
+         <div class="container" style="text-align:center; position:absolute; left:270px;">
+          <div class="wrapper" style="display:inline-block; vertical-align:middle;">
+            <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like" style="margin-bottom:20px; margin-left:10px;">
+              <i class="material-icons not-liked bouncy">favorite_border</i>
+              <i class="material-icons is-liked bouncy">favorite</i>
+              <span class="like-overlay"></span>
+            </a>
           </div>
-          <div class="media-body">
-            <h5 class="mt-0" id="maingenre_movie_title1"></h5><br>
-            <p class="summary-text" id="maingenre_movie_summary1"></p>
-            <div class="link_button" style="padding-top: 10px;">
-              <button id="naver_link" onclick="naver_click()"><img src="static/naver.PNG"
+        </div>
+        <div class="media-body">
+          <h5 class="mt-0" id="maingenre_movie_title1"></h5><br>
+          <p class="summary-text" id="maingenre_movie_summary1"></p>
+          <div class="link_button" style="padding-top: 10px;">
+            <h5 class="tip_title" style="text-align: right; font-weight: bold; margin-bottom: 15px;">(더 많은 정보를 원한다면)</h5>
+            <button id="namu_wiki_link" onclick="namu_wiki_click()"><img src="static/namu_wiki.jfif"
+             style="width:50px; height:50px;"></button>
+             <button id="google_link" onclick="google_click()" style="margin-right: 3px;"><img src="static/google_logo.webp"
                style="width:50px; height:50px;"></button>
-               <button id="daum_link" onclick="daum_click()"><img src="static/daum.PNG"
-                 style="width:50px; height:50px"></button>
-                 <button id="namu_wiki_link" onclick="namu_wiki_click()"><img src="static/namu_wiki.jfif"
-                   style="width:50px; height:50px;"></button>
-                   <button id="google_link" onclick="google_click()" style="margin-right: 3px;"><img src="static/google_logo.webp"
-                     style="width:50px; height:50px;"></button>
-                   </div>
-                   <main role="main" class="button_cover" id="a">
-                   </main>
-                 </div>
-               </div>
              </div>
-             <div class="bottom_info">
-               <footer class="mastfoot mt-auto">
-                <p class="copy" style="background-color:#c5adba; color: white; margin-top:200px;">Copyright ⓒ Developer 지훈, 희진, 원행. All Rights Reserved.</p>
-              </footer>
-            </div>
-          </div>
-        </body>
-        </html>
+             <main role="main" class="button_cover" id="a">
+             </main>
+           </div>
+         </div>
+         <div class="watching_site" id="watching_site" style="text-align: center; margin-top: 50px; margin-right: auto; margin-left: auto; border:1px solid black; padding-top: 20px; padding-bottom: 10px; width: 600px;">
+          <h4 style="font-weight: bold; margin-top: 10px; margin-bottom: 10px;">이 영화를 보고 싶다면, <a style="color:blue;">버튼</a>을 눌러주세요.</h4>
+          <button style="margin-top: 10px; margin-bottom: 10px;" onclick="google_click()">영화보러가기</button>
+        </div>
+      </div>
+    </div>
+    <div class="bottom_info">
+     <footer class="mastfoot mt-auto">
+      <p class="copy" style="background-color:#c5adba; color: white; margin-top:200px;">Copyright ⓒ Developer 지훈, 희진, 원행. All Rights Reserved.</p>
+    </footer>
+  </div>
+</div>
+</body>
+</html>

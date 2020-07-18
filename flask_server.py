@@ -40,7 +40,6 @@ def genre_cnt():
     user_genre_score = user_data[0]['genre_score']
     print(user_genre_score)
     user_genre_score_val = list(user_genre_score.values())
-    print(user_genre_score_val)
     user_genre_score_vals = 0
     for i in range(len(user_genre_score_val)):
         user_genre_score_vals += user_genre_score_val[i]
@@ -60,7 +59,7 @@ def genre_cnt():
                 '가족': 0,
                 '미스터리': 0,
                 '전쟁': 0,
-                '에니메이션': 0,
+                '애니메이션': 0,
                 '범죄/느와르': 0,
                 '뮤지컬': 0,
                 'SF': 0,
@@ -69,7 +68,6 @@ def genre_cnt():
             print('genre_score 셋을 생성했습니다.')
         else:
             genre_score = user_genre_score
-            print('genre_score 가 이미 있습니다.')
 
 
     for i in range(len(all_selected_movie)):
@@ -311,7 +309,9 @@ def login():
             if a[i].get('pwd') == pw_hash:
                 user_nickname = a[i].get('nickname')
                 print(user_nickname)
-                return jsonify({'result': 'success', 'userdb': user_nickname})
+                first_login_check = a[i].get('genre_1')
+                print(first_login_check)
+                return jsonify({'result': 'success', 'userdb': user_nickname, 'login_check':first_login_check})
             else:
                 return jsonify({'result': 'fail', 'userdb': 'failed'})
     else:
@@ -333,12 +333,32 @@ def register():
     nickname = request.form['nickname']
     introduce = request.form['introduce']
 
+    genre_score_set = {
+                '드라마': 0,
+                '판타지': 0,
+                '공포': 0,
+                '멜로/로맨스': 0,
+                '모험': 0,
+                '스릴러': 0,
+                '느와르': 0,
+                '다큐멘터리': 0,
+                '코미디': 0,
+                '가족': 0,
+                '미스터리': 0,
+                '전쟁': 0,
+                '애니메이션': 0,
+                '범죄/느와르': 0,
+                '뮤지컬': 0,
+                'SF': 0,
+                '액션': 0
+            }
+
     pw_hash = hashlib.sha256(pwd.encode('utf-8')).hexdigest()
 
     a = list(db.userdb.find({}))
 
     if len(a) == 0:
-        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname, 'genre_1': "", 'genre_2': "", 'profile_photo':"", "introduce":introduce})
+        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname, 'genre_1': "", 'genre_2': "", 'profile_photo':"", "introduce":introduce, "genre_score":genre_score_set})
         return jsonify({'result': 'success'})
 
     else:
@@ -348,13 +368,10 @@ def register():
             elif a[i].get('nickname') == nickname:
                 return jsonify({'result': 'fail2'})
 
-        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname ,'genre_1': "", 'genre_2': "", 'profile_photo':"", "introduce":introduce})
+        db.userdb.insert_one({'email': email, 'pwd': pw_hash, 'nickname': nickname ,'genre_1': "", 'genre_2': "", 'profile_photo':"", "introduce":introduce, "genre_score":genre_score_set})
         return jsonify({'result': 'success', 'userdb': email})
 
-# @app.route('/customer2', methods=['GET'])
-# def register():
-#
-#     return jsonify({'result': 'success', 'userdb': email})
+
 
 # mypage연결 api
 @app.route('/info_my_like_movie', methods=['GET'])
@@ -484,7 +501,7 @@ def DLupdate_button():
 
     db.LDDB.update_one({'email': b, 'title': title}, {'$set': {'like': True, 'dislike': False}})
     counting_liked_plus(title)
-    db.serverside_dislikeDB.
+    db.serverside_dislikeDB.delete_one
     ({'email': b, 'title': title})
     all_user_liked_movie(title, b)
     return jsonify({'result': 'success'})
@@ -809,14 +826,28 @@ def counting_commented_minus(title):
 
 @app.route('/get_movie_genre', methods=['POST'])
 def get_genre():
-    movie_title = request.form['movie_title']
+
+    test = request.form['movie_title']
     nickname = request.form['nickname']
     check = request.form['check']
+
+    # test 변수가 띄어쓰기가 굉장히 많은 변수였다...
+    movie_title = test.strip()
+
+    print(movie_title)
+    print(nickname)
     print(check)
+
     print('장르 계산!')
-    movie_title_info = list(db.ART_movie_list.find({'title':movie_title},{'_id':0}))
-    movie_title_genre_1 = movie_title_info[0]['genre_1']
-    movie_title_genre_2 = movie_title_info[0]['genre_2']
+
+    movie_title_info = list(db.ART_movie_list.find({ 'title' : movie_title},{'_id':0}));
+    print(movie_title_info)
+
+    if(movie_title_info != []):
+        movie_title_genre_1 = movie_title_info[0]['genre_1']
+        movie_title_genre_2 = movie_title_info[0]['genre_2']
+    else:
+        return jsonify({'result':'fail'})
 
     if(check == 'plus'):
         genre_score_plus(nickname,movie_title_genre_1,movie_title_genre_2)
@@ -875,6 +906,7 @@ def genre_score_minus(nickname,genre_1,genre_2):
 
     if(genre_1_receive != '기타'):
         user_genre_1_data = user_info[0]['genre_score'][genre_1_receive]
+        print(user_genre_1_data)
         user_genre_1_data_minus = user_genre_1_data - 2
         db.userdb.update_one({'nickname': nickname},
                              {'$set': {'genre_score.' + genre_1_receive + '': user_genre_1_data_minus}})
