@@ -99,7 +99,8 @@
      url: "/check_LDDB",
      data: {
       title:movie_infos[0]['title'],
-      poster:movie_infos[0]['poster']
+      poster:movie_infos[0]['poster'],
+      director:movie_infos[0]['director']
     },
     success: function(response){
       if(response['result']=='like_success'){
@@ -132,7 +133,7 @@
     <h1 class="card_title" id="card_movie_title" style="font-weight:bold;">'+title+'\
     </h1>\
     </div>\
-    <h3 class="card-text" style="text-align:right;"><small class="text-muted">'+director+'</small></h3><br>\
+    <h3 class="card-text" id="card-director" style="text-align:right;"><small class="text-muted">'+director+'</small></h3><br>\
     <p class="card-text">'+summary+'</p>\
     <button id="namu_wiki_link" onclick="namu_wiki_click()"><img src="static/namu_wiki.jfif"\
     style="width:50px; height:50px; cursor:pointer;"></button>\
@@ -162,12 +163,12 @@
     }
   }
 
-  function comment_save(title,poster,comment){
+  function comment_save(title,poster,director,comment){
     $('#save_button').hide()
     $.ajax({
       type: "POST",
       url: "/comment_save",
-      data: { nickname :$('#customer_email').text(),user_comment_movie_title : title ,user_comment_movie_poster: poster ,user_comment_give : comment},
+      data: { nickname :$('#customer_email').text(),user_comment_movie_title : title ,user_comment_movie_poster: poster, user_comment_movie_director: director ,user_comment_give : comment},
       success: function(response){
           // 처음 저장하는 코멘트일 경우
           if (response['result']== 'success'){
@@ -218,15 +219,20 @@
     let user_comment = $('#user_comment').val()
     let user_comment_movie = $('#comment_movie_title').text()
     let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
-    comment_save(user_comment_movie,user_comment_movie_poster,user_comment)
+    let user_comment_movie_director = $('#card-director').text()
+    comment_save(user_comment_movie,user_comment_movie_poster,user_comment_movie_director,user_comment)
 
   }
 
   function edit_comment_info(){
+    location.reload();
+
     let edit_user_comment = $('#edit_user_comment').val()
     let user_comment_movie = $('#comment_movie_title').text()
     let user_comment_movie_poster = document.getElementById('movie_poster').getAttribute('src')
-    comment_save(user_comment_movie, user_comment_movie_poster, edit_user_comment)
+    let user_comment_movie_director = $('#card-director').text()
+    comment_save(user_comment_movie, user_comment_movie_poster, user_comment_movie_director,edit_user_comment)
+
   }
 
   function edit_card(){
@@ -273,6 +279,7 @@
         $('#db_comment_box').remove()
       }
     })
+    location.reload();
   }
   function btn_main(){
     location.href="/"
@@ -444,12 +451,13 @@
 
           let title = movie_infos[0]['title']
           let poster = movie_infos[0]['poster']
+          let director = movie_infos[0]['director']
 
           for(let i=0; i<movie_infos.length-(movie_infos.length-1); i++){movie_card(movie_infos[i]['poster'],movie_infos[i]['title'],movie_infos[i]['summary'],movie_infos[i]['director']);
             $('#search_movie_title').text(movie_infos[i]['title']);
           $('#comment_movie_title').text(movie_infos[i]['title']);
 
-          comment_save(title,poster,movie_comment)
+          comment_save(title,poster,director,movie_comment)
           $('#comment_box').show();
         }
         check_like_db();
@@ -518,7 +526,8 @@
        data: {
         nickname:$('#customer_email').text(),
         title:movie_infos[0]['title'],
-        poster:movie_infos[0]['poster']
+        poster:movie_infos[0]['poster'],
+        director:movie_infos[0]['director']
       },
       success: function(response){
         if (response['result'] == 'success'){
@@ -642,8 +651,6 @@ function divide_comments(others_comments){
     b= others_comments[i]['user_comment']
     c= others_comments[i]['gonggam_cnt']
     display_comments(a,b,i,c)
-    console.log("희진")
-    console.log(i)
     check_like_db2(i);
 
   }

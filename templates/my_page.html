@@ -1,912 +1,603 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
- <title>my page</title>
+  <meta charset="UTF-8">
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- google font -->
+  <link href="https://fonts.googleapis.com/css?family=Gamja+Flower&display=swap&subset=korean" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Poor+Story&display=swap&subset=korean" rel="stylesheet">
 
- <!-- Required meta tags -->
- <meta charset="utf-8">
- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- <!-- Bootstrap CSS -->
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
- integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- 추가한 부분 -->
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+  rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
- <!-- JS -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
- integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
- crossorigin="anonymous"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
- integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
- crossorigin="anonymous"></script>
+  <!-- JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+  crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+  crossorigin="anonymous"></script>
 
 
+  <title>my page</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script>
+    $(function() {
+      $('ul.tab li').click(function() {
+        console.log("check")
+        var activeTab = $(this).attr('data-tab');
+        $('ul.tab li').removeClass('current');
+        $('.tabcontent').removeClass('current');
+        $(this).addClass('current');
+        $('#' + activeTab).addClass('current');
+      })
+    });
+  </script>
 
 
+  <script type="text/javascript">
 
- <!-- mypage에 필요한 함수 모음-->
- <script type="text/javascript">
-
+  // 처음 시작시, 로딩되는 함수
   $(document).ready(function(){
     get_session();
     get_parameter();
-  });
+    profile_check();
+    //처음에 커멘트 창을 자동으로 띄워주기 위해서
+    comment_movie_listing();
 
-  function get_session(){
-    nickname = "{{sessionemail2}}"
-    console.log(nickname)
-    non_login = '<a class="nav=link" href="#" id="btn_home" onclick="btn_home()">로그인을 해야 사용가능합니다.</a>'
-    html_logout = '<a class="nav-link" href="#" id="btn_logout" onclick="btn_logout()" style="padding-top:3px;">로그아웃</a>'
-    temp_html = '<div style="padding:4px;color:white;">안녕하세요 ' + '<a href="" onclick="btn_my_page('+nickname+')">' + nickname + '</a>님!</div>'
-
-    if("{{sessionemail2}}" == ""){
-      $('#menubar').append(non_login)
-    }else{
-      $('#menubar').append(temp_html);
-      $('#menubar').append(html_logout);
-    }
-
-    $('#comment_movies_select').html('');
-    $('#like_movies_select').html('');
-    $('#dislike_movies_select').html('');
-  }
+  })
 
 
-// 다른 유저가 접근헀다면, 쿼리스트링 값을 받아서, 해당하는 마이페이지를 띄워야함.
-  function get_parameter(){
-      console.log("{{para_data}}")
-      if("{{para_data}}" == ""){
-        console.log("파라미터가 없습니다.")
-      }else{
-        console.log("파라미터가 있습니다.")
-        search_result = "{{para_data}}"
-        console.log("검색 결과 : "+search_result)
-        // bring_DB(search_result)
-      }
-    }
-
-
-  function btn_logout(){
-    jbResult = confirm( "정말 로그아웃을 하시겠습니까?" );
-    if(jbResult == true){
-      $.ajax({
-       type: "POST",
-       url: "/",
-       data: {},
-       success: function(response){
-       }
-     })
-      $('#btn_logout').remove();  
-    }
-    else{
-    }
-  }
-//-----------------이미지 검색용---------------//
-function search_movie_info(num){
-  let search_movie_data = $('#movie_content_title' +num ).text();
-  console.log(search_movie_data)
-  go_page5(search_movie_data)
-}
-
-function search_like_movie_info_by_img(num){
-  let search_like_movie_data = $('#movie_like_title' +num ).text();
-  go_page5(search_like_movie_data)
-}
-
-function search_dislike_movie_info_by_img(num){
-  let search_dislike_movie_data = $('#movie_dislike_title' +num ).text();
-  go_page5(search_dislike_movie_data)
-}
-
-//-------------검색용-------------//
-function search_listing(){
-  let search_data = $('#movie_input').val();
-  if( search_data != ""){
-    alert(search_data+'에 대한 정보입니다.');
-    go_page5(search_data)
-    //url_get(search_data)
-  }
-  else{
-    alert('검색어를 입력해주세요.');
-  }
-}
-
-//페이지 5 쿼리스트링 수정하면, page5 뒤에 추가
-function go_page5(data){
-  location.href="/page5?search_data="+data
-}
-
-
-//-------------검색용-------------//
-</script>
-
-<!-- ajax -->
-<script type="text/javascript">
-
-  $(document).ready(function(){
-    bring_like_movie_list()
-    bring_dislike_movie_list()
-    bring_comment_movie_list()
-    $('#comment_movies_select').html('');
-    $('#like_movies_select').html('');
-    $('#dislike_movies_select').html('');
-  });
-
-
-  let my_like_movie
-  let my_dislike_movie  
-  let my_comment_movie
-
-
-  function bring_like_movie_list(){
-    $.ajax({
-      type: "GET",
-      url: "/info_my_like_movie",
-      data: {nickname:nickname},
-      success: function(response){
-        my_like_movie = response['my_like_movie']
-        console.log(my_like_movie)
-        $('#like_movies_select').append(my_like_movie);
-
-        if (response['result'] == 'success') {
-          my_like_movie = response['my_like_movie'];
-
-          for (let i = 0; i < my_like_movie.length; i++) {
-            let num = i;
-            movie_like_content(num, my_like_movie[i]['poster'],my_like_movie[i]['title'])
-          }
-        } else {
-          alert('영화 리스트를 받아오지 못했습니다');
-        }
-      }
-    })
-  }
-
-
-  function bring_dislike_movie_list(){
-    $.ajax({
-      type: "GET",
-      url: "/info_my_dislike_movie",
-      data: {nickname:nickname},
-      success: function(response){
-        my_dislike_movie = response['my_dislike_movie']
-        console.log(my_dislike_movie)
-        $('#dislike_movies_select').append(my_dislike_movie);
-
-        if (response['result'] == 'success') {
-          my_dislike_movie = response['my_dislike_movie'];
-
-          for (let i = 0; i < my_dislike_movie.length; i++) {
-            let num = i;
-            movie_dislike_content(num, my_dislike_movie[i]['poster'],my_dislike_movie[i]['title'])
-          }
-        } else {
-          alert('영화 리스트를 받아오지 못했습니다');
-        }
-      }
-    })
-  }
-
-
-  function bring_comment_movie_list(){
-    $.ajax({
-      type: "GET",
-      url: "/info_my_comment_movie",
-      data: {nickname:nickname},
-      success: function(response){
-        my_comment_movie = response['my_comment_movie']
-        console.log(my_comment_movie)
-        $('#comment_movies_select').append(my_comment_movie);
-
-        if (response['result'] == 'success') {
-          my_comment_movie = response['my_comment_movie'];
-          console.log(my_comment_movie)
-
-          for (let i = 0; i < my_comment_movie.length; i++) {
-            let num = i
-            movie_comment_content(num, my_comment_movie[i]['user_comment_movie_poster'],my_comment_movie[i]['user_comment'], my_comment_movie[i]['user_comment_movie_title'])
-          }
-        } else {
-          alert('영화 리스트를 받아오지 못했습니다');
-        }
-      }
-    })
-  }
-
-</script>
-
-<!-- 로그인 함수 -->
-<script type="text/javascript">
-
-  // get_session();  
-
-  // function get_session(){
-  //   email = "{{sessionemail2}}"
-  //   console.log(email)
-  //   non_login = '<a class="nav=link" href="#" id="btn_home" onclick="btn_home()">로그인을 해야 사용가능합니다.</a>'
-  //   html_logout = '<a class="nav-link" href="#" id="btn_logout" onclick="btn_logout()" style="padding-top:3px;">로그아웃</a>'
-  //   temp_html = '<div style="padding:4px;color:white;">안녕하세요 ' + '<a href="" onclick="btn_my_page('+email+')">' + email + '</a>님!</div>'
-
-  //   recevie_email = "{{sessionemail2}}"
-  //   console.log(recevie_email)
-
-  //   $('#comment_movies_select').html('');
-  //   $('#like_movies_select').html('');
-  //   $('#dislike_movies_select').html('');
-
-//   if("{{sessionemail2}}" == ""){
-//     $('#menubar').append(non_login)
-//   }else{
-//     $('#menubar').append(temp_html);
-//     $('#menubar').append(html_logout);
-//   }
-
-// }
-
- //  function email_head(email){
- //   let temp_html = email;
- //   $('#customer_email').append(temp_html);
- // }
-
-
-</script>
-
-<!-- html 뿌려주는 -->
-<script type="text/javascript">
-
-  function movie_comment_content(num, poster, user_comment, title){
-    let temp_html = '<li class="movie_ifno_container">\
-    <div class="img_and_title">\
-    <div class="movie_still_cut_containFer">\
-    <div class="movie_img_wrapper">\
-    <a href="javascript:void(0);">\
-    <div class="movie_img_poster_first">\
-    <img class="content_img" src=" '+ poster +'">\
-    <div id="overlay_cnt'+num+'" onclick="search_movie_info('+num+')" class="overlay">\
-    <div  class="comment_in_img">'+user_comment+'</div>\
-    </div>\
-    </div>\
-    </a>\
-    </div>\
-    </div>\
-    <div class="movie_title_wrapper">\
-    <h5 id="movie_content_title'+num+'" class="movie_title">'+ title +'</h5>\
-    </div>\
-    </div>\
-    </li>';
-    $('#comment_movies_select').append(temp_html);
-  }
-
-
-  function movie_like_content(num, poster, title){
-    console.log(poster)
-    let temp_html = '<li class="movie_ifno_container">\
-    <div class="img_and_title">\
-    <div class="movie_still_cut_container">\
-    <div class="movie_img_wrapper">\
-    <a href="javascript:void(0);">\
-    <div class="movie_img_poster_first">\
-    <img onclick="search_like_movie_info_by_img('+num+')" class="content_img" src=" '+ poster +'">\
-    </div>\
-    </a>\
-    </div>\
-    </div>\
-    <div class="movie_title_wrapper">\
-    <h5 id="movie_like_title'+num+'" class="movie_title">'+ title +'</h5>\
-    </div>\
-    </div>\
-    </li>';
-    $('#like_movies_select').append(temp_html);
-
-
-  }
-
-  function movie_dislike_content(num, poster, title){
-    let temp_html = '<li class="movie_ifno_container">\
-    <div class="img_and_title">\
-    <div class="movie_still_cut_container">\
-    <div class="movie_img_wrapper">\
-    <a href="javascript:void(0);">\
-    <div class="movie_img_poster_first">\
-    <img onclick="search_dislike_movie_info_by_img('+num+')" class="content_img" src=" '+ poster +'">\
-    </div>\
-    </a>\
-    </div>\
-    </div>\
-    <div class="movie_title_wrapper">\
-    <h5 id="movie_dislike_title'+num+'" class="movie_dislike_title">'+ title +'</h5>\
-    </div>\
-    </div>\
-    </li>';
-    $('#dislike_movies_select').append(temp_html);
-  }
-</script>
-
-<!-- uniq값을 이용하여 poster값을 전달하기 -->
-
-<script type="text/javascript">
-  function search_movies_info() {
-    $.ajax({
-      type: "GET",
-      url: "/deliver_poster_data?title_give=" + title,
-      data: {}, 
-      success: function(response){
-        if (response['result'] == 'success') {
-          let mypage_movie_info = response['mypage_movie_info'];
-          console.log(mypage_movie_info);
-          for (let i = 0; i < mypage_movie_info.length; i++) {
-            movie_output_test(mypage_movie_info[i]['poster'], mypage_movie_info[i]['user_comment'], mypage_movie_info[i]['title'])
-          }
-        } else {
-          alert('정보를 받아오지 못했습니다');
-        }
-      }
-    })
-  }
-
-
-  function movie_output_test(poster, user_comment, title){
-    let temp_html = '<li class="movie_ifno_container">\
-    <div class="img_and_title">\
-    <div class="movie_still_cut_container">\
-    <div class="movie_img_wrapper">\
-    <a href="javascript:void(0);">\
-    <div class="movie_img_poster_first">\
-    <img class="content_img" src=" '+ poster +'">\
-    <div class="overlay">\
-    <div class="comment_in_img">'+user_comment+'</div>\
-    <button onclick="btn_search_info()"> 자세히 </button>\
-    </div>\
-    </div>\
-    </a>\
-    </div>\
-    </div>\
-    <div class="movie_title_wrapper">\
-    <h5 class="movie_title">'+ title +'</h5>\
-    </div>\
-    </div>\
-    </li>';
-    $('#like_movies_select').append(temp_html);
-  }
-</script>
-
-
-<!-- btn 기능 함수 -->
-<script type="text/javascript">
-  function btn_my_page(email) {
-    location.href="/mypage?user="+email
-  }
-  function go_page2(){
-    location.href="/page2"
+  function btn_main(){
+    location.href="/"
   }
 
   function btn_home(){
     location.href="/temp"
   }
 
-  function btn_search_info() {
-    location.href = "/page5"
+  function btn_mypage(nickname){
+    location.href="/mypage?user="+nickname
   }
+
+  function go_search_page(data){
+    location.href="/search_page?search_data="+data
+  }
+
+  function go_page5(data){
+    location.href="/page5?search_data="+data
+  }
+
+
+  function get_session(){
+   nickname = "{{sessionemail2}}"
+   html_logout = '<a class="nav-link" id="btn_logout" style="padding-top:5px;" onclick="btn_logout()">로그아웃</a>'
+   temp_html = '<div style="padding:4px;color:black;">안녕하세요 ' + '<a href="/mypage?user='+nickname+'">' + nickname + '</a>님!</div>'
+
+   $('#menubar').append(temp_html);
+   $('#menubar').append(html_logout);
+ }
+
+ /*
+ function email_head(email){
+   let temp_html = email;
+   $('#customer_email').text(temp_html);
+ }
+ */
+
+ function profile_check(){
+  check = 'loading'
+  comment_movie_listing(check)
+  like_movie_listing(check)
+  genre_listing(check)
+}
+
+function comment_movie_listing(check){
+  $.ajax({
+    type:"GET",
+    url:"/info_my_comment_movie",
+    data: {nickname:nickname},
+    success: function(response){
+      if(response['result'] == 'success'){
+        my_comment = response['my_comment_movie']
+        console.log(my_comment)
+        my_comment_cnt = my_comment.length
+        console.log(my_comment_cnt)
+
+        if(check == 'loading'){
+          $('.comment_count').text(my_comment_cnt);
+        }else{
+          for (let i = 0; i < my_comment.length; i++) {
+            comment_movie_listing_card(i, my_comment[i]['user_comment_movie_poster'],my_comment[i]['user_comment_movie_title'], my_comment[i]['user_comment_movie_director'].trim())
+          }
+        }
+      }else{
+        alert('커멘트 리스트를 받아오지 못했습니다.')
+      }
+    }
+  })
+}
+
+//댓글단 영화 포스터 보여주기 - search page 참고
+function comment_movie_listing_card(num,poster,title,director) {
+  $('.comment_list').html('')
+  $('.like_movie_list').html('')
+  let info_html = '<div class="title_list_'+num+'" style="width:32.5%; height:532px; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
+  border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px;">\
+  <div class="test_poster">\
+  <img src="'+poster+'" class="T_poster_img'+num+'" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="title_checking_onclick('+num+')">\
+  </div>\
+  <div class="T_test_title'+num+'" style="font-size:25px;">'+title+'</div>\
+  <div class="T_test_director'+num+'" style="font-size:15px; margin-top: 5px;">'+director+'</div>\
+  </div>'
+
+  $('.comment_list').append(info_html);
+}
+
+
+function like_movie_listing(check){
+  $.ajax({
+    type: "GET",
+    url: "/info_my_like_movie",
+    data: {nickname:nickname},
+    success: function(response){
+      if(response['result'] == 'success'){
+        my_like_movie = response['my_like_movie']
+        my_like_movie_cnt = my_like_movie.length
+
+        if(check == 'loading'){
+          $('.like_movie_count').text(my_like_movie_cnt);
+        } else{
+          for (let i = 0; i < my_like_movie.length; i++) {
+            like_movie_listing_card(i, my_like_movie[i]['poster'],my_like_movie[i]['title'], my_like_movie[i]['director'])
+          }
+        } 
+      }else{
+        alert('영화 리스트를 받아오지 못했습니다');
+      }
+
+    }
+  })
+}
+
+// 영화 포스터 보여주기 - page5에서 참고
+function like_movie_listing_card(num,poster,title,director){
+  $('.comment_list').html('')
+  $('.like_movie_list').html('')
+  let info_html = '<div class="title_list_'+num+'" style="width:32.5%; height:532px; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
+  border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px;">\
+  <div class="test_poster">\
+  <img src="'+poster+'" class="T_poster_img'+num+'" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="title_checking_onclick('+num+')">\
+  </div>\
+  <div class="T_test_title'+num+'" style="font-size:25px;">'+title+'</div>\
+  <div class="T_test_director'+num+'" style="font-size:15px; margin-top: 5px;">'+director+'</div>\
+  </div>'
+
+  $('.like_movie_list').append(info_html);
+}
+
+function genre_listing(check){
+  user_genre_1 = "{{para_data_2}}"
+  user_genre_2 = "{{para_data_3}}"
+
+  user_genre_data = user_genre_1 + '/' +user_genre_2
+
+  $('.genre').text(user_genre_data)
+
+}
+
+// 입력한 검색어 확인 함수
+function search_listing(){
+  let search_data = $('#movie_input').val();
+  if( search_data != ""){
+    alert(search_data+'에 대한 정보입니다.');
+    go_search_page(search_data);
+    // go_page5(search_data);
+  }
+  else{
+    alert('검색어를 입력해주세요.');
+  }
+}
+
 
 </script>
 
-<head>
 
+<script type="text/javascript">
+
+   // 검색한 parameter를 받아오는 함수
+   function get_parameter(){
+    if("{{para_data}}" == ""){
+      console.log('오류발생!')
+    }
+    else{
+      user_nickname = "{{para_data}}"
+      $('.nickname').text(user_nickname)
+
+    }
+  }
+</script>
 </head>
 
+<style type="text/css">
+  :root {
+
+  }
+  body {
+    margin: 0;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
+
+  body {
+    background-color: #c5adba;
+  }
+  .all_round {
+    display: flex;
+    flex-direction: column;
+
+  }
+
+  .nav__bar {
+  }
+
+  .navbar__container {
+    display: flex;
+    background-color: #c5adba/*#f0f4f5*/;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .navbar_logo {
+    padding: 8px 12px;
+  }
+
+
+  .navbar_logo li img{
+    width: auto;
+    height: 60px;
+  }
+
+  #movie_input {
+    text-align: center;
+    border: 3px solid #7d7d89;
+    width: 800px;
+    height: 55px;
+  }
+
+  #input_box{
+    position: absolute;
+    padding-left:450px;
+    width:1450px;
+
+  }
+
+  .nav-masthead .nav-link {
+    font-weight: 700;
+    color: black; 
+    background-color: transparent;
+    border-bottom: .25rem solid transparent;
+  }
+
+  .nav-masthead .nav-link:hover,
+  .nav-masthead .nav-link:focus {
+    border-bottom-color: rgba(255, 255, 255, .25);
+  }
+  
+  .navbar_menu {
+    padding: 8px 12px;
+  }
+
+  .navbar_icons {
+    display: flex;
+    align-items: center;
+  }
+
+  .navbar_icons li {
+    padding: 8px 12px;
+  }
+
+  .navbar_icons li:hover {
+    background-color: #B7CBFF;
+    border-radius: 4px;
+  }
+
+
+  .user_profile_container {
+    width: 800px;
+    height: auto;
+    margin: 50px auto 30px;
+    margin-left: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  #menubar {
+    color: black;
+    font-weight: bold;
+    text-align:right;
+  }
+
+  .user_info {
+    width: 500px;
+  }
+
+  .img_info {
+    width: auto;
+    height: 180px;
+  }
+
+  .user_profile_img_data {
+    margin-left: 300px;
+    border-radius: 50%;
+    width: 25%;
+    height: auto;
+    margin-left: 300px;
+  }
+
+
+  .my_follow_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width:800px;
+    /*padding: 8px 12px;*/
+    /*align-items: right;*/
+  }
+
+  .count_info{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .user_templete {
+    padding: 10px 15px;
+  }
+
+  .user_follower {
+    padding: 10px 15px;
+  }
+
+  .my_follow {
+    padding: 10px 15px;
+  }
+  /*toggleClass 미사용*/
+
+  .user_profile_container .user_info .normal_info .user_nickname .follow_button i.button_live{
+    display: none;
+    color: #fff;
+  }
+
+  .user_profile_container .user_info .normal_info .user_nickname .follow_button i.button_dead{
+    display: block;
+    color: #fff;
+  }
+
+  /*toggleClass 사용*/
+  .user_profile_container .user_info .normal_info .user_nickname .follow_button.revitalize i.button_live{
+    display: block;
+  }
+
+  .user_profile_container .user_info .normal_info .user_nickname .follow_button.revitalize i.button_dead{
+    display: none;
+  }
+
+
+  @media screen {
+
+  }
+
+
+
+  .normal_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 50px;
+  }
+
+  .move_to_tab{
+    float: left;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .move_to_tab ul li a {
+    color: black;
+  }
+
+  .article_container {
+    width:960px;
+    margin:0 auto;
+    text-align:center;
+
+  }
+
+  .user_articles_tab_comment {
+    position: absolute;
+    display: none;
+  }
+
+  .user_articles_tab_like {
+    position: absolute;
+    display: none;
+  }
+
+  .user_articles_tab_watch {
+    position: absolute;
+    display: none;
+  }
+
+  .user_relation_movies li a{
+    color: black;
+
+  }
+
+
+  /*************/
+
+  #container {
+    /*background-color: #89a3b2;*/
+    width:960px;
+    margin:0 auto;
+    text-align:center;
+    margin-top: 30px;
+  }
+  .tab {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+  /* Float the list items side by side */
+  .tab li {
+    float: left;
+  }
+  /* Style the links inside the list items */
+  .tab li a {
+    display: inline-block;
+    color: #000;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px 16px;
+    font-size: 17px;
+    transition:0.3s;
+  }
+  /* Style the tab content */
+  .tabcontent {
+    display: inline-block;
+
+    /*display: flex;*/
+    align-items: center;
+    justify-content: space-between;
+    display: none;
+    padding: 6px 12px;
+    color:#000;
+  }
+  ul.tab li.current{
+    background-color: #89a3b2;
+    color: #222;
+  }
+  .tabcontent.current {
+    background-color: #c5adba;
+    display: block;
+  }
+
+  .movie_ifno_container {
+    float: left;
+    width: 196px;
+    margin-right: 0px;
+  }
+</style>
+
+
 <body>
-
-  <div id="root">
-    <div class="self">
-      <div class="masthead">
-        <div class="inner">
-          <div class="logo" style="width:170px; height:130px; cursor: pointer;" onclick="btn_home()">
-            <h3 class="artcinema_logo">
-              <img src="static/logo.png" style="  margin-right: 10px; " onclick="btn_home()">
-            </h3>
-          </div>
-          <div id="input_box">
-            <input class="keyword" id="movie_input" type="text" name="movie_info_give" maxlength=255 value=""
-            autocomplete="off" placeholder="제목, 감독, 배우를 입력해주세요."
-            onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
-            <svg class="bi bi-search" onclick="" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-              <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-            </svg>
-          </div>
-          <nav class="nav nav-masthead justify-content-center" id="menubar" style="margin-top: 25px;">
-            <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-right: 5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-              <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-              <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-            </svg>
-          </nav>
-        </div>
+  <section class="all_round">
+    <div class="page_main" style="margin-top:25px; width: 1500px; height: 80px;">
+      <div id="input_box">
+        <img src="static/logo.png" style="width:100px; height:80px; cursor: pointer;" onclick="btn_home()">
+        <input class="keyword" id="movie_input" type="text" width="2em" height="2em" name="movie_info_give" maxlength=255 value=""
+        autocomplete="off" placeholder="'영화제목'  / '감독' / '사용자' 를 입력해주세요." style="margin-right: 7px; margin-left: 10px;"
+        onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
+        <svg class="bi bi-search" onclick="search_listing()" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+          <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+        </svg>
       </div>
-      <main class="mypage_main">
-        <div class="mypage_main_container">
-          <section class="mypage_list_section"
-          style = "background-color: :#343a40;" >
-          <ul class="row_list">
-            <li class="unit_row">
-              <h3 class="row_title">댓글 달았어요</h3>
-              <button style=" margin-left:92%;margin-bottom: 10px;" onclick="location.href='/mypage/more_Info?user='+nickname">더 보기</button>
-              <section class="row_section">
-                <li class="fixed_row">
-                  <div class="slide_row">
-                    <div class="movie_list_row" style="white-space:nowrap; 
-                    overflow:auto;">
-                    <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)" id="comment_movies_select">
-                      <!-- like_temp_html 적용부분 -->
-                      <!-- first_img -->
-                      <li class="movie_ifno_container">
-                        <div class="img_and_title">
-                          <div class="movie_still_cut_container">
-                            <div class="movie_img_wrapper">
-                              <a href="javascript:void(0);">
-                                <div class="movie_img_poster">
-                                  <img class="content_img" src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
-                                </div>
-                              </a>
-                            </div>
-                          </div>
-                          <div class="movie_title_wrapper">
-                            <h5 class="movie_title">기도의 힘</h5>
-                          </div>
-                        </div>
-                      </li>
-                    </ul>
-                  </div>
-                  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+    </div>
+    <div class="login_bar" style="width: 300px; margin-left: 1600px; float:right;">
+      <nav class="nav nav-masthead justify-content-center" id="menubar" style="margin-top: 25px;">
+        <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-top:10px;padding-right: 5px;"
+        viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+        <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+        <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+      </svg> 
+    </nav>
+  </div>
 
-                </li>
-              </section>
-            </li>
-            <!-- //////////////////////////////////////////// -->
-            <li class="unit_row">
-              <h3 class="row_title">좋아요</h3>
-              <section class="row_section">
-                <li class="fixed_row">
-                  <div class="slide_row">
-                    <div class="movie_list_row">
-                      <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)" id="like_movies_select">
+</section>
 
-                        <!-- like_temp_html 적용부분 -->
-                        <li class="movie_ifno_container">
-                          <div class="img_and_title">
-                            <div class="movie_still_cut_container">
-                              <div class="movie_img_wrapper">
-                                <a href="javascript:void(0);">
-                                  <div class="movie_img_poster">
-                                    <img class="content_img" name="toggle_control" id="show_hide_img" src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
-                                  </div>
-                                </a>
-                              </div>
-                            </div>
-                            <div class="movie_title_wrapper">
-                              <h5 class="movie_title">기도의 힘</h5>
-                            </div>
-                          </div>
-                        </li>
+<div class="user_profile_container">
+  <div class="img_info"></div>
+  <div class="user_info">
+    <div class="normal_info">
+      <div class="user_nickname">
+        <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-badge" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M12 1H4a1 1 0 0 0-1 1v11.755S4 12 8 12s5 1.755 5 1.755V2a1 1 0 0 0-1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
+          <path fill-rule="evenodd" d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5z"/>
+        </svg>
+        <h1 class="nickname"></h1>
+      </div>
 
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-              </section>
-            </li>
-            <!-- //////////////////////////////////////////// -->
-            <li class="unit_row">
-              <h3 class="row_title">싫어요</h3>
-              <section class="row_section">
-                <li class="fixed_row">
-                  <div class="slide_row">
-                    <div class="movie_list_row">
-                      <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)" id="dislike_movies_select">
-
-                        <!-- like_temp_html 적용부분 -->
-                        <!-- first_img -->
-                        <li class="movie_ifno_container">
-                          <div class="img_and_title">
-                            <div class="movie_still_cut_container">
-                              <div class="movie_img_wrapper">
-                                <a href="javascript:void(0);">
-                                  <div onclick="openclose()" class="movie_img_poster_first">
-                                    <img class="content_img" src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
-                                    <div class="overlay">
-                                      <div class="director_name_in_img">알렉스 켄드릭</div>
-                                      <div class="comment_in_img">재밌어요!</div>
-                                      <button> 자세히 </button>
-                                    </div>
-                                  </div>
-                                </a>
-                              </div>
-                            </div>
-                            <div class="movie_title_wrapper">
-                              <h5 class="movie_title">기도의 힘</h5>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-              </section>
-            </li>
-          </ul>
-        </section>
-      </div> 
-    </main>
+      <div class="user_profile_edit">
+        <button>프로필 편집</button>
+      </div>
+    </div>
+    <div class="my_follow_info">
+      <div class="count_info">
+        <div class="comment_div">
+          <h3>코멘트 : <span class='comment_count'></span>&nbsp;&nbsp;</h3>
+        </div>
+        <br>
+        <div class="like_movie_div">
+          <h3>좋아하는 영화 : <span class="like_movie_count"></span>&nbsp;&nbsp;</h3>
+        </div>
+        <br>
+        <div class="genre_list_div">
+          <h3>선호하는 장르 : <span class="genre"></span>&nbsp;&nbsp;</h3>
+        </div>
+        <br>
+      </div>
+    </div>
+    <div class="interested"></div>
   </div>
 </div>
 
+<hr width="55%" style="height:3px;" color="#7d7d89">
+
+<div id="container">
+  <ul class="tab">
+    <li class="current" data-tab="tab1"><a href="#" onclick="comment_movie_listing('button_click')">감상평</a></li>
+    <li data-tab="tab2"><a href="#" onclick="like_movie_listing('button_click')">좋아요</a></li>
+    <li data-tab="tab3"><a href="#">test1</a></li>
+    <li data-tab="tab4"><a href="#">test2</a></li>
+  </ul>
+
+
+  <div id="tab1" class="comment_list"></div>
+
+
+  <div id="tab2" class="like_movie_list"></div>
+
+
+  <div id="tab3" class="tabcontent"></div>
+
+
+  <div id="tab4" class="tabcontent">
+
+  </div>
+</div>
+</div>
 </body>
-
-<style type="text/css">
-
-
- a
-
- html, body {
-  font-weight: 400;
-  color: white;
-  height: 100%;
-  background: rgb(20, 21, 23);
-  padding: 0px;
-  margin: 0px;
-}
-
-ul {
-  list-style-type: none;
-  margin-block-end: 0px;
-  margin-block-start: 0px;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
-  padding-inline-start: 0px;
-  padding: 0px;
-  margin: 0px;  
-}
-
-#menubar{
-  color: white;
-  font-weight: bold;
-}
-
-#root {
-  width: 100%;
-  height: 100%;
-}
-
-.self {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  padding: 72px 0px 0px;
-}
-
-.top_sidebar {
-  position: fixed;
-  top: 0px;
-  z-index: 500;
-  font-size: 14px;
-  letter-spacing: -0.4px;
-  width: 100%;
-  height: 72px;
-  background-color: rgb(3, 7, 8);
-  padding: 0px 4%;
-}
-
-.ART_cinema_logo {
-  position: relative;
-  z-index: 10001;
-  float: left;
-  background-size: 173px 26px;
-  width: 173px;
-  height: 72px;
-}
-
-
-/* nav */
-
-.left_nav {
-  float: center;
-  padding-left: 33px;
-}
-
-.right_nav {
-  display: flex;
-  position: relative;
-  right: -11px;
-  float: right;
-}
-
-
-/*추가한 부분*/
-@media (min-width: 48em) {
-  .artcinema_logo {
-   float: left;
- }
-
- .nav-masthead .nav-link {
-  /*padding: .25rem;*/
-  font-weight: 700;
-  color: white; 
-
-  background-color: transparent;
-  border-bottom: .25rem solid transparent;
-}
-
-.nav-masthead {
- float: right;
-}
-}
-
-.inner{
-  width: 100%;
-  height:80px;
-  background-color: rgb(20, 21, 23);
-}
-
-#input_box{
-  position: absolute;
-  margin-left:auto;
-  margin-right:auto;
-  padding-left: 22%;
-}
-#movie_input{
-  text-align: center;
-  border: 3px solid #7d7d89;
-  width: 800px;
-  height: 55px;
-  margin-top: 25px;
-
-}
-/* main - div*/
-
-.mypage_main {
-  flex: 1;
-  background: #141517;
-}
-
-.mypage_main_container {
-  box-sizing: border-box;
-  -webkit-font-smoothing: antialiased;
-}
-
-.header {
-  margin-top: 3.2vw;
-  padding: 0px 4%;
-}
-
-.header_title {
-  color: rgb(255, 255, 255);
-  font-size: 3vw;
-  letter-spacing: -0.03125vw;
-  line-height: 2.03125vw;
-}
-
-/* main - section */
-.mypage_list_section {
-  position: relative;
-  background-color: rgb(20, 21, 23);
-  overflow-x: visible;
-}
-
-.row_list {
-  padding-top: 1.01562vw;
-  padding-bottom: 2.34375vw;
-}
-
-.unit_row {
-  margin-bottom: 0.546875vw;
-}
-
-.row_title {
-  color: #FFFFFF;
-  font-size: 2vw;
-  -webkit-letter-spacing: -0.03125vw;
-  letter-spacing: -0.03125vw;
-  line-height: 2.03125vw;
-  padding: 0 4%;
-  margin-bottom: 0.703125vw;
-  font-family: sans-serif;
-}
-
-.row_section {
-  position: relative;
-  white-space: nowrap;
-  padding-right: 4%;
-  padding-left: 4%;
-  overflow-x: visible;
-}
-
-.fixed_row {
-  margin-bottom: 0vw;
-}
-
-.slide_row {
-  position: relative;
-}
-
-
-.movie_list_row {
-  /* slide-bar 제어*/
-
-  position: relative;
-  white-space: nowrap;
-  padding-right: 4%;
-  padding-left: 4%;
-  overflow-x: visible;
-}
-
-.movie_list_row_set {
-  margin-right: -0.15625vw;
-  margin-left: -0.15625vw;
-}
-
-.movie_ifno_container {
-  padding-left: 0;
-  display: inline-block;
-}
-
-.img_and_title {
-  width: 200px;
-  height: auto;
-  z-index: 1;
-  padding: 0.15625vw;
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 1.5625vw;
-  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
-  -webkit-transition: transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
-  transition: transform 0.4s cubic-bezier(0.5,0,0.1,1) 0s;
-}
-
-
-
-
-/* 이미지만*/
-.movie_still_cut_container {
-  position: relative;
-}
-
-.movie_img_wrapper {
-  position: relative;
-  z-index: 3;
-}
-
-.movie_img_poster {
-  position: relative;
-  overflow: hidden;
-  background-color: #0f1112;
-  width: 100%;
-  padding: 28.125% 0;position: relative;
-  overflow: hidden;
-  background-color: #0f1112;
-  width: 100%;
-  padding: 0;
-  margin: 15pt;
-
-}
-
-.content_img {
-  text-align:center;
-  display:flex; /* 내용을 중앙정렬 하기위해 flex 사용 */
-  align-items:center; /* 위아래 기준 중앙정렬 */
-  justify-content:center; /* 좌우 기준 중앙정렬 */
-  display: block;
-  width: 200px;
-  height: auto;
-}
-
-.movie_img_poster_first {
-  position: relative;
-  overflow: hidden;
-  background-color: #0f1112;
-  width: 100%;
-  padding: 28.125% 0;position: relative;
-  overflow: hidden;
-  background-color: #0f1112;
-  padding: 0;
-}
-
-
-.comment_in_img {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: white;
-  font-size: 16px;
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  /*-webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);*/
-  transform: translate(0%, -50%);
-  text-align: left;
-}
-
-.movie_img_poster_first:hover .overlay {
-  opacity: 1;
-}
-
-.movie_img_poster_second {
-  display: none;
-  position: relative;
-  overflow: hidden;
-  background-color: #0f1112;
-  width: 100%;
-  padding: 28.125% 0;position: relative;
-  overflow: hidden;
-  background-color: #0f1112;
-  width: 100%;
-  padding: 0;
-  margin: 15pt;
-
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 100%;
-  width: 100%;
-  opacity: 0;
-  transition: .5s ease;
-  background: rgba(3, 3, 8, 0.7);
-}
-
-.movie_img_poster:hover img {
-  -webkit-transform:scale(1.2);
-  -moz-transform:scale(1.2);
-  -ms-transform:scale(1.2);   
-  -o-transform:scale(1.2);
-  transform:scale(.95);
-}
-/*타이틀만*/
-
-.movie_title_wrapper {
-  height: 3.125vw;
-  margin-top: 0.234375vw;
-  opacity: 1;
-  -webkit-transition: opacity 0.2s linear 0s;
-  transition: opacity 0.2s linear 0s;    
-}
-
-.movie_title {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  display: block;
-  color: rgba(255,255,255,0.95);
-  /*font-size: 1.46484375vw;*/
-  font-size: 1vw;
-  font-weight: 400;
-  word-wrap: break-word;
-  word-break: break-word;
-  padding: 0 1.015625vw 0 0;
-  opacity: 1;
-  -webkit-transition: opacity 0.25s cubic-bezier(0.5,0,0.1,1) 0.2s;
-  transition: opacity 0.25s cubic-bezier(0.5,0,0.1,1) 0.2s;
-}
-
-.text {
-
-  color: white;
-  font-size: 16px;
-  position: absolute;
-  top: 20%;
-  left: 40%;
-  -webkit-transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-  text-align: left;
-}
-
-
-
-</style>
-
 </html>

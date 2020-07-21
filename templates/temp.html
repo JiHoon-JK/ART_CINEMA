@@ -135,7 +135,8 @@
      url: "/check_LDDB",
      data: {
       title:title,
-      poster:poster
+      poster:poster,
+      director:director
     },
     success: function(response){
       if(response['result']=='like_success'){
@@ -369,7 +370,7 @@ function google_click(){
      
      do{
       random = Math.floor(Math.random() * ART_movie_list.length)
-      random_director = ART_movie_list[random]['director']
+      random_director = ART_movie_list[random]['director'].trim()
       random_director_len = random_director.length
     }while(random_director_len > 25 && random_director != 'NONE')
     // 길이가 30보다 작고 감독이 존재해야 반복문 종료
@@ -401,7 +402,8 @@ function like_movie(){
    data: {
     nickname:nickname,
     title:title,
-    poster:poster
+    poster:poster,
+    director:director
   },
   success: function(response){
     if (response['result'] == 'success'){
@@ -426,7 +428,8 @@ function dislike_movie(){
    data: {
     nickname:nickname,
     title:title,
-    poster:poster
+    poster:poster,
+    director:director
   },
   success: function(response){
     if (response['result'] == 'success'){
@@ -771,7 +774,7 @@ function LD(title,poster){
   position: absolute;
   margin-left:auto;
   margin-right:auto;
-  padding-left: 22%;
+  padding-left: 450px;
 }
 
 
@@ -944,7 +947,7 @@ function LD(title,poster){
           <input class="keyword" id="movie_input" type="text" name="movie_info_give" maxlength=255 value=""
           autocomplete="off" placeholder="'영화제목'  / '감독' / '사용자' 를 입력해주세요."
           onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
-          <svg class="bi bi-search" onclick="" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <svg class="bi bi-search" onclick="search_listing()" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
             <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
           </svg>

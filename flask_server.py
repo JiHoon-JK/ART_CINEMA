@@ -263,7 +263,7 @@ def mypage():
         a = list(db.userdb.find({'email': email1}, {'_id': 0}))
         print('Logged in as ' + email1)
         print(session)
-        return render_template('my_page.html',sessionemail2=a[0].get('nickname'),para_data=para)
+        return render_template('my_page.html',sessionemail2=a[0].get('nickname'),para_data=para,para_data_2=a[0].get('genre_1'),para_data_3=a[0].get('genre_2'))
 
     else:
         return render_template('my_page.html')
@@ -376,12 +376,12 @@ def register():
 # mypage연결 api
 @app.route('/info_my_like_movie', methods=['GET'])
 def show_like_movie():
-    # DB_collection중 LDDB에서 정보 빼오기
     nickname=request.args.get("nickname")
     print(nickname)
-    status_like = True
-    my_like_movie = list(db.LDDB.find({'nickname':nickname, 'like' : status_like}, {'_id': 0}))
+    print('뭐냐이거는?')
+    my_like_movie = list(db.LDDB.find({'nickname':nickname, 'like':True},{'_id':0}))
     print(my_like_movie)
+    print(len(my_like_movie))
     return jsonify({'result': 'success', 'my_like_movie': my_like_movie})
 
 
@@ -425,6 +425,7 @@ def dislike_button():
         'nickname': request.form['nickname'],
         'title': request.form['title'],
         'poster': request.form['poster'],
+        'director' : request.form['director'],
         'like': False,
         'dislike': True
     }
@@ -464,6 +465,7 @@ def like_button():
         'nickname':request.form['nickname'],
         'title': request.form['title'],
         'poster': request.form['poster'],
+        'director': request.form['director'],
         'like': True,
         'dislike': False
     }
@@ -529,10 +531,17 @@ def LDDB_check():
         a = list(db.userdb.find({'email': email1}, {'_id': 0}))
         b = a[0].get('email')
 
+    director = request.form['director']
+    print(director)
+
+    test = director.strip()
+    print(test)
+
     like_movie = {
         'email': b,
         'title': request.form['title'],
         'poster': request.form['poster'],
+        'director' : request.form['director'],
         'like': True,
         'dislike': False
     }
@@ -582,6 +591,7 @@ def saved_comment():
     user_nickname = request.form['nickname']
     user_comment_movie_title = request.form['user_comment_movie_title']
     user_comment_movie_poster = request.form['user_comment_movie_poster']
+    user_comment_movie_director = request.form['user_comment_movie_director']
     user_comment_movie = request.form['user_comment_give']
     print(user_comment_movie)
     print(user_comment_movie_title)
@@ -611,6 +621,7 @@ def saved_comment():
             'user_nickname': user_nickname,
             'user_comment_movie_title': user_comment_movie_title,
             'user_comment_movie_poster': user_comment_movie_poster,
+            'user_comment_movie_director' : user_comment_movie_director,
             'user_comment': user_comment_movie,
             'edit': False,
             'gonggam_cnt': 0,
@@ -644,9 +655,10 @@ def removed_comment():
     print(user_comment_remove)
     find_comment_db = list(db.serverside_usercomment.find({'user_comment': user_comment_remove}, {'_id': 0}))
     print(find_comment_db)
+    print('???')
     if (user_comment_remove == find_comment_db[0]['user_comment']):
         counting_commented_minus(find_comment_db[0]['user_comment_movie_title'])
-        db.serverside_usercomment.delect_one({'user_comment': user_comment_remove})
+        db.serverside_usercomment.remove({'user_comment': user_comment_remove})
         print('코멘트가 삭제되었습니다.')
         return jsonify({'result': 'success'})
     else:
@@ -938,11 +950,22 @@ def get_comments():
     others_comments = list(db.serverside_usercomment.find({'user_comment_movie_title':title},{'_id':0}))
     others_comments = sorted(others_comments, key=(lambda x: x['gonggam_cnt']), reverse=True)
     print(others_comments)
+
+    return jsonify({'result': 'success', 'others_comments': others_comments})
+
+    #db.serverside_usercomment.drop()
+
+    # others_comments 부분을 통해서, db에 정렬을 해야지, 오류가 발생하지 않음. 해당부분을 디버깅해야할듯.
+    #if(others_comments == []):
+        #pass
+    #else:
+        #print(others_comments)
+        #db.serverside_usercomment.insert_many(others_comments)
+
     # print(others_comments)
     # print(others_comments[0].get('user_email'))
     # for i in range(len(others_comments)):
     #     if others_comments[i].get('user_email') == email1:
-    return jsonify({'result': 'success', 'others_comments': others_comments})
 
 
 @app.route('/comment_like_counting', methods=['POST'])
