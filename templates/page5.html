@@ -164,15 +164,18 @@
   }
 
   function comment_save(title,poster,director,comment){
+    nickname = "{{sessionemail2}}"
+    console.log(nickname)
     $('#save_button').hide()
     $.ajax({
       type: "POST",
       url: "/comment_save",
-      data: { nickname :$('#customer_email').text(),user_comment_movie_title : title ,user_comment_movie_poster: poster, user_comment_movie_director: director ,user_comment_give : comment},
+      data: { nickname :nickname,user_comment_movie_title : title ,user_comment_movie_poster: poster, user_comment_movie_director: director ,user_comment_give : comment},
       success: function(response){
           // 처음 저장하는 코멘트일 경우
           if (response['result']== 'success'){
             if(response['edit'] == true){
+              console.log('제발 들어가...')
               $('#user_comment').hide()
               comment_box_html = '<div id="db_comment_box">\
               <h3 id="db_comment">'+comment+'</h3>\
@@ -256,7 +259,7 @@
     $.ajax({
       type:"POST",
       url:"/comment_edit",
-      data:{nickname:$('#customer_email').text(),edit_movie:$('#comment_movie_title').text(),edit_comment:user_edit_comment},
+      data:{nickname:"{{sessionemail2}}",edit_movie:$('#comment_movie_title').text(),edit_comment:user_edit_comment},
       success: function(response){
         $('#edit_comment_box').hide()
         edit_comment_info()
@@ -323,7 +326,7 @@
   }
 
   function email_head(email){
-   let temp_html = email;
+   let temp_html = '안녕하세요 ' + email + ' 님!'
    $('#customer_email').append(temp_html);
  }
 
@@ -354,7 +357,7 @@
     $('#db_comment_box').remove()
 
     let search_data = $('#movie_input').val();
-    let nickname = $('#customer_email').text();
+    let nickname = "{{sessionemail2}}"
     if( search_data != ""){
       alert(search_data+'에 대한 정보입니다.');
       $.ajax({
@@ -379,7 +382,7 @@
     $.ajax({
       type:"GET",
       url:"/lastest_searching_listing",
-      data:{nickname:$('#customer_email').text()},
+      data:{nickname:"{{sessionemail2}}"},
       success:function(response){
         // 로그인이 되어있을 때
         if(response['result']=='success'){
@@ -442,9 +445,10 @@
     $.ajax({
       type: "GET",
       url: "/search_DB",
-      data: {movie_input:data,nickname:$('#customer_email').text()},
+      data: {movie_input:data,nickname:"{{sessionemail2}}"},
       success: function(response){
         if(response['result'] == 'success' && response['check_comment'] == 'success'){
+          console.log('여기면 1')
           movie_infos = response['Movie_info'];
           let movie_comment = response['Movie_comment'];
           $('#movie_temp_html').html('');
@@ -464,6 +468,7 @@
         // return (title , movie_infos)
       }
       else if(response['result'] == 'success' && response['check_comment'] == 'fail'){
+        console.log('여기면 2')
         movie_infos = response['Movie_info'];
         let title = movie_infos[0]['title'];
 
@@ -524,7 +529,7 @@
        type: "POST",
        url: "/like_movie",
        data: {
-        nickname:$('#customer_email').text(),
+        nickname:"{{sessionemail2}}",
         title:movie_infos[0]['title'],
         poster:movie_infos[0]['poster'],
         director:movie_infos[0]['director']
@@ -551,7 +556,7 @@
        type: "POST",
        url: "/dislike_movie",
        data: {
-        nickname:$('#customer_email').text(),
+        nickname:"{{sessionemail2}}",
         title:movie_infos[0]['title'],
         poster:movie_infos[0]['poster']
       },
@@ -755,6 +760,7 @@ function comment_like2(count){
   #menubar{
     color: black;
     font-weight: bold;
+    margin-top:10px;
   }
 
   #comment_box{
@@ -1110,8 +1116,8 @@ img{
 <body style="background-color:#c5adba">
   <div class="movie_info" style="margin-top:25px;">
     <div class="movie_info" style="margin-top:25px;">
-      <div class="movie_top" style="margin-left: 25%;">
-        <img src="static/logo.png" style="width:100px; height:80px; cursor: pointer;" onclick="btn_home()">
+      <div class="movie_top" style="margin-left: 23%;">
+        <img src="static/final.logo.png" style="width:200px; height:100px; cursor: pointer;" onclick="btn_home()">
         <input class="keyword" id="movie_input" width="2em" height="2em"
         style="margin-right: 7px; margin-left: 10px;" type="text" name="movie_info_give" maxlength=255
         value="" autocomplete="off" placeholder="'영화제목'  / '감독' / '사용자' 를 입력해주세요."
@@ -1124,7 +1130,7 @@ img{
         <path fill-rule="evenodd"
         d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
       </svg>
-      <nav class="nav nav-masthead justify-content-center" id="menubar">
+      <nav class="nav nav-masthead justify-content-center" id="menubar" title="마이페이로 이동합니다.">
         <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-top:10px;padding-right: 5px;"
         viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
@@ -1163,7 +1169,7 @@ img{
 </div>
 
 
-<div style="margin-top:10%">
+<div style="margin-top:7%">
   <div>
     <h3 style="text-align:center"><strong>Others' Comments</strong></h3>
     <div>

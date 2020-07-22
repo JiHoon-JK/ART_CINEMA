@@ -74,7 +74,7 @@
 	// 받아온 세션을 사용하는 함수
 
 	function email_head(email){
-		let temp_html = email;
+		let temp_html = '안녕하세요 '+ email + ' 님!';
 		$('#customer_email').append(temp_html);
 	}
 
@@ -303,14 +303,14 @@
 <body style="background-color:#c5adba">
 	<div class="root">
 		<div class="search_info" style="margin-top:25px;">
-			<div class="top_bar" style="margin-left: 25%;">
-				<img src="static/logo.png" style="width:100px; height:80px; cursor: pointer;" onclick="btn_home()">
+			<div class="top_bar" style="margin-left: 20%;">
+				<img src="static/final.logo.png" style="width:200px; height:100px; cursor: pointer;" onclick="btn_home()">
 				<input class="keyword" id="movie_input" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px;" type="text" name="movie_info_give" maxlength=255 value="" autocomplete="off" placeholder="'영화제목'  / '감독' /  '사용자' 를 입력해주세요." onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
 				<svg class="bi bi-search" onclick="" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px; cursor: pointer;"viewBox="0 0 16 16" fill="currentColor" onclick="search_listing()"xmlns="http://www.w3.org/2000/svg">
 					<path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
 					<path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
 				</svg>
-				<nav class="nav nav-masthead justify-content-center" id="menubar" style="margin-top:20px;">
+				<nav class="nav nav-masthead justify-content-center" id="menubar" style="margin-top:20px;" title="마이페이로 이동합니다.">
 					<svg class="bi bi-person-circle" width="2em" height="2em" style="padding-top:10px; padding-right: 5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 						<path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
 						<path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>

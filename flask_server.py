@@ -260,10 +260,13 @@ def mypage():
         print('zzzzzzzz')
         print(para)
         email1 = session['email']
-        a = list(db.userdb.find({'email': email1}, {'_id': 0}))
+        a = list(db.userdb.find({'nickname': para}, {'_id': 0}))
+        b = list(db.userdb.find({'email': email1}, {'_id': 0}))
         print('Logged in as ' + email1)
         print(session)
-        return render_template('my_page.html',sessionemail2=a[0].get('nickname'),para_data=para,para_data_2=a[0].get('genre_1'),para_data_3=a[0].get('genre_2'))
+        print(a)
+        print(b)
+        return render_template('my_page.html',sessionemail2=b[0].get('nickname'),para_data=para,para_data_2=a[0].get('genre_1'),para_data_3=a[0].get('genre_2'),user_introduce=a[0].get('introduce'))
 
     else:
         return render_template('my_page.html')
@@ -588,7 +591,9 @@ def select_movie():
 
 @app.route('/comment_save', methods=['POST'])
 def saved_comment():
+    print('들어갔냐 하...')
     user_nickname = request.form['nickname']
+    print(user_nickname)
     user_comment_movie_title = request.form['user_comment_movie_title']
     user_comment_movie_poster = request.form['user_comment_movie_poster']
     user_comment_movie_director = request.form['user_comment_movie_director']

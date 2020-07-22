@@ -52,7 +52,7 @@
     get_parameter();
     profile_check();
     //처음에 커멘트 창을 자동으로 띄워주기 위해서
-    comment_movie_listing();
+    comment_movie_listing('button_click');
 
   })
 
@@ -87,25 +87,49 @@
    $('#menubar').append(html_logout);
  }
 
- /*
- function email_head(email){
-   let temp_html = email;
-   $('#customer_email').text(temp_html);
- }
- */
+ // 검색한 parameter를 받아오는 함수
+ function get_parameter(){
+  if("{{para_data}}" == ""){
+    console.log('오류발생!')
+  }
+  else{
+    user_nickname = "{{para_data}}"
+    console.log(user_nickname)
+    $('.nickname').text(user_nickname)
 
- function profile_check(){
+  }
+}
+
+ // 로그아웃 함수
+ function btn_logout(){
+  jbResult = confirm( "정말 로그아웃을 하시겠습니까?" );
+  if(jbResult == true){
+    $.ajax({
+     type: "POST",
+     url: "/test2",
+     data: {},
+     success: function(response){
+      location.href="/"
+    }
+  })
+  }
+  else{
+  }
+}
+
+function profile_check(){
   check = 'loading'
   comment_movie_listing(check)
   like_movie_listing(check)
   genre_listing(check)
+  introduce_listing()
 }
 
 function comment_movie_listing(check){
   $.ajax({
     type:"GET",
     url:"/info_my_comment_movie",
-    data: {nickname:nickname},
+    data: {nickname:user_nickname},
     success: function(response){
       if(response['result'] == 'success'){
         my_comment = response['my_comment_movie']
@@ -115,10 +139,13 @@ function comment_movie_listing(check){
 
         if(check == 'loading'){
           $('.comment_count').text(my_comment_cnt);
-        }else{
           for (let i = 0; i < my_comment.length; i++) {
-            comment_movie_listing_card(i, my_comment[i]['user_comment_movie_poster'],my_comment[i]['user_comment_movie_title'], my_comment[i]['user_comment_movie_director'].trim())
+            comment_movie_listing_card(i, my_comment[i]['user_comment_movie_poster'],my_comment[i]['user_comment_movie_title'], my_comment[i]['user_comment_movie_director'].trim(),my_comment[i]['user_comment'])
           }
+        }else if(check == 'button_click'){
+          console.log('오류!')
+          $('.comment_list').show('')
+          $('.like_movie_list').hide('')
         }
       }else{
         alert('커멘트 리스트를 받아오지 못했습니다.')
@@ -128,19 +155,26 @@ function comment_movie_listing(check){
 }
 
 //댓글단 영화 포스터 보여주기 - search page 참고
-function comment_movie_listing_card(num,poster,title,director) {
-  $('.comment_list').html('')
-  $('.like_movie_list').html('')
-  let info_html = '<div class="title_list_'+num+'" style="width:32.5%; height:532px; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
+function comment_movie_listing_card(num,poster,title,director,comment) {
+
+  // 감상평 창에서 좋아요 창으로 이동할 때.
+  //$('.like_movie_list').hide('')
+
+  let info_html = `<div class="comment_card title_list_${num}" id="comment_card" style="width:32.5%; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
   border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px;">\
   <div class="test_poster">\
-  <img src="'+poster+'" class="T_poster_img'+num+'" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="title_checking_onclick('+num+')">\
+  <img src="${poster}" class="T_poster_img${num}" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="location.href='/page5?search_data=${title}'">\
   </div>\
-  <div class="T_test_title'+num+'" style="font-size:25px;">'+title+'</div>\
-  <div class="T_test_director'+num+'" style="font-size:15px; margin-top: 5px;">'+director+'</div>\
-  </div>'
+  <div class="T_test_title${num}" style="font-size:25px;">${title}</div>\
+  <div class="T_test_director${num}" style="font-size:15px; margin-top: 5px;">${director}</div>\
+  <hr width="55%" style="height:3px;" color="#7d7d89">
+  <div class="T_test_comment${num}" style="margin-top:10px;">
+  <p>${comment}</p>
+  </div> 
+  </div>`
 
   $('.comment_list').append(info_html);
+
 }
 
 
@@ -148,50 +182,60 @@ function like_movie_listing(check){
   $.ajax({
     type: "GET",
     url: "/info_my_like_movie",
-    data: {nickname:nickname},
+    data: {nickname:user_nickname},
     success: function(response){
       if(response['result'] == 'success'){
         my_like_movie = response['my_like_movie']
+        console.log(my_like_movie)
         my_like_movie_cnt = my_like_movie.length
-
+        console.log(my_like_movie_cnt)
         if(check == 'loading'){
           $('.like_movie_count').text(my_like_movie_cnt);
-        } else{
           for (let i = 0; i < my_like_movie.length; i++) {
             like_movie_listing_card(i, my_like_movie[i]['poster'],my_like_movie[i]['title'], my_like_movie[i]['director'])
           }
-        } 
-      }else{
-        alert('영화 리스트를 받아오지 못했습니다');
+        } else if(check == 'button_click'){
+          $('.comment_list').hide();
+          $('.like_movie_list').show(); 
+        }else{
+          alert('영화 리스트를 받아오지 못했습니다');
+        }
       }
-
     }
   })
 }
 
 // 영화 포스터 보여주기 - page5에서 참고
 function like_movie_listing_card(num,poster,title,director){
-  $('.comment_list').html('')
-  $('.like_movie_list').html('')
-  let info_html = '<div class="title_list_'+num+'" style="width:32.5%; height:532px; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
+
+  let info_html = `<div class="like_card_title_list_${num}" style="width:32.5%; height:532px; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
   border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px;">\
   <div class="test_poster">\
-  <img src="'+poster+'" class="T_poster_img'+num+'" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="title_checking_onclick('+num+')">\
+  <img src="${poster}" class="T_poster_img${num}" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="location.href='/page5?search_data=${title}'">\
   </div>\
-  <div class="T_test_title'+num+'" style="font-size:25px;">'+title+'</div>\
-  <div class="T_test_director'+num+'" style="font-size:15px; margin-top: 5px;">'+director+'</div>\
-  </div>'
+  <div class="T_test_title${num}" style="font-size:25px;">${title}</div>\
+  <div class="T_test_director${num}" style="font-size:15px; margin-top: 5px;">${director}</div>\
+  </div>`
 
   $('.like_movie_list').append(info_html);
 }
 
 function genre_listing(check){
+
   user_genre_1 = "{{para_data_2}}"
   user_genre_2 = "{{para_data_3}}"
 
   user_genre_data = user_genre_1 + '/' +user_genre_2
 
   $('.genre').text(user_genre_data)
+
+}
+
+function introduce_listing(){
+  user_introduce = "{{user_introduce}}"
+  console.log(user_introduce)
+
+  $('.my_introduce').text(user_introduce)
 
 }
 
@@ -214,17 +258,7 @@ function search_listing(){
 
 <script type="text/javascript">
 
-   // 검색한 parameter를 받아오는 함수
-   function get_parameter(){
-    if("{{para_data}}" == ""){
-      console.log('오류발생!')
-    }
-    else{
-      user_nickname = "{{para_data}}"
-      $('.nickname').text(user_nickname)
 
-    }
-  }
 </script>
 </head>
 
@@ -283,9 +317,8 @@ function search_listing(){
 
   #input_box{
     position: absolute;
-    padding-left:450px;
-    width:1450px;
-
+    padding-left:400px;
+    
   }
 
   .nav-masthead .nav-link {
@@ -515,7 +548,7 @@ function search_listing(){
   <section class="all_round">
     <div class="page_main" style="margin-top:25px; width: 1500px; height: 80px;">
       <div id="input_box">
-        <img src="static/logo.png" style="width:100px; height:80px; cursor: pointer;" onclick="btn_home()">
+        <img src="static/final.logo.png" style="width:200px; height:100px; cursor: pointer;" onclick="btn_home()">
         <input class="keyword" id="movie_input" type="text" width="2em" height="2em" name="movie_info_give" maxlength=255 value=""
         autocomplete="off" placeholder="'영화제목'  / '감독' / '사용자' 를 입력해주세요." style="margin-right: 7px; margin-left: 10px;"
         onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
@@ -526,8 +559,8 @@ function search_listing(){
       </div>
     </div>
     <div class="login_bar" style="width: 300px; margin-left: 1600px; float:right;">
-      <nav class="nav nav-masthead justify-content-center" id="menubar" style="margin-top: 25px;">
-        <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-top:10px;padding-right: 5px;"
+      <nav class="nav nav-masthead justify-content-center" id="menubar" style="margin-top: 25px; cursor: pointer;" title="마이페이로 이동합니다.">
+        <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-right: 5px;"
         viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
         <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
@@ -542,7 +575,7 @@ function search_listing(){
   <div class="img_info"></div>
   <div class="user_info">
     <div class="normal_info">
-      <div class="user_nickname">
+      <div class="user_nickname" style="float: left;">
         <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-person-badge" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path fill-rule="evenodd" d="M12 1H4a1 1 0 0 0-1 1v11.755S4 12 8 12s5 1.755 5 1.755V2a1 1 0 0 0-1-1zM4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H4z"/>
           <path fill-rule="evenodd" d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 2.5a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5z"/>
@@ -550,27 +583,31 @@ function search_listing(){
         <h1 class="nickname"></h1>
       </div>
 
-      <div class="user_profile_edit">
-        <button>프로필 편집</button>
+      <div class="user_profile_edit" style="margin-top:50px;">
+        <button onclick="alert('프로필 편집 기능은 준비중입니다.')">프로필 편집</button>
       </div>
     </div>
     <div class="my_follow_info">
       <div class="count_info">
         <div class="comment_div">
-          <h3>코멘트 : <span class='comment_count'></span>&nbsp;&nbsp;</h3>
+          <h3>코멘트 : <span class='comment_count' style="color:blue;"></span>&nbsp;&nbsp;</h3>
         </div>
         <br>
         <div class="like_movie_div">
-          <h3>좋아하는 영화 : <span class="like_movie_count"></span>&nbsp;&nbsp;</h3>
+          <h3>좋아하는 영화 : <span class="like_movie_count" style="color:blue;"></span>&nbsp;&nbsp;</h3>
         </div>
         <br>
         <div class="genre_list_div">
-          <h3>선호하는 장르 : <span class="genre"></span>&nbsp;&nbsp;</h3>
+          <h3>선호하는 장르 : <span class="genre" style="color:blue;"></span>&nbsp;&nbsp;</h3>
         </div>
         <br>
       </div>
     </div>
-    <div class="interested"></div>
+    <br><br>
+    <div class="my_introduce_div" style="text-align: center; width:800px; margin-top:30px;">
+      <h4 style="font-weight:bold;">자기소개 <hr width="10%" style="height:3px;" color="#7d7d89"><p class="my_introduce" style=""></p></h4>
+      <br>
+    </div>
   </div>
 </div>
 
@@ -580,8 +617,8 @@ function search_listing(){
   <ul class="tab">
     <li class="current" data-tab="tab1"><a href="#" onclick="comment_movie_listing('button_click')">감상평</a></li>
     <li data-tab="tab2"><a href="#" onclick="like_movie_listing('button_click')">좋아요</a></li>
-    <li data-tab="tab3"><a href="#">test1</a></li>
-    <li data-tab="tab4"><a href="#">test2</a></li>
+    <li data-tab="tab3"><a href="#" onclick="alert('업데이트 예정입니다.')">test1</a></li>
+    <li data-tab="tab4"><a href="#" onclick="alert('업데이트 예정입니다.')">test2</a></li>
   </ul>
 
 

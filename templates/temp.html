@@ -66,7 +66,7 @@
       listing2();
 
       $("#watching_site").prepend(append_image);
-      $(".tip_title").append(bottom_arrow);
+      $(".tip").append(bottom_arrow);
 
     });
 
@@ -74,7 +74,7 @@
     function get_session(){
       nickname = "{{sessionemail2}}"
       html_logout = '<a class="nav-link" id="btn_logout" style="padding-top:5px;" onclick="btn_logout()">로그아웃</a>'
-      temp_html = '<div style="padding:4px;color:black;">안녕하세요 ' + '<a href="/mypage?user='+nickname+'">' + nickname + '</a>님!</div>'
+      temp_html = '<div style="padding:4px;color:black; cursor:pointer;">안녕하세요 ' + '<a href="/mypage?user='+nickname+'">' + nickname + '</a>님!</div>'
 
       $('#menubar').append(temp_html);
       $('#menubar').append(html_logout);
@@ -481,6 +481,10 @@ function LD(title,poster){
 }
 }
 
+function sendemail(){
+
+}
+
 
 
 
@@ -518,6 +522,7 @@ function LD(title,poster){
 
   .outer{
     background-color: #c5adba;
+    height: 735px;
   }
   
   .inner{
@@ -688,6 +693,15 @@ function LD(title,poster){
  margin-top: 5px;
 }
 
+.tip_contents{
+  float: left;
+  width:25%;
+  height: 740px;
+  margin-left: 20px;
+  border: 1px dashed black;
+  padding-right: 5px;
+}
+
 .rank_contents{
   float: right;
   width: 23%;
@@ -774,7 +788,7 @@ function LD(title,poster){
   position: absolute;
   margin-left:auto;
   margin-right:auto;
-  padding-left: 450px;
+  padding-left: 370px;
 }
 
 
@@ -942,7 +956,7 @@ function LD(title,poster){
       <div class="inner">
         <div id="input_box">
           <h3 class="artcinema_logo">
-            <img src="static/logo.png" style="width:100px; height:80px; cursor:pointer; margin-right: 10px; " onclick="btn_home()">
+            <img src="static/final.logo.png" style="width:200px; height:100px; cursor:pointer; margin-right: 10px; " onclick="btn_home()">
           </h3>
           <input class="keyword" id="movie_input" type="text" name="movie_info_give" maxlength=255 value=""
           autocomplete="off" placeholder="'영화제목'  / '감독' / '사용자' 를 입력해주세요."
@@ -969,17 +983,40 @@ function LD(title,poster){
               <p style="font-size:small;">For You</p>
             </div>
           </div>
-          <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-right: 5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-right: 5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" title="마이페이지로 이동합니다.">
             <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
             <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
             <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
           </svg>
         </nav>
-        <div id="customer_email"></div>
+        <div id="customer_email" title="마이페이지로 이동합니다."></div>
       </div>
     </div> 
     <br>
     <div class="outer">
+      <div class="tip_contents" style="background-color:#89a3b2;">
+        <h2 class="tip_title" style="text-align: center; font-weight: bold; margin-top:3px;">ART_Cinema 사용 Tip!</h2>
+        <br>
+        <div class="tip_inner_contents" style="margin-left:5px;">
+          <p>안녕하세요! ART_Cinema 입니다!</p>
+          <p>
+            ART_Cinema 는 예술영화 추천 플랫폼입니다.
+            <br><br>
+            처음 접속하신 분들이라면, 로그인을 하면서 자동으로 선호도 조사 페이지를 진행하고, 자신의 선호장르를 알게 되셨을 것입니다.
+            <br><br>
+            선호도 조사를 바탕으로 본인의 선호장르에 맞춰서 독립/예술 영화를 추천해주는 'For You' 페이지를 이용할 수 있습니다.
+            <p style="font-weight:bold; color:blue;">(페이지 우측 상단)</p>
+            페이지 내에서 검색창을 통해서 다양한 예술영화에 대한 정보를 확인할 수 있고, <a style="font-weight: bold;">'좋아요'</a> 와 <a style="font-weight: bold;">'감상평'</a> 작성을 진행할 수 있습니다.
+            <br><br>
+            만약, 마음에 드는 영화가 있다면, 좋아요를 통해서 자신의 마이페이지에 담아두세요!
+            <p style="font-weight:bold; color:blue;">(마이 페이지는, 우측 상단 본인의 닉네임을 누르면 이동할 수 있습니다.</p>
+            또한, 영화를 보고 싶으시다면, <a style="font-weight: bold;">'영화보러가기'</a> 버튼을 통해서, 볼 수 있는 사이트로 이동해서 영화를 감상하실 수 있습니다.
+            <br><br>
+            <p style="font-weight: bold; color:blue;">사이트를 많이 이용할수록, 더 정확한 선호장르 분석이 가능하기에, 보다 더 정확한 추천을 할 수 있습니다.</p>
+            <p>많은 서비스 이용 부탁드리며, <a style="font-weight: bold;">사이트를 이용하면서 오류를 발견하시면,</a> 해당 <a style="color: blue; font-weight: bold;" href="https://mail.naver.com/write/popup?srvid=note&to=kks1342320@naver.com" target="_blank">이메일</a> 로 남겨주시면 정말 감사하겠습니다.</p>
+          </p>
+        </div>
+      </div>
       <div class="rank_contents" style="background-color:#89a3b2;outline-color:#7d7d89; outline-style: solid;">
         <div id="image" style="padding-top:10px;padding-bottom: 10px;">
           <svg class="bi bi-search" onclick="sort_search_db()" width="3em" height="3em" style="margin-left:50px;margin-right:80px;margin-bottom:10px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -1024,7 +1061,7 @@ function LD(title,poster){
           <h5 class="mt-0" id="maingenre_movie_title1"></h5><br>
           <p class="summary-text" id="maingenre_movie_summary1"></p>
           <div class="link_button" style="padding-top: 10px;">
-            <h5 class="tip_title" style="text-align: right; font-weight: bold; margin-bottom: 15px;">(더 많은 정보를 원한다면)</h5>
+            <h5 class="tip" style="text-align: right; font-weight: bold; margin-bottom: 15px;">(더 많은 정보를 원한다면)</h5>
             <button id="namu_wiki_link" onclick="namu_wiki_click()"><img src="static/namu_wiki.jfif"
              style="width:50px; height:50px;"></button>
              <button id="google_link" onclick="google_click()" style="margin-right: 3px;"><img src="static/google_logo.webp"
@@ -1034,17 +1071,23 @@ function LD(title,poster){
              </main>
            </div>
          </div>
-         <div class="watching_site" id="watching_site" style="text-align: center; margin-top: 50px; margin-right: auto; margin-left: auto; border:1px solid black; padding-top: 20px; padding-bottom: 10px; width: 600px;">
-          <h4 style="font-weight: bold; margin-top: 10px; margin-bottom: 10px;">이 영화를 보고 싶다면, <a style="color:blue;">버튼</a>을 눌러주세요.</h4>
+         <div class="watching_site" id="watching_site" style="text-align: center; margin-top:5px;margin-right: auto; margin-left: auto; border:1px solid black; padding-top: 20px; padding-bottom: 10px; width: 600px;">
+          <h4 style="font-weight: bold; margin-top: 10px; margin-bottom: 10px;">이 영화를 보고 싶다면, <a style="color:blue; cursor: pointer;" onclick="google_click()">버튼</a>을 눌러주세요.</h4>
           <button style="margin-top: 10px; margin-bottom: 10px;" onclick="google_click()">영화보러가기</button>
         </div>
       </div>
     </div>
-    <div class="bottom_info">
-     <footer class="mastfoot mt-auto">
-      <p class="copy" style="background-color:#c5adba; color: white; margin-top:200px;">Copyright ⓒ Developer 지훈, 희진, 원행. All Rights Reserved.</p>
-    </footer>
+    <div class="bottom_info" style="width:100%; margin-top: 10px;">
+      <div class="copyright" style="width:500px; position: absolute; margin-top:60px;">
+        <p class="copy" style="background-color:#c5adba; color: white; font-weight: bold; width:500px; margin-bottom: 0px; margin-left: 25px;">Copyright ⓒ Developer 지훈, 희진, 원행. All Rights Reserved.</p>
+      </div>
+      <div clsss="my_email" style="float:right; margin-right: 20px; margin-top:50px;">
+        <p style="margin-bottom: 0px;">사이트 오류 신고는 해당 이메일로 보내주시면, 정말 감사합니다.</p>
+        <p style="text-align: center; font-weight: bold;">
+          <a href="https://mail.naver.com/write/popup?srvid=note&to=kks1342320@naver.com" target="_blank" style="color:blue;">이메일 : kks1342320@naver.com</a>
+        </p>
+      </div>
+    </div>
   </div>
-</div>
 </body>
 </html>
