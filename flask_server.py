@@ -271,6 +271,9 @@ def mypage():
     else:
         return render_template('my_page.html')
 
+@app.route('/info_popup')
+def info_popup():
+    return render_template('info_popup.html')
 
 # @app.route('/mypage/more_Info')
 # def more_Info():

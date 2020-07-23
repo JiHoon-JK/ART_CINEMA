@@ -55,18 +55,41 @@
 
     let append_image = speaker_image + tv_image + speaker_image
 
+    let search_image = `<svg class="bi bi-search" onclick="alert('실시간 검색 순위입니다.');sort_search_db();" width="2em" height="2em" style="margin-right:10px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+    <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+    </svg><a style="cursor:pointer;" onclick="alert('검색 순위입니다.');sort_search_db();" title="검색 순위 확인하기">검색 순위</a>`
 
+    let like_image = `<svg class="bi bi-hand-thumbs-up" onclick="alert('실시간 좋아요 순위입니다.');sort_like_db();"width="2em" height="2em" style="margin-right:10px; margin-left:20px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16v-1c.563 0 .901-.272 1.066-.56a.865.865 0 0 0 .121-.416c0-.12-.035-.165-.04-.17l-.354-.354.353-.354c.202-.201.407-.511.505-.804.104-.312.043-.441-.005-.488l-.353-.354.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315L12.793 9l.353-.354c.353-.352.373-.713.267-1.02-.122-.35-.396-.593-.571-.652-.653-.217-1.447-.224-2.11-.164a8.907 8.907 0 0 0-1.094.171l-.014.003-.003.001a.5.5 0 0 1-.595-.643 8.34 8.34 0 0 0 .145-4.726c-.03-.111-.128-.215-.288-.255l-.262-.065c-.306-.077-.642.156-.667.518-.075 1.082-.239 2.15-.482 2.85-.174.502-.603 1.268-1.238 1.977-.637.712-1.519 1.41-2.614 1.708-.394.108-.62.396-.62.65v4.002c0 .26.22.515.553.55 1.293.137 1.936.53 2.491.868l.04.025c.27.164.495.296.776.393.277.095.63.163 1.14.163h3.5v1H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/></svg><a style="cursor:pointer;" onclick="alert('실시간 좋아요 순위입니다.');sort_like_db();" title="좋아요 순위 확인하기ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ">좋아요 순위</a>
+    `
+
+    let comment_image = `<svg class="bi bi-chat-dots" onclick="alert('실시간 커멘트 순위입니다.');sort_comment_db();"width="2em" height="2em" style="margin-right:10px; margin-left:20px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+    <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+    </svg><a style="cursor:pointer;" onclick="alert('실시간 커멘트 순위입니다.');sort_comment_db();" title="코멘트 순위 확인하기">코멘트 순위</a>
+    `
+
+    let rank_bar_image = search_image + like_image + comment_image
+
+    let info_image = `<svg width="2.5em" height="2.5em" style="margin-left:10px; cursor:pointer;" onclick="info_popup()" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <title>아트시네마 Tip 입니다!</title>
+    <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
+    <circle cx="8" cy="4.5" r="1"/>
+    </svg>`
 
     // 처음에 실행되는 함수
     $(document).ready(function(){
       get_session();
-      sort_search_db();
 
       var title="";
       listing2();
 
       $("#watching_site").prepend(append_image);
       $(".tip").append(bottom_arrow);
+      $(".rank_bars").append(rank_bar_image);
+      $(".info").append(info_image);
 
     });
 
@@ -109,6 +132,12 @@
           }
         }
       })
+    }
+
+    //info_Popup 관련 함수
+
+    function info_popup(){
+      window.open("info_popup","info_popup","width=450,height=400,left=100,top=50");
     }
 
     //버튼 애니메이션 실행 함수
@@ -171,7 +200,7 @@
             search_rank_9 = sort_searched_db[8]['title']
             search_rank_10 = sort_searched_db[9]['title']                        
 
-            bring_rank_html(search_menu_bar,search_rank_1,search_rank_2,search_rank_3,search_rank_4,search_rank_5,search_rank_6,search_rank_7,search_rank_8,search_rank_9,search_rank_10)
+            bring_rank_html(search_menu_bar,search_rank_1,search_rank_2,search_rank_3,search_rank_4,search_rank_5,search_rank_6,search_rank_7,search_rank_8,search_rank_9,search_rank_10, 'search')
             
           }
         }
@@ -200,7 +229,7 @@
             like_rank_10 = sort_liked_db[9]['title']
 
 
-            bring_rank_html(like_menu_bar,like_rank_1,like_rank_2,like_rank_3,like_rank_4,like_rank_5,like_rank_6,like_rank_7,like_rank_8,like_rank_9,like_rank_10)
+            bring_rank_html(like_menu_bar,like_rank_1,like_rank_2,like_rank_3,like_rank_4,like_rank_5,like_rank_6,like_rank_7,like_rank_8,like_rank_9,like_rank_10,'like')
             
           }
         }
@@ -229,7 +258,7 @@
             comment_rank_10 = sort_commented_db[9]['title']
 
 
-            bring_rank_html(comment_menu_bar,comment_rank_1,comment_rank_2,comment_rank_3,comment_rank_4,comment_rank_5,comment_rank_6,comment_rank_7,comment_rank_8,comment_rank_9,comment_rank_10)
+            bring_rank_html(comment_menu_bar,comment_rank_1,comment_rank_2,comment_rank_3,comment_rank_4,comment_rank_5,comment_rank_6,comment_rank_7,comment_rank_8,comment_rank_9,comment_rank_10,'comment')
             
           }
         }
@@ -237,10 +266,13 @@
     }
 
     
+
     //실시간 순위 나열 함수
-    function bring_rank_html(rank_bar,rank_1,rank_2,rank_3,rank_4,rank_5,rank_6,rank_7,rank_8,rank_9,rank_10){
-      $('#rank_menu_contents').remove()
-      rank_box_html = '<ul id="rank_menu_contents">\
+    function bring_rank_html(rank_bar,rank_1,rank_2,rank_3,rank_4,rank_5,rank_6,rank_7,rank_8,rank_9,rank_10,check){
+
+      $('.contents').remove()
+
+      rank_box_html = '<ul class="contents" id="rank_menu_contents_'+check+'">\
       <p><a id="rank_bar" style="font-weight:bold;font-size:20pt;">'+'<'+rank_bar+'>'+'</a></p><br>\
       <p><a href="/page5?search_data='+rank_1+'" id="rank_1st">'+'1위 '+rank_1+'</a></p>\
       <p><a href="/page5?search_data='+rank_2+'" id="rank_2nd">'+'2위 '+rank_2+'</a></p>\
@@ -254,13 +286,29 @@
       <p><a href="/page5?search_data='+rank_10+'" id="rank_10th">'+'10위 '+rank_10+'</a></p>\
       </ul>'
 
-      $('#rank_box').append(rank_box_html);
+      $('.rank_contents').append(rank_box_html);
+
+      if(check == 'search'){
+        $('#rank_menu_contents_search').show();
+        $('#rank_menu_contents_like').hide();
+        $('#rank_menu_contents_comment').hide();
+      }else if(check == 'like'){
+        $('#rank_menu_contents_like').show();
+        $('#rank_menu_contents_search').hide();
+        $('#rank_menu_contents_comment').hide();
+      }else if(check == 'comment'){
+        $('#rank_menu_contents_comment').show();
+        $('#rank_menu_contents_search').hide();
+        $('#rank_menu_contents_like').hide();
+      }else{
+        console.log('아무것도 걸리지 않았습니다.')
+      }
 
     }
 
     // 선호장르 알아보기 버튼 추가 함수
     function comment_button(){
-      button_movepage = '<button id=comment_write style="vertical-align:middle;" onclick="go_page5($(maingenre_movie_title1).text())">코멘트 작성하기'+pencil_image+'</button>'
+      button_movepage = '<button id=comment_write style="vertical-align:middle; margin-left:auto; margin-right:auto; margin-top:20px;" onclick="go_page5($(maingenre_movie_title1).text())">코멘트 작성하기'+pencil_image+'</button>'
       $('.button_cover').append(button_movepage)
     }
 
@@ -663,11 +711,12 @@ function sendemail(){
   border-top-style: solid;
   border-bottom-style: solid;
   border-width: thick;
-  width:800px;
+  width:1000px;
   height: 110px;
   text-align: center;
-  margin-top: 1%;
-  margin-left: 28%;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
   padding-bottom: 15px;
 }
 
@@ -704,7 +753,7 @@ function sendemail(){
 
 .rank_contents{
   float: right;
-  width: 23%;
+  width: 21%;
   margin-left: 10px;
   margin-right:30px;
   padding-top: 10px;
@@ -713,9 +762,10 @@ function sendemail(){
 
 .main_contents{
  border: 0px solid;
- width:850px;
+ width:1000px;
  margin-top: 3%;
- margin-left: 27%;
+ margin-left: auto;
+ margin-right: auto;
  margin-bottom: 10px;
  padding: 15px 0px 30px 30px;
 }
@@ -739,6 +789,8 @@ function sendemail(){
 
 #maingenre_movie_poster1{
  border:0px solid;
+ width:192px;
+ height: 280px;
 }
 
 #maingenre_movie_summary1{
@@ -779,7 +831,7 @@ function sendemail(){
 #movie_input{
   text-align: center;
   border: 3px solid #7d7d89;
-  width: 800px;
+  width: 750px;
   height: 55px;
   margin-top: 25px;
 
@@ -788,7 +840,7 @@ function sendemail(){
   position: absolute;
   margin-left:auto;
   margin-right:auto;
-  padding-left: 370px;
+  padding-left: 400px;
 }
 
 
@@ -993,62 +1045,20 @@ function sendemail(){
       </div>
     </div> 
     <br>
+    <div class="rank_bars" style="margin-left: auto; margin-right: auto; margin-bottom:10px; width:790px; text-align:center;"></div>
     <div class="outer">
-      <div class="tip_contents" style="background-color:#89a3b2;">
-        <h2 class="tip_title" style="text-align: center; font-weight: bold; margin-top:3px;">ART_Cinema 사용 Tip!</h2>
-        <br>
-        <div class="tip_inner_contents" style="margin-left:5px;">
-          <p>안녕하세요! ART_Cinema 입니다!</p>
-          <p>
-            ART_Cinema 는 예술영화 추천 플랫폼입니다.
-            <br><br>
-            처음 접속하신 분들이라면, 로그인을 하면서 자동으로 선호도 조사 페이지를 진행하고, 자신의 선호장르를 알게 되셨을 것입니다.
-            <br><br>
-            선호도 조사를 바탕으로 본인의 선호장르에 맞춰서 독립/예술 영화를 추천해주는 'For You' 페이지를 이용할 수 있습니다.
-            <p style="font-weight:bold; color:blue;">(페이지 우측 상단)</p>
-            페이지 내에서 검색창을 통해서 다양한 예술영화에 대한 정보를 확인할 수 있고, <a style="font-weight: bold;">'좋아요'</a> 와 <a style="font-weight: bold;">'감상평'</a> 작성을 진행할 수 있습니다.
-            <br><br>
-            만약, 마음에 드는 영화가 있다면, 좋아요를 통해서 자신의 마이페이지에 담아두세요!
-            <p style="font-weight:bold; color:blue;">(마이 페이지는, 우측 상단 본인의 닉네임을 누르면 이동할 수 있습니다.</p>
-            또한, 영화를 보고 싶으시다면, <a style="font-weight: bold;">'영화보러가기'</a> 버튼을 통해서, 볼 수 있는 사이트로 이동해서 영화를 감상하실 수 있습니다.
-            <br><br>
-            <p style="font-weight: bold; color:blue;">사이트를 많이 이용할수록, 더 정확한 선호장르 분석이 가능하기에, 보다 더 정확한 추천을 할 수 있습니다.</p>
-            <p>많은 서비스 이용 부탁드리며, <a style="font-weight: bold;">사이트를 이용하면서 오류를 발견하시면,</a> 해당 <a style="color: blue; font-weight: bold;" href="https://mail.naver.com/write/popup?srvid=note&to=kks1342320@naver.com" target="_blank">이메일</a> 로 남겨주시면 정말 감사하겠습니다.</p>
-          </p>
-        </div>
-      </div>
-      <div class="rank_contents" style="background-color:#89a3b2;outline-color:#7d7d89; outline-style: solid;">
-        <div id="image" style="padding-top:10px;padding-bottom: 10px;">
-          <svg class="bi bi-search" onclick="sort_search_db()" width="3em" height="3em" style="margin-left:50px;margin-right:80px;margin-bottom:10px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-          </svg>
-          <svg class="bi bi-hand-thumbs-up" onclick="sort_like_db()"width="3em" height="3em" style="margin-left:10px;margin-right:50px;margin-bottom:10px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.965.22.816.533 2.511.062 4.51a9.84 9.84 0 0 1 .443-.051c.713-.065 1.669-.072 2.516.21.518.173.994.681 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.163 3.163 0 0 1-.488.901c.054.152.076.312.076.465 0 .305-.089.625-.253.912C13.1 15.522 12.437 16 11.5 16v-1c.563 0 .901-.272 1.066-.56a.865.865 0 0 0 .121-.416c0-.12-.035-.165-.04-.17l-.354-.354.353-.354c.202-.201.407-.511.505-.804.104-.312.043-.441-.005-.488l-.353-.354.353-.354c.043-.042.105-.14.154-.315.048-.167.075-.37.075-.581 0-.211-.027-.414-.075-.581-.05-.174-.111-.273-.154-.315L12.793 9l.353-.354c.353-.352.373-.713.267-1.02-.122-.35-.396-.593-.571-.652-.653-.217-1.447-.224-2.11-.164a8.907 8.907 0 0 0-1.094.171l-.014.003-.003.001a.5.5 0 0 1-.595-.643 8.34 8.34 0 0 0 .145-4.726c-.03-.111-.128-.215-.288-.255l-.262-.065c-.306-.077-.642.156-.667.518-.075 1.082-.239 2.15-.482 2.85-.174.502-.603 1.268-1.238 1.977-.637.712-1.519 1.41-2.614 1.708-.394.108-.62.396-.62.65v4.002c0 .26.22.515.553.55 1.293.137 1.936.53 2.491.868l.04.025c.27.164.495.296.776.393.277.095.63.163 1.14.163h3.5v1H8c-.605 0-1.07-.081-1.466-.218a4.82 4.82 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.615.849-.232 1.574-.787 2.132-1.41.56-.627.914-1.28 1.039-1.639.199-.575.356-1.539.428-2.59z"/>
-          </svg>
-          <svg class="bi bi-chat-dots" onclick="sort_comment_db()"width="3em" height="3em" style="margin-left: 50px;margin-bottom:10px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path fill-rule="evenodd" d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
-            <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
-          </svg>
-        </div>
-        <div class="rank_menu">
-          <button style="margin-right: 20px;margin-left:40px;" onclick="sort_search_db()"><strong>검색 순위</strong></button>
-          <button style="margin-left: 20px;margin-right: 20px;" onclick="sort_like_db()"><strong>좋아요 순위</strong></button>
-          <button style="margin-left: 30px;margin-right: 20px;" onclick="sort_comment_db()"><strong>코멘트 순위</strong></button>
-        </div>
-        <div class="rank_box" id="rank_box">
-
-        </div>
-      </div>
+      <div class="info" style="float:left;"></div>
       <div class="result_contents" style="text-align: center;">
         <div class="result_title" id="result_main_genre"></div>
         <div class="result_word">감독의 영화를 추천합니다</div>
       </div>
 
+      <div class="rank_contents"></div>
+
       <div class=" main_contents">
         <div class="media">
          <img class="mr-3" id="maingenre_movie_poster1" style="position:relative; cursor: pointer;" src="" alt="Generic placeholder image" onclick="go_page5($('#maingenre_movie_title1').text())">
-         <div class="container" style="text-align:center; position:absolute; left:270px;">
+         <div class="container" style="text-align:center; position:absolute; left:210px;">
           <div class="wrapper" style="display:inline-block; vertical-align:middle;">
             <a href="javascript:void(0);" onclick="like_animation()" class="like-button" id="like" style="margin-bottom:20px; margin-left:10px;">
               <i class="material-icons not-liked bouncy">favorite_border</i>
@@ -1067,27 +1077,28 @@ function sendemail(){
              <button id="google_link" onclick="google_click()" style="margin-right: 3px;"><img src="static/google_logo.webp"
                style="width:50px; height:50px;"></button>
              </div>
-             <main role="main" class="button_cover" id="a">
+             <main role="main" class="button_cover" style="text-align:center;" id="a">
              </main>
            </div>
          </div>
-         <div class="watching_site" id="watching_site" style="text-align: center; margin-top:5px;margin-right: auto; margin-left: auto; border:1px solid black; padding-top: 20px; padding-bottom: 10px; width: 600px;">
+         <div class="watching_site" id="watching_site" style="text-align: center; margin-top:40px; border:1px solid black; padding-top: 20px; padding-bottom: 10px; width: 600px; height: 167px; margin-left: auto; margin-right:auto;">
           <h4 style="font-weight: bold; margin-top: 10px; margin-bottom: 10px;">이 영화를 보고 싶다면, <a style="color:blue; cursor: pointer;" onclick="google_click()">버튼</a>을 눌러주세요.</h4>
           <button style="margin-top: 10px; margin-bottom: 10px;" onclick="google_click()">영화보러가기</button>
         </div>
       </div>
     </div>
+
     <div class="bottom_info" style="width:100%; margin-top: 10px;">
-      <div class="copyright" style="width:500px; position: absolute; margin-top:60px;">
+      <div class="copyright" style="width:500px; position: absolute; margin-top:30px;">
         <p class="copy" style="background-color:#c5adba; color: white; font-weight: bold; width:500px; margin-bottom: 0px; margin-left: 25px;">Copyright ⓒ Developer 지훈, 희진, 원행. All Rights Reserved.</p>
       </div>
-      <div clsss="my_email" style="float:right; margin-right: 20px; margin-top:50px;">
-        <p style="margin-bottom: 0px;">사이트 오류 신고는 해당 이메일로 보내주시면, 정말 감사합니다.</p>
+      <div clsss="my_email" style="float:right; margin-right: 20px; margin-top:10px;">
+        <p style="margin-bottom: 0px;">사이트 오류 신고는 해당 이메일로 보내주시면, 감사하겠습니다.</p>
         <p style="text-align: center; font-weight: bold;">
-          <a href="https://mail.naver.com/write/popup?srvid=note&to=kks1342320@naver.com" target="_blank" style="color:blue;">이메일 : kks1342320@naver.com</a>
+          <a href="https://mail.naver.com/write/popup?srvid=note&to=art_cinema_test@naver.com" target="_blank" style="color:blue;">이메일 : art_cinema_test@naver.com</a>
         </p>
       </div>
     </div>
-  </div>
-</body>
-</html>
+
+  </body>
+  </html>
