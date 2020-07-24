@@ -72,7 +72,7 @@
 
     let rank_bar_image = search_image + like_image + comment_image
 
-    let info_image = `<svg width="2.5em" height="2.5em" style="margin-left:10px; cursor:pointer;" onclick="info_popup()" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    let info_image = `<svg width="2.5em" height="2.5em" style="margin-left:30px; cursor:pointer;" onclick="info_popup()" viewBox="0 0 16 16" class="bi bi-info-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
     <title>아트시네마 Tip 입니다!</title>
     <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
     <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
@@ -97,7 +97,7 @@
     function get_session(){
       nickname = "{{sessionemail2}}"
       html_logout = '<a class="nav-link" id="btn_logout" style="padding-top:5px;" onclick="btn_logout()">로그아웃</a>'
-      temp_html = '<div style="padding:4px;color:black; cursor:pointer;">안녕하세요 ' + '<a href="/mypage?user='+nickname+'">' + nickname + '</a>님!</div>'
+      temp_html = '<div style="padding:4px;color:black; cursor:pointer;">안녕하세요 ' + '<a href="/mypage?user='+nickname+'" title="My_Page 로 이동">' + nickname + '</a>님!</div>'
 
       $('#menubar').append(temp_html);
       $('#menubar').append(html_logout);
