@@ -42,6 +42,9 @@
   <!-- 추가한 부분 -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-173488063-1"></script>
+
   <script type="text/javascript">
 
    let nickname = "{{sessionemail2}}"
@@ -84,7 +87,8 @@
        url: "/check_LDDB",
        data: {
         title:movies[num]['title'],
-        poster:movies[num]['poster']
+        poster:movies[num]['poster'],
+        director:movies[num]['director']
       },
       success: function(response){
         if(response['result']=='like_success'){
@@ -103,7 +107,8 @@
        url: "/check_LDDB",
        data: {
         title:movies2[number]['title'],
-        poster:movies2[number]['poster']
+        poster:movies2[number]['poster'],
+        director:movies2[number]['director']
       },
       success: function(response){
         if(response['result']=='like_success'){
@@ -297,7 +302,8 @@ function search_genre(class_num){
          data: {
           nickname:nickname,
           title:movies[num]['title'],
-          poster:movies[num]['poster']
+          poster:movies[num]['poster'],
+          director:movies[num]['director']
         },
         success: function(response){
           if (response['result'] == 'success'){
@@ -323,7 +329,8 @@ function search_genre(class_num){
      data: {
       nickname:nickname,
       title:movies2[number]['title'],
-      poster:movies2[number]['poster']
+      poster:movies2[number]['poster'],
+      director:movies2[number]['director']
     },
     success: function(response){
       if (response['result'] == 'success'){
@@ -352,7 +359,8 @@ function dislike_movie(num,check){
    data: {
     nickname:nickname,
     title:movies[num]['title'],
-    poster:movies[num]['poster']
+    poster:movies[num]['poster'],
+    director:movies[num]['director']
   },
   success: function(response){
     if (response['result'] == 'success'){
@@ -380,7 +388,8 @@ else if(check == 'second'){
    data: {
     nickname:nickname,
     title:movies2[number]['title'],
-    poster:movies2[number]['poster']
+    poster:movies2[number]['poster'],
+    director:movies2[number]['director']
   },
   success: function(response){
     if (response['result'] == 'success'){
@@ -483,7 +492,7 @@ function go_page5(data){
     border-width: thick;
     border-radius: 20px;
     width:840px;
-    height: 300px;
+    height: 350px;
     background-color: #89a3b2;
     text-align: center;
     margin-top: 50px;
@@ -958,18 +967,20 @@ function go_page5(data){
 </head>
 <body style="background-color:#c5adba;">
 
-  <div class="button_contents" style="float:right;">
-
+  <div class="button_contents" style="float:right; width: 260px;height: 100px;">
     <svg class="bi bi-house" width="2.5em" height="2.5em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="margin-right: 20px;cursor:pointer;" onclick="go_home()">
+      <title>Home</title>
       <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
       <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
     </svg>
     
     <svg class="bi bi-person-circle" width="2.5em" height="2.5em" style="margin-right: 30px;cursor:pointer;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" onclick="go_my_page(nickname)">
+      <title>My Page</title>
       <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
       <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
       <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
     </svg>
+
     <nav class="nav nav-masthead justify-content-center" id="menubar"></nav>
     <div id= "customer_email" style="cursor: pointer;" onclick="go_my_page(nickname)"></div>
 
@@ -979,7 +990,7 @@ function go_page5(data){
   </div>
 
   <div class="result_contents">
-    <div class="title_logo_img"><img src="static/logo.png"></div>
+    <div class="title_logo_img"><img src="static/final.logo.2.png"></div>
     <div class="result_title">Your Genre Is</div>
     <span id="result_main_genre" style="font-weight: bold;">1순위 : </span>
     &nbsp;&nbsp;&nbsp;
@@ -994,7 +1005,7 @@ function go_page5(data){
       <br>
       <h4 style="font-weight: bold; margin-bottom: 30px;">영화에 대한 더 많은 정보를 알고 싶다면, <a style="color: blue;">포스터</a>를 눌러주세요!</h4>
       <h4 style="font-weight: bold;">새로운 영화를 추천 받고 싶다면, <a style="color:blue;">아래 버튼</a>을 눌러주세요!</h4>
-      <button style="margin-bottom: 30px; margin-top: 15px;" onclick="new_page3(nickname)">새로운 영화를 볼래요!</button>
+      <button style="margin-bottom: 30px; margin-top: 15px;" onclick="new_page3(nickname)">새로운 영화를 추천해주세요!</button>
     </div>
     <br><br><br>
     <h1 id="main_genre_title"></h1>
