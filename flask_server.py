@@ -1026,7 +1026,8 @@ def comment_check():
 
     p = db.serverside_usercomment.find({'user_comment_movie_title': title})
     pp = list(p)
-    print(pp)
+    pp = sorted(pp, key=(lambda x: x['gonggam_cnt']), reverse=True)
+    
     if len(pp) > 0:
         jj = pp[num].get('gongmag_people')
         if b in jj:
