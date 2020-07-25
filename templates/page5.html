@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>다섯번째 페이지</title>
+    <title>다섯번째 페이지</title>
 
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-  integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <!-- google font -->
-  <link href="https://fonts.googleapis.com/css?family=Gamja+Flower&display=swap&subset=korean" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Poor+Story&display=swap&subset=korean" rel="stylesheet">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css?family=Gamja+Flower&display=swap&subset=korean" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Poor+Story&display=swap&subset=korean" rel="stylesheet">
 
-  <!-- 추가한 부분 -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-  rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+    <!-- 추가한 부분 -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 
-  <!-- JS -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-  crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-  crossorigin="anonymous"></script>
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
-  <!-- 추가한 부분 -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- 추가한 부분 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
-  <script>
+    <script>
 
 
    let movie_infos = new Array()
@@ -405,6 +405,7 @@
         // 로그인이 되어있지 않을 때
         else if(response['result']=='fail'){
           alert('로그인을 먼저 진행해주세요!')
+          location.href="/"
         }
       }
     })
@@ -736,10 +737,11 @@ function comment_like2(count){
 
 
 
-</script>
+
+    </script>
 
 
-<style type="text/css">
+    <style type="text/css">
 
   *{
     font-family: 'Noto Serif KR', serif;
@@ -1096,98 +1098,87 @@ img{
 
 
 
-</style>
+
+    </style>
 
 
 </head>
 <body style="background-color:#c5adba">
-  <div class="movie_info" style="margin-top:25px;">
+<div class="movie_info" style="margin-top:25px;">
     <div class="movie_info" style="margin-top:25px;">
-      <div class="movie_top" style="margin-left: 25%;">
-        <img src="static/logo.png" style="width:100px; height:80px; cursor: pointer;" onclick="btn_home()">
-        <input class="keyword" id="movie_input" width="2em" height="2em"
-        style="margin-right: 7px; margin-left: 10px;" type="text" name="movie_info_give" maxlength=255
-        value="" autocomplete="off" placeholder="'영화제목'  / '감독' / '사용자' 를 입력해주세요."
-        onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
-        <svg class="bi bi-search" onclick="" width="2em" height="2em"
-        style="margin-top:13px;margin-right: 7px; margin-left: 10px; cursor: pointer;" viewBox="0 0 16 16"
-        fill="currentColor" onclick="search_listing()" xmlns="http://www.w3.org/2000/svg">
-        <path fill-rule="evenodd"
-        d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-        <path fill-rule="evenodd"
-        d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-      </svg>
-      <nav class="nav nav-masthead justify-content-center" id="menubar">
-        <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-top:10px;padding-right: 5px;"
-        viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-        <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-        <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-        <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-      </svg>
-      <p id="customer_email" style="cursor: pointer;" onclick="btn_mypage(nickname)"></p>
-    </nav>
-  </div>
-</div>
-<div class="movie_title_set">
-  <div class="page_title" style="font-size: 40px;"> Movie Info...</div>
-  <div class="search_movie_info">
-    <div class="search_movie_title" id="search_movie_title"></div>
-    <div class="search_movie_info_text"></div>
-  </div>
-  <div class="lastest_searching_movie"></div>
-  <div class="main_contents" id="movie_temp_html">
-
-  </div>
-</div>
-
-<div class="movie_comment" id="comment_box">
-  <div class="jumbotron" id="comment_jumbo" style="background-color:#89a3b2; border: 2px solid black;">
-    <h3 class="display-4" id="comment_movie_title"></h3><br>
-    <p class="lead">이 작품에 대한 생각을 자유롭게 적어주세요.</p>
-    <hr class="my-4">
-    <div id="change_box">
-      <p id="user_comment_box">
-        <textarea class="comment_area" id="user_comment" placeholder="영화에 대한 코멘트를 남겨주세요."></textarea>
-      </p><br>
-      <a class="btn btn-primary btn-lg" id="save_button" href="#" role="button"
-      onclick="comment_info()">저장하기</a>
-    </div>
-  </div>
-</div>
-
-
-<div style="margin-top:10%">
-  <div>
-    <h3 style="text-align:center"><strong>Others' Comments</strong></h3>
-    <div>
-      <hr width="150" color="white">
-    </div>
-
-    <div class="others_comment" id="others_comment" style="margin-top:5%; margin-left:20% ; margin-right:20%">
-      <!--        <div class="col-md-4">-->
-        <div class="media-body" id="test" style="width:100px">
-          <h5 class="mt-0 mb-1" id="comment_titles">Media object</h5>
-          <div id="comment_comments">
-          </div>
-          <div style="margin-top:5%; margin-left:5%">
-            <button id="comment_like" onclick="comment_like()"><img src="static/user_image.jpg" class="aaa"
-              style="width:40px"></button>
-            </div>
-            <div class="others_comment" id="others_comment" style="margin-top:5%; margin-left:20% ; margin-right:20%">
-              <div class="media-body" id="test" style="width:100px">
-                <h5 class="mt-0 mb-1" id="comment_titles">Media object</h5>
-                <div id="comment_comments">
-                </div>
-                <div style="margin-top:5%; margin-left:5%">
-                </div>
-
-              </div>
-            </div>
-
-          </div>
+        <div class="movie_top" style="margin-left: 25%;">
+            <img src="static/logo.png" style="width:100px; height:80px; cursor: pointer;" onclick="btn_home()">
+            <input class="keyword" id="movie_input" width="2em" height="2em"
+                   style="margin-right: 7px; margin-left: 10px;" type="text" name="movie_info_give" maxlength=255
+                   value="" autocomplete="off" placeholder="'영화제목'  / '감독' / '사용자' 를 입력해주세요."
+                   onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
+            <svg class="bi bi-search" width="2em" height="2em"
+                 style="margin-top:13px;margin-right: 7px; margin-left: 10px; cursor: pointer;" viewBox="0 0 16 16"
+                 fill="currentColor" onclick="search_listing()" xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                      d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                <path fill-rule="evenodd"
+                      d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+            </svg>
+            <nav class="nav nav-masthead justify-content-center" id="menubar">
+                <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-top:10px;padding-right: 5px;"
+                     viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                    <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                    <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                </svg>
+                <p id="customer_email" style="cursor: pointer;" onclick="btn_mypage(nickname)"></p>
+            </nav>
         </div>
-      </div>
     </div>
-  </div>
+    <div class="movie_title_set">
+        <div class="page_title" style="font-size: 40px;"> Movie Info...</div>
+        <div class="search_movie_info">
+            <div class="search_movie_title" id="search_movie_title"></div>
+            <div class="search_movie_info_text"></div>
+        </div>
+        <div class="lastest_searching_movie"></div>
+        <div class="main_contents" id="movie_temp_html">
+
+        </div>
+    </div>
+
+    <div class="movie_comment" id="comment_box">
+        <div class="jumbotron" id="comment_jumbo" style="background-color:#89a3b2; border: 2px solid black;">
+            <h3 class="display-4" id="comment_movie_title"></h3><br>
+            <p class="lead">이 작품에 대한 생각을 자유롭게 적어주세요.</p>
+            <hr class="my-4">
+            <div id="change_box">
+                <p id="user_comment_box">
+                    <textarea class="comment_area" id="user_comment" placeholder="영화에 대한 코멘트를 남겨주세요."></textarea>
+                </p><br>
+                <a class="btn btn-primary btn-lg" id="save_button" href="#" role="button"
+                   onclick="comment_info()">저장하기</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div style="margin-top:10%">
+        <div>
+            <h3 style="text-align:center"><strong>Others' Comments</strong></h3>
+            <div>
+                <hr width="150" color="white">
+            </div>
+
+            <div class="others_comment" id="others_comment" style="margin-top:5%; margin-left:20% ; margin-right:20%">
+                <div class="media-body" id="test" style="width:100px">
+                    <h5 class="mt-0 mb-1" id="comment_titles">Media object</h5>
+                    <div id="comment_comments">
+                    </div>
+                    <div style="margin-top:5%; margin-left:5%">
+                        <button id="comment_like" onclick="comment_like()"><img src="static/user_image.jpg" class="aaa"
+                                                                                style="width:40px"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

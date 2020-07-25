@@ -1,30 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>my page</title>
+    <title>my page</title>
 
- <!-- Required meta tags -->
- <meta charset="utf-8">
- <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
- <!-- Bootstrap CSS -->
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
- integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
- <!-- JS -->
- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
- integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
- crossorigin="anonymous"></script>
- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
- integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
- crossorigin="anonymous"></script>
-
-
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
 
 
+    <!-- mypage에 필요한 함수 모음-->
+    <script type="text/javascript">
 
- <!-- mypage에 필요한 함수 모음-->
- <script type="text/javascript">
+ window.history.forward();
+ function noBack(){window.history.forward();}
 
   $(document).ready(function(){
     get_session();
@@ -117,10 +117,11 @@ function go_page5(data){
 
 
 //-------------검색용-------------//
-</script>
 
-<!-- ajax -->
-<script type="text/javascript">
+    </script>
+
+    <!-- ajax -->
+    <script type="text/javascript">
 
   $(document).ready(function(){
     bring_like_movie_list()
@@ -212,10 +213,11 @@ function go_page5(data){
     })
   }
 
-</script>
 
-<!-- 로그인 함수 -->
-<script type="text/javascript">
+    </script>
+
+    <!-- 로그인 함수 -->
+    <script type="text/javascript">
 
   // get_session();  
 
@@ -248,10 +250,11 @@ function go_page5(data){
  // }
 
 
-</script>
 
-<!-- html 뿌려주는 -->
-<script type="text/javascript">
+    </script>
+
+    <!-- html 뿌려주는 -->
+    <script type="text/javascript">
 
   function movie_comment_content(num, poster, user_comment, title){
     let temp_html = '<li class="movie_ifno_container">\
@@ -319,11 +322,12 @@ function go_page5(data){
     </li>';
     $('#dislike_movies_select').append(temp_html);
   }
-</script>
 
-<!-- uniq값을 이용하여 poster값을 전달하기 -->
+    </script>
 
-<script type="text/javascript">
+    <!-- uniq값을 이용하여 poster값을 전달하기 -->
+
+    <script type="text/javascript">
   function search_movies_info() {
     $.ajax({
       type: "GET",
@@ -367,11 +371,12 @@ function go_page5(data){
     </li>';
     $('#like_movies_select').append(temp_html);
   }
-</script>
+
+    </script>
 
 
-<!-- btn 기능 함수 -->
-<script type="text/javascript">
+    <!-- btn 기능 함수 -->
+    <script type="text/javascript">
   function btn_my_page(email) {
     location.href="/mypage?user="+email
   }
@@ -387,157 +392,174 @@ function go_page5(data){
     location.href = "/page5"
   }
 
-</script>
 
-<head>
+    </script>
 
-</head>
+    <head>
 
-<body>
+    </head>
 
-  <div id="root">
+<body onload="noBack();" onpageshow="if(event.persisted) noBack();" onunload="">
+
+<div id="root">
     <div class="self">
-      <div class="masthead">
-        <div class="inner">
-          <div class="logo" style="width:170px; height:130px; cursor: pointer;" onclick="btn_home()">
-            <h3 class="artcinema_logo">
-              <img src="static/logo.png" style="  margin-right: 10px; " onclick="btn_home()">
-            </h3>
-          </div>
-          <div id="input_box">
-            <input class="keyword" id="movie_input" type="text" name="movie_info_give" maxlength=255 value=""
-            autocomplete="off" placeholder="제목, 감독, 배우를 입력해주세요."
-            onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
-            <svg class="bi bi-search" onclick="" width="2em" height="2em" style="margin-right: 7px; margin-left: 10px;"viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
-              <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
-            </svg>
-          </div>
-          <nav class="nav nav-masthead justify-content-center" id="menubar" style="margin-top: 25px;">
-            <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-right: 5px;" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-              <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-              <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-            </svg>
-          </nav>
+        <div class="masthead">
+            <div class="inner">
+                <div class="logo" style="width:170px; height:130px; cursor: pointer;" onclick="btn_home()">
+                    <h3 class="artcinema_logo">
+                        <img src="static/logo.png" style="  margin-right: 10px; " onclick="btn_home()">
+                    </h3>
+                </div>
+                <div id="input_box">
+                    <input class="keyword" id="movie_input" type="text" name="movie_info_give" maxlength=255 value=""
+                           autocomplete="off" placeholder="제목, 감독, 배우를 입력해주세요."
+                           onKeypress="javascript:if(event.keyCode==13) {search_listing()}">
+                    <svg class="bi bi-search" onclick="" width="2em" height="2em"
+                         style="margin-right: 7px; margin-left: 10px;" viewBox="0 0 16 16" fill="currentColor"
+                         xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                              d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                        <path fill-rule="evenodd"
+                              d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                    </svg>
+                </div>
+                <nav class="nav nav-masthead justify-content-center" id="menubar" style="margin-top: 25px;">
+                    <svg class="bi bi-person-circle" width="2em" height="2em" style="padding-right: 5px;"
+                         viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                        <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                        <path fill-rule="evenodd"
+                              d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                    </svg>
+                </nav>
+            </div>
         </div>
-      </div>
-      <main class="mypage_main">
-        <div class="mypage_main_container">
-          <section class="mypage_list_section"
-          style = "background-color: :#343a40;" >
-          <ul class="row_list">
-            <li class="unit_row">
-              <h3 class="row_title">댓글 달았어요</h3>
-              <button style=" margin-left:92%;margin-bottom: 10px;" onclick="location.href='/mypage/more_Info?user='+nickname">더 보기</button>
-              <section class="row_section">
-                <li class="fixed_row">
-                  <div class="slide_row">
-                    <div class="movie_list_row" style="white-space:nowrap; 
+        <main class="mypage_main">
+            <div class="mypage_main_container">
+                <section class="mypage_list_section"
+                         style="background-color: :#343a40;">
+                    <ul class="row_list">
+                        <li class="unit_row">
+                            <h3 class="row_title">댓글 달았어요</h3>
+                            <button style=" margin-left:92%;margin-bottom: 10px;"
+                                    onclick="location.href='/mypage/more_Info?user='+nickname">더 보기
+                            </button>
+                            <section class="row_section">
+                        <li class="fixed_row">
+                            <div class="slide_row">
+                                <div class="movie_list_row" style="white-space:nowrap;
                     overflow:auto;">
-                    <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)" id="comment_movies_select">
-                      <!-- like_temp_html 적용부분 -->
-                      <!-- first_img -->
-                      <li class="movie_ifno_container">
-                        <div class="img_and_title">
-                          <div class="movie_still_cut_container">
-                            <div class="movie_img_wrapper">
-                              <a href="javascript:void(0);">
-                                <div class="movie_img_poster">
-                                  <img class="content_img" src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
+                                    <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)"
+                                        id="comment_movies_select">
+                                        <!-- like_temp_html 적용부분 -->
+                                        <!-- first_img -->
+                                        <li class="movie_ifno_container">
+                                            <div class="img_and_title">
+                                                <div class="movie_still_cut_container">
+                                                    <div class="movie_img_wrapper">
+                                                        <a href="javascript:void(0);">
+                                                            <div class="movie_img_poster">
+                                                                <img class="content_img"
+                                                                     src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
+                                                            </div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="movie_title_wrapper">
+                                                    <h5 class="movie_title">기도의 힘</h5>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
                                 </div>
-                              </a>
+                                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                                <a class="next" onclick="plusSlides(1)">&#10095;</a>
                             </div>
-                          </div>
-                          <div class="movie_title_wrapper">
-                            <h5 class="movie_title">기도의 힘</h5>
-                          </div>
-                        </div>
-                      </li>
+                        </li>
                     </ul>
-                  </div>
-                  <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                  <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
+                </section>
                 </li>
-              </section>
-            </li>
-            <!-- //////////////////////////////////////////// -->
-            <li class="unit_row">
-              <h3 class="row_title">좋아요</h3>
-              <section class="row_section">
+                <!-- //////////////////////////////////////////// -->
+                <li class="unit_row">
+                    <h3 class="row_title">좋아요</h3>
+                    <section class="row_section">
                 <li class="fixed_row">
-                  <div class="slide_row">
-                    <div class="movie_list_row">
-                      <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)" id="like_movies_select">
+                    <div class="slide_row">
+                        <div class="movie_list_row">
+                            <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)"
+                                id="like_movies_select">
 
-                        <!-- like_temp_html 적용부분 -->
-                        <li class="movie_ifno_container">
-                          <div class="img_and_title">
-                            <div class="movie_still_cut_container">
-                              <div class="movie_img_wrapper">
-                                <a href="javascript:void(0);">
-                                  <div class="movie_img_poster">
-                                    <img class="content_img" name="toggle_control" id="show_hide_img" src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
-                                  </div>
-                                </a>
-                              </div>
-                            </div>
-                            <div class="movie_title_wrapper">
-                              <h5 class="movie_title">기도의 힘</h5>
-                            </div>
-                          </div>
-                        </li>
-
-                      </ul>
-                    </div>
-                  </div>
-                </li>
-              </section>
-            </li>
-            <!-- //////////////////////////////////////////// -->
-            <li class="unit_row">
-              <h3 class="row_title">싫어요</h3>
-              <section class="row_section">
-                <li class="fixed_row">
-                  <div class="slide_row">
-                    <div class="movie_list_row">
-                      <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)" id="dislike_movies_select">
-
-                        <!-- like_temp_html 적용부분 -->
-                        <!-- first_img -->
-                        <li class="movie_ifno_container">
-                          <div class="img_and_title">
-                            <div class="movie_still_cut_container">
-                              <div class="movie_img_wrapper">
-                                <a href="javascript:void(0);">
-                                  <div onclick="openclose()" class="movie_img_poster_first">
-                                    <img class="content_img" src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
-                                    <div class="overlay">
-                                      <div class="director_name_in_img">알렉스 켄드릭</div>
-                                      <div class="comment_in_img">재밌어요!</div>
-                                      <button> 자세히 </button>
+                                <!-- like_temp_html 적용부분 -->
+                                <li class="movie_ifno_container">
+                                    <div class="img_and_title">
+                                        <div class="movie_still_cut_container">
+                                            <div class="movie_img_wrapper">
+                                                <a href="javascript:void(0);">
+                                                    <div class="movie_img_poster">
+                                                        <img class="content_img" name="toggle_control"
+                                                             id="show_hide_img"
+                                                             src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="movie_title_wrapper">
+                                            <h5 class="movie_title">기도의 힘</h5>
+                                        </div>
                                     </div>
-                                  </div>
-                                </a>
-                              </div>
-                            </div>
-                            <div class="movie_title_wrapper">
-                              <h5 class="movie_title">기도의 힘</h5>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
+                                </li>
+
+                            </ul>
+                        </div>
                     </div>
-                  </div>
                 </li>
-              </section>
-            </li>
-          </ul>
-        </section>
-      </div> 
-    </main>
-  </div>
+                </section>
+                </li>
+                <!-- //////////////////////////////////////////// -->
+                <li class="unit_row">
+                    <h3 class="row_title">싫어요</h3>
+                    <section class="row_section">
+                <li class="fixed_row">
+                    <div class="slide_row">
+                        <div class="movie_list_row">
+                            <ul class="movie_list_row_set" style="transform:translate3d(0, 0, 0)"
+                                id="dislike_movies_select">
+
+                                <!-- like_temp_html 적용부분 -->
+                                <!-- first_img -->
+                                <li class="movie_ifno_container">
+                                    <div class="img_and_title">
+                                        <div class="movie_still_cut_container">
+                                            <div class="movie_img_wrapper">
+                                                <a href="javascript:void(0);">
+                                                    <div onclick="openclose()" class="movie_img_poster_first">
+                                                        <img class="content_img"
+                                                             src="http://www.kobis.or.kr//common/mast/movie/2020/03/thumb_x192/thn_47724c99a09f4873909ac2284748ee45.jpg">
+                                                        <div class="overlay">
+                                                            <div class="director_name_in_img">알렉스 켄드릭</div>
+                                                            <div class="comment_in_img">재밌어요!</div>
+                                                            <button> 자세히</button>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="movie_title_wrapper">
+                                            <h5 class="movie_title">기도의 힘</h5>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                </section>
+                </li>
+                </ul>
+                </section>
+            </div>
+        </main>
+    </div>
 </div>
 
 </body>
@@ -904,6 +926,7 @@ ul {
   transform: translate(-50%, -50%);
   text-align: left;
 }
+
 
 
 
