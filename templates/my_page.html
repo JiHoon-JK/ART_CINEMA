@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <title>마이 페이지</title>
   <meta charset="UTF-8">
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -65,7 +66,7 @@
   }
 
   function btn_home(){
-    location.href="/temp"
+    location.href="/main"
   }
 
   function btn_mypage(nickname){
@@ -73,11 +74,11 @@
   }
 
   function go_search_page(data){
-    location.href="/search_page?search_data="+data
+    location.href="/search_movie?search_data="+data
   }
 
   function go_page5(data){
-    location.href="/page5?search_data="+data
+    location.href="/info_movie?search_data="+data
   }
 
 
@@ -166,7 +167,7 @@ function comment_movie_listing_card(num,poster,title,director,comment) {
   let info_html = `<div class="comment_card title_list_${num}" id="comment_card" style="width:32.5%; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
   border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px;">\
   <div class="test_poster">\
-  <img src="${poster}" class="T_poster_img${num}" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="location.href='/page5?search_data=${title}'">\
+  <img src="${poster}" class="T_poster_img${num}" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="location.href='/info_movie?search_data=${title}'">\
   </div>\
   <div class="T_test_title${num}" style="font-size:25px;">${title}</div>\
   <div class="T_test_director${num}" style="font-size:15px; margin-top: 5px;">${director}</div>\
@@ -214,7 +215,7 @@ function like_movie_listing_card(num,poster,title,director){
   let info_html = `<div class="like_card_title_list_${num}" style="width:32.5%; height:532px; float:left; margin-top:30px; background-color: #89a3b2; border: 3px solid black;\
   border-radius: 30px; ;padding-top:20px;padding-bottom: 20px;margin-left:3px;margin-right:3px;">\
   <div class="test_poster">\
-  <img src="${poster}" class="T_poster_img${num}" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="location.href='/page5?search_data=${title}'">\
+  <img src="${poster}" class="T_poster_img${num}" id="" width="250" height="365"style="margin-bottom: 30px;cursor:pointer;" onclick="location.href='/info_movie?search_data=${title}'">\
   </div>\
   <div class="T_test_title${num}" style="font-size:25px;">${title}</div>\
   <div class="T_test_director${num}" style="font-size:15px; margin-top: 5px;">${director}</div>\

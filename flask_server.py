@@ -18,6 +18,7 @@ global email1
 global session
 
 
+
 def genre_cnt():
     all_selected_movie = list(db.select_movie.find({}))
     print(all_selected_movie)
@@ -183,7 +184,7 @@ def home():
         return render_template('main.html')
 
 
-@app.route('/page2')
+@app.route('/your_favorite_genre')
 def page2():
     db.select_movie.drop()
     if 'email' in session:
@@ -196,8 +197,8 @@ def page2():
         return render_template('page2.html')
 
 
-@app.route('/temp')
-@app.route('/temp/rank')
+@app.route('/main')
+@app.route('/main/rank')
 def temp():
     if 'email' in session:
         email1 = session['email']
@@ -208,7 +209,7 @@ def temp():
         return render_template('temp.html')
 
 
-@app.route('/page3')
+@app.route('/recommend_movie')
 def page3():
     genre_cnt()
     recommend_movie_db()
@@ -223,7 +224,7 @@ def page3():
         return render_template('page3.html')
 
 
-@app.route('/search_page')
+@app.route('/search_movie')
 def search_page():
     para = request.args.get("search_data")
     print(para)
@@ -238,7 +239,7 @@ def search_page():
         return render_template('search.html')
 
 
-@app.route('/page5')
+@app.route('/info_movie')
 def page5():
     para = request.args.get("search_data")
     print(para)
@@ -293,7 +294,7 @@ def listing():
     return jsonify({'result': 'success', 'Long_movie_list': result})
 
 
-@app.route('/main', methods=['GET'])
+@app.route('/listing2', methods=['GET'])
 def listing2():
     result = list(db.ART_movie_list.find({'$where':"(this.title.length<30)"}, {'_id': 0}))
     return jsonify({'result': 'success', 'ART_movie_list': result})
@@ -1045,4 +1046,4 @@ def comment_check():
 
 if __name__ == '__main__':
     app.secret_key = 'heejin'
-    app.run('0.0.0.0', port=5000, debug=True)
+    app.run('localhost', port=5000, debug=True)
