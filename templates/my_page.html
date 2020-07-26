@@ -37,7 +37,6 @@
   <script>
     $(function() {
       $('ul.tab li').click(function() {
-        console.log("check")
         var activeTab = $(this).attr('data-tab');
         $('ul.tab li').removeClass('current');
         $('.tabcontent').removeClass('current');
@@ -98,7 +97,6 @@
   }
   else{
     user_nickname = "{{para_data}}"
-    console.log(user_nickname)
     $('.nickname').text(user_nickname)
 
   }
@@ -137,9 +135,7 @@ function comment_movie_listing(check){
     success: function(response){
       if(response['result'] == 'success'){
         my_comment = response['my_comment_movie']
-        console.log(my_comment)
         my_comment_cnt = my_comment.length
-        console.log(my_comment_cnt)
 
         if(check == 'loading'){
           $('.comment_count').text(my_comment_cnt);
@@ -147,7 +143,6 @@ function comment_movie_listing(check){
             comment_movie_listing_card(i, my_comment[i]['user_comment_movie_poster'],my_comment[i]['user_comment_movie_title'], my_comment[i]['user_comment_movie_director'].trim(),my_comment[i]['user_comment'])
           }
         }else if(check == 'button_click'){
-          console.log('오류!')
           $('.comment_list').show('')
           $('.like_movie_list').hide('')
         }
@@ -190,9 +185,7 @@ function like_movie_listing(check){
     success: function(response){
       if(response['result'] == 'success'){
         my_like_movie = response['my_like_movie']
-        console.log(my_like_movie)
         my_like_movie_cnt = my_like_movie.length
-        console.log(my_like_movie_cnt)
         if(check == 'loading'){
           $('.like_movie_count').text(my_like_movie_cnt);
           for (let i = 0; i < my_like_movie.length; i++) {
@@ -237,7 +230,6 @@ function genre_listing(check){
 
 function introduce_listing(){
   user_introduce = "{{user_introduce}}"
-  console.log(user_introduce)
 
   $('.my_introduce').text(user_introduce)
 
