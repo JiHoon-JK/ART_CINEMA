@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>다섯번째 페이지</title>
+  <title>검색 결과 페이지</title>
 
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -292,7 +292,7 @@
   }
 
   function btn_home(){
-    location.href="/temp"
+    location.href="/main"
   }
 
   function btn_mypage(nickname){
@@ -300,11 +300,11 @@
   }
 
   function go_search_page(data){
-    location.href="/search_page?search_data="+data
+    location.href="/search_movie?search_data="+data
   }
 
   function go_page5(data){
-    location.href="/page5?search_data="+data
+    location.href="/info_movie?search_data="+data
   }
 
   function get_session(){

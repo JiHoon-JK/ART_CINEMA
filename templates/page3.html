@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>세번째 페이지</title>
+  <title>영화 소개 페이지</title>
 
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -152,7 +152,7 @@
     if (summary.length > 250)
       summary = summary.substr(0,250) + "..."
     let temp_html_1 = `<div class="card" style="background-color:#c5adba;">\
-    <img class="card-img-top" id="maingenre_movie_poster1"  style="position:relative; cursor:pointer;" src="${poster}" alt="Card image cap" onclick="location.href='/page5?search_data=${title}'">\
+    <img class="card-img-top" id="maingenre_movie_poster1"  style="position:relative; cursor:pointer;" src="${poster}" alt="Card image cap" onclick="location.href='/info_movie?search_data=${title}'">\
     <div class="container" style="text-align:center; position:absolute;">\
     <div class="wrapper" style="display:inline-block; vertical-align:middle;">\
     <a href="javascript:void(0);" onclick="like_animation(${num})" class="like-button${num}" id="like" style="margin-bottom:20px; margin-left:10px; top:10px; left:30px;">\
@@ -167,7 +167,7 @@
     <h5 class="card-text" style="text-align:right;"><small class="text-muted" id="maingenre_movie_director${num}">${director}</small></h5>\
     <br>\
     <p class="card-text" id="maingenre_movie_summary${num}">${summary}</p>\
-    <button id="maingenre_movie_button${num}" onclick="location.href='/page5?search_data=${title}'">코멘트 작성하기</button>\
+    <button id="maingenre_movie_button${num}" onclick="location.href='/info_movie?search_data=${title}'">코멘트 작성하기</button>\
     <div class="prefer-body">\
     <h5 class="mt-0"id="prefer_movie_title1"></h5>\
     <p class="summary-text" id="preference_movie"></p>\
@@ -217,7 +217,7 @@ function movie_card2(title,poster,director,summary,num){
     summary = summary.substr(0,250) + "..."
 
   let temp_html_1 = `<div class="card" style="background-color:#c5adba;">\
-  <img class="card-img-top" id="secondgenre_movie_poster1" style="position:relative; cursor:pointer;" src="${poster}" alt="Card image cap" onclick="location.href='/page5?search_data=${title}'">\
+  <img class="card-img-top" id="secondgenre_movie_poster1" style="position:relative; cursor:pointer;" src="${poster}" alt="Card image cap" onclick="location.href='/info_movie?search_data=${title}'">\
   <div class="container" style="text-align:center; position:absolute;">\
   <div class="wrapper" style="display:inline-block; vertical-align:middle;">\
   <a href="javascript:void(0);" onclick="like_animation(${num})" class="like-button${num}" id="like" style="margin-bottom:20px; margin-left:10px; top:10px; left:30px;">\
@@ -232,7 +232,7 @@ function movie_card2(title,poster,director,summary,num){
   <h5 class="card-text" style="text-align:right;"><small class="text-muted" id="secondgenre_movie_director${num}">${director}</small></h5>\
   <br>\
   <p class="card-text" id="secondgenre_movie_summary${num}">${summary}</p>\
-  <button id="maingenre_movie_button${num}" onclick="go_page5($(secondgenre_movie_title${num}).text())">코멘트 작성하기</button>\
+  <button id="maingenre_movie_button${num}" onclick="info_movie($(secondgenre_movie_title${num}).text())">코멘트 작성하기</button>\
   <div class="prefer-body">\
   <h5 class="mt-0"id="prefer_movie_title1"></h5>\
   <p class="summary-text" id="preference_movie"></p>\
@@ -253,7 +253,7 @@ function btn_main_page(){
 }
 
 function new_page3(nickname){
-  location.href="/page3?user="+nickname
+  location.href="/recommend_movie?user="+nickname
 }
 
 // 영화의 장르를 분석해주는 함수
@@ -466,7 +466,7 @@ if (jbResult == true){
 }
 
 function go_home(){
-  location.href="/temp"
+  location.href="/main"
 }
 
 function go_my_page(nickname){
@@ -474,7 +474,7 @@ function go_my_page(nickname){
 }
 
 function go_page5(data){
-  location.href="/page5?search_data="+data
+  location.href="/info_movie?search_data="+data
 }
 
 </script>
