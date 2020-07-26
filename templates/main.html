@@ -39,6 +39,7 @@
 
     });
 
+
     function get_session(){
       if("{{sessionemail}}" != ""){
         location.href="/main"
@@ -167,9 +168,9 @@
      check_login = response['login_check']
 
      if(check_login == ""){
-      location.href="/page2"
+      location.href="/your_favorite_genre"
     }else{
-      location.href="/temp" 
+      location.href="/main" 
     }
     
   }
