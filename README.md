@@ -57,13 +57,13 @@ AWS, 가비아, Filezilla
 
 - (★) 사용자의 선호 장르 조사를 위한, 비교할 장편영화 영화정보 DB 저장 (크롤링 활용 : BeautifulSoup , Selenium 사용) (네이버 영화랭킹 활용)
 
-https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=pnt&date=20200213&tg=0 (네이버 영화 랭킹)
+> https://movie.naver.com/movie/sdb/rank/rmovie.nhn?sel=pnt&date=20200213&tg=0 (네이버 영화 랭킹)
 
 - (★)어떤 장르의 영화를 비교함으로써, 선호 장르 값을 얻을 것인지 알고리즘 설계
 - 구상도 '2번' 의 과정을 얼마나 반복할 것인지 계획 (많으면 많을수록 더 정확해지기에 좋음)
 - 최종적으로 나온 사용자의 선호장르 결과값과 그에 해당하는 장르의 단편영화 정보 크롤링 (Selenium 사용) ("영화진흥위원회" 사이트 활용)
 
-http://www.kobis.or.kr/kobis/business/mast/mvie/findDiverMovList.do (영화진흥위원회)
+> http://www.kobis.or.kr/kobis/business/mast/mvie/findDiverMovList.do (영화진흥위원회)
 
 - 최종적으로 선정된 단편영화 3개를 볼 수 있는 링크를 연동 (바로 링크를 타고 들어가서 볼 수 있게 만들기)
 
@@ -77,25 +77,26 @@ http://www.kobis.or.kr/kobis/business/mast/mvie/findDiverMovList.do (영화진�
 
 > 🗂 참고 사이트
 > (단편영화 링크 참고)
-1. https://www.youtube.com/results?search_query=%EB%8B%A8%ED%8E%B8%EC%98%81%ED%99%94 (유튜브 "단편영화" 검색)
 
-2. https://tv.naver.com/indiecinema/playlists (네이버 인디극장)
+> 1. https://www.youtube.com/results?search_query=%EB%8B%A8%ED%8E%B8%EC%98%81%ED%99%94 (유튜브 "단편영화" 검색)
 
-3. http://www.cinehubkorea.com/ (씨네허브)
+> 2. https://tv.naver.com/indiecinema/playlists (네이버 인디극장)
 
-4. https://tv.naver.com/kartsmovie (한국예술종합학교 영화과)
+> 3. http://www.cinehubkorea.com/ (씨네허브)
 
-5. https://www.indieplug.net/movie/db_list.php (인디플러그)
+> 4. https://tv.naver.com/kartsmovie (한국예술종합학교 영화과)
+
+> 5. https://www.indieplug.net/movie/db_list.php (인디플러그)
 
 <br/><br/>
 
 > 📔 개발일지
 
-1. https://velog.io/@kks1342320/series/%EC%8A%A4%ED%8C%8C%EB%A5%B4%ED%83%80%EC%BD%94%EB%94%A9%ED%81%B4%EB%9F%BD-%EA%B0%9C%EB%B0%9C%EC%9D%BC%EA%B8%B0 
+> 1. https://velog.io/@kks1342320/series/%EC%8A%A4%ED%8C%8C%EB%A5%B4%ED%83%80%EC%BD%94%EB%94%A9%ED%81%B4%EB%9F%BD-%EA%B0%9C%EB%B0%9C%EC%9D%BC%EA%B8%B0 
 (velog 개발일지 ①)
 
-2. https://velog.io/@kks1342320/series/ARTCinema-%EA%B0%9C%EB%B0%9C%EB%85%B8%ED%8A%B8
+> 2. https://velog.io/@kks1342320/series/ARTCinema-%EA%B0%9C%EB%B0%9C%EB%85%B8%ED%8A%B8
 (velog 개발일지 ②)
 
-3. https://juni-dev-log.tistory.com/category/Project/ART_Cinema%28Dev%29
+> 3. https://juni-dev-log.tistory.com/category/Project/ART_Cinema%28Dev%29
 (티스토리 개발일지)
