@@ -101,6 +101,7 @@
       nickname = "{{sessionemail2}}"
       html_logout = '<a class="nav-link" id="btn_logout" style="padding-top:5px;" onclick="btn_logout()">로그아웃</a>'
       temp_html = '<div style="padding:4px;color:black; cursor:pointer;">' + '<a href="/mypage?user='+nickname+'" title="My_Page 로 이동">' + nickname + '</a> 님</div>'
+      console.log(nickname)
 
       $('#menubar').append(temp_html);
       $('#menubar').append(html_logout);

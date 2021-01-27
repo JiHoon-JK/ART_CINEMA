@@ -326,7 +326,7 @@ def login():
 
 
 # 로그아웃
-@app.route('/test2', methods=['POST'])
+@app.route('/customer_logout', methods=['POST'])
 def logout():
     session.pop('email', None)
     return jsonify({'result': 'success'})
