@@ -2,6 +2,8 @@
 
 당신만을 위한 단편영화 추천 서비스
 
+[![프로젝트 촬영 영상](https://media.vlpt.us/images/kks1342320/post/02da73db-9913-4011-8bc7-6f0a0396c266/ART_Cinema%20main.JPG)](https://www.youtube.com/watch?v=Le2VMVGaoW8&t=119s)
+
 <br/>
 
 > 📌 설명
@@ -23,10 +25,12 @@
 
 영화란, "상업성" 즉, 이익을 얼마나 창출할 수 있는가도 중요하고, "창의성" 얼마나 새로운 구도로 바라보는가 또한 중요하다.(상업적인 목적으로 만들어진 영화를 비하하는 의도는 아니다.) 하지만, 지금의 상황은 오로지, 돈이 되는 상업영화만을 위한 영화계가 되어버렸고 돈이 벌리지 못하는 독립영화는 뒤쳐지고 도태되고 있는 상황이다. 이러한 불균형적인 상황을 극복하고자 독립영화를 많이 수요할 수 있게 된다면 어느정도 극복할 수 있는 상황이지않을까? 라는 생각이 들던 도중, "독립영화를 추천해주고 볼 수 있는 사이트를 만들어볼까?" 하는 생각이 불현듯이 들었고 이를 착안해서 프로젝트를 기획하게 되었다.
 
+<br/>
+
 > https://youtu.be/nYmu2pUTSDs
 (프로젝트 설정에 가장 큰 영향을 받은 유튜브 영상)
 
-<br/><br/>
+<br/>
 > 단편영화 수요 ↑ => 영화에 대한 배급사의 선택지 ↑ (다양한 영화가 더 나올 수 있음) => 영화 제작에 있어서, 감독의 재량 ↑ => 다양한 출연진과 연출진들에게 기회 ↑ => 영화산업계 변화
 
 <br/><br/>
@@ -83,5 +87,15 @@ http://www.kobis.or.kr/kobis/business/mast/mvie/findDiverMovList.do (영화진�
 
 5. https://www.indieplug.net/movie/db_list.php (인디플러그)
 
-![프로젝트 홈 화면](https://media.vlpt.us/images/kks1342320/post/02da73db-9913-4011-8bc7-6f0a0396c266/ART_Cinema%20main.JPG)
+<br/><br/>
 
+> 📔 개발일지
+
+1. https://velog.io/@kks1342320/series/%EC%8A%A4%ED%8C%8C%EB%A5%B4%ED%83%80%EC%BD%94%EB%94%A9%ED%81%B4%EB%9F%BD-%EA%B0%9C%EB%B0%9C%EC%9D%BC%EA%B8%B0 
+(velog 개발일지 ①)
+
+2. https://velog.io/@kks1342320/series/ARTCinema-%EA%B0%9C%EB%B0%9C%EB%85%B8%ED%8A%B8
+(velog 개발일지 ②)
+
+3. https://juni-dev-log.tistory.com/category/Project/ART_Cinema%28Dev%29
+(티스토리 개발일지)
